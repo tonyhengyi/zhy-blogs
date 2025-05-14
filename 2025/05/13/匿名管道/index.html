@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>匿名管道 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>匿名管道</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Linux/" style="color: #00bcd4">
+                    Linux
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="为什么要通信"><a href="#为什么要通信" class="headerlink" title="为什么要通信"></a>为什么要通信</h1><p>通信是进程间交互信息的一种方式。在多进程环境中，进程之间可能需要共享数据或协调工作。通信可以使得进程之间能够交换信息，从而实现更复杂的任务。</p>
+<p>以下是一些常见的通信场景：<br>1.数据共享：多个进程可能需要共享一些数据。例如，一个进程可能需要读取另一个进程写入的数据，或者一个进程可能需要向另一个进程发送一些数据。<br>2.协调工作：多个进程可能需要协同工作，例如一个进程可能需要等待另一个进程完成某些任务后才能继续执行。<br>3.事件通知：一个进程可能需要通知另一个进程发生了某些事件，例如一个进程可能需要通知另一个进程某个任务已经完成。<br>4.资源管理：多个进程可能需要共享一些资源，例如文件、网络连接等。通信可以使得进程之间能够协调地使用这些资源。</p>
+<h1 id="匿名管道是什么"><a href="#匿名管道是什么" class="headerlink" title="匿名管道是什么"></a>匿名管道是什么</h1><p>匿名管道是一种最基本的进程间通信（IPC）机制，它允许一个进程向另一个进程发送数据。匿名管道只能用于具有亲缘关系的进程之间，即父子进程之间。匿名管道是半双工的，即数据只能在一个方向上流动。</p>
+<h2 id="创建匿名管道的过程"><a href="#创建匿名管道的过程" class="headerlink" title="创建匿名管道的过程"></a>创建匿名管道的过程</h2><p>匿名管道的创建和操作可以通过以下步骤完成：</p>
+<p>创建管道：使用pipe()函数创建一个匿名管道。pipe()函数返回一个包含两个文件描述符的元组，其中第一个文件描述符用于读，第二个文件描述符用于写。</p>
+<p>创建子进程：使用fork()函数创建一个子进程。子进程会继承父进程的所有文件描述符，包括管道的文件描述符。</p>
+<p>父进程和子进程分别关闭不需要的文件描述符：父进程关闭管道的写端，子进程关闭管道的读端。</p>
+<p>父进程向管道写入数据：父进程通过管道的写端写入数据。</p>
+<p>子进程从管道读取数据：子进程通过管道的读端读取数据。</p>
+<p>关闭管道：父进程和子进程都关闭管道的文件描述符，以释放资源</p>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cassert&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;unistd.h&gt;
+
+using namespace std;
+
+// 父进程进行读取，子进程进行写入
+int main()
+&#123;
+    // 第一步：创建管道文件，打开读写端
+    int fds[2];
+    int n = pipe(fds);
+    assert(n == 0);
+
+    // 第二步: fork
+    pid_t id = fork();
+    assert(id &gt;= 0);
+    if (id == 0)
+    &#123;
+        // 子进程进行写入
+        close(fds[0]);
+        // 子进程的通信代码
+      
+        const char *s = &quot;我是子进程,我正在给你发消息&quot;;
+        int cnt = 0;
+        while (true)
+        &#123;
+            cnt++;
+            char buffer[1024]; // 只有子进程能看到！
+            snprintf(buffer, sizeof buffer, &quot;child-&gt;parent say: %s[%d][%d]&quot;, s, cnt, getpid());
+          
+            write(fds[1], buffer, strlen(buffer));
+            cout &lt;&lt; &quot;count: &quot; &lt;&lt; cnt &lt;&lt; endl;
+     
+       
+        &#125;
+
+        // 子进程
+        close(fds[1]); // 子进程关闭写端fd
+        cout &lt;&lt; &quot;子进程关闭自己的写端&quot; &lt;&lt; endl;
+        // sleep(10000);
+        exit(0);
+    &#125;
+    // 父进程进行读取
+    close(fds[1]);
+    // 父进程的通信代码
+    while (true)
+    &#123;
+        sleep(2);
+        char buffer[1024];
+        ssize_t s = read(fds[0], buffer, sizeof(buffer) - 1);
+  
+        if (s &gt; 0)
+        &#123;
+            buffer[s] = 0;
+            cout &lt;&lt; &quot;Get Message# &quot; &lt;&lt; buffer &lt;&lt; &quot; | my pid: &quot; &lt;&lt; getpid() &lt;&lt; endl;
+        &#125;
+        else if(s == 0)
+        &#123;
+        
+            cout &lt;&lt; &quot;read: &quot; &lt;&lt; s &lt;&lt; endl;
+            break;
+        &#125;
+        break;
+
+     
+    &#125;
+    close(fds[0]);
+    cout &lt;&lt; &quot;父进程关闭读端&quot; &lt;&lt; endl;
+
+    int status = 0;
+    n = waitpid(id, &amp;status, 0);
+    assert(n == id);
+
+    cout &lt;&lt;&quot;pid-&gt;&quot;&lt;&lt; n &lt;&lt; &quot; : &quot;&lt;&lt; (status &amp; 0x7F) &lt;&lt; endl;
+
+
+
+    return 0;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

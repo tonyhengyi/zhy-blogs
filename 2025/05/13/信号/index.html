@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>信号 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>信号</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Linux/" style="color: #ffa2c4">
+                    Linux
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="信号的概念"><a href="#信号的概念" class="headerlink" title="信号的概念"></a>信号的概念</h1><ol>
+<li>进程一定要有识别和处理信号的能力，信号的处理能力属于进程内置功能。</li>
+<li>当进程接收到信号有可能不会立即处理。</li>
+</ol>
+<h2 id="为什么ctrl-c-会导致进程终止"><a href="#为什么ctrl-c-会导致进程终止" class="headerlink" title="为什么ctrl + c 会导致进程终止?"></a>为什么ctrl + c 会导致进程终止?</h2><p>linux中，一次登录，只允许一个进程是前台进程，可以多个进程是后台进程，（区别是，前台进程可以获取键盘输入）<br>ctrl + c 产生一个信号，发送给前台进程，前台进程收到信号后，就会终止。<br>本质是被进程解释为收到的信号，2号信号（SIGINT）。   </p>
+<h2 id="键盘数据如何输入给内核，ctrl-c-如何给内核发送信号"><a href="#键盘数据如何输入给内核，ctrl-c-如何给内核发送信号" class="headerlink" title="键盘数据如何输入给内核，ctrl + c 如何给内核发送信号?"></a>键盘数据如何输入给内核，ctrl + c 如何给内核发送信号?</h2><ol>
+<li>当用户输入数据时，键盘驱动程序将数据写入到终端设备文件中，如：&#x2F;dev&#x2F;tty1<br>写入内核相应的缓冲区，如果缓冲区满就给CPU发出中断申请，操作系统根据中断向量表找到相应的中断处理程序，中断处理程序将数据从缓冲区拷贝到内核的读缓冲区中。</li>
+<li>当用户按下ctrl + c时，键盘驱动程序将ctrl + c解释为2号信号，写入到终端设备文件中，如：&#x2F;dev&#x2F;tty1</li>
+<li>当终端设备文件有数据可读时，内核会读取数据，并判断数据是否是信号，如果是信号，则发送给前台进程。</li>
+</ol>
+<h1 id="信号的产生"><a href="#信号的产生" class="headerlink" title="信号的产生"></a>信号的产生</h1><p>首先不是所有的信号都可以被signal捕捉，SIGKILL和SIGSTOP信号不能被捕捉，也不能被忽略，只能被阻塞。</p>
+<h2 id="快捷键产生信号"><a href="#快捷键产生信号" class="headerlink" title="快捷键产生信号"></a>快捷键产生信号</h2><p>ctrl + c 产生2号信号（SIGINT）<br>ctrl + \ 产生3号信号（SIGQUIT）<br>ctrl + z 产生18号信号（SIGTSTP）<br>ctrl + d 产生4号信号（SIGTERM）</p>
+<h2 id="系统调用产生信号"><a href="#系统调用产生信号" class="headerlink" title="系统调用产生信号"></a>系统调用产生信号</h2><h3 id="kill-函数产生信号"><a href="#kill-函数产生信号" class="headerlink" title="kill()函数产生信号"></a>kill()函数产生信号</h3><pre><code class="language-c">#include &lt;iostream&gt;
+#include &lt;unistd.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;cstdlib&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+void myhandler(int signo) &#123;
+    cout &lt;&lt; &quot;Process received signal: &quot; &lt;&lt; signo &lt;&lt; endl;
+    exit(2);
+&#125;
+
+void Usage(string proc) &#123;
+    cout &lt;&lt; &quot;Usage:\n\t&quot; &lt;&lt; proc &lt;&lt; &quot; signum pid\n\n&quot;;
+&#125;
+
+int main(int argc, char *argv[]) &#123;
+
+    signal(2, myhandler); 
+
+    if (argc != 3) &#123;
+        Usage(argv[0]);
+        exit(1);
+    &#125;
+
+    int signum = stoi(argv[1]); // 字符串转为 INT
+    pid_t pid = stoi(argv[2]);
+
+   
+    int n = kill(pid, signum);
+    if (n == -1) &#123;
+        perror(&quot;kill&quot;);
+        exit(2);
+    &#125;
+
+    return 0;
+&#125;
+</code></pre>
+<h3 id="raise-函数产生信号"><a href="#raise-函数产生信号" class="headerlink" title="raise()函数产生信号"></a>raise()函数产生信号</h3><pre><code class="language-c">SYNOPSIS
+       #include &lt;signal.h&gt;
+
+       int raise(int sig);  
+       //本质是
+       kill(getpid(), sig);
+</code></pre>
+<h3 id="abort-函数产生信号"><a href="#abort-函数产生信号" class="headerlink" title="abort()函数产生信号"></a>abort()函数产生信号</h3><pre><code class="language-c">SYNOPSIS
+       #include &lt;signal.h&gt;
+
+       void abort(void);
+</code></pre>
+<h1 id="信号的捕捉和处理"><a href="#信号的捕捉和处理" class="headerlink" title="信号的捕捉和处理"></a>信号的捕捉和处理</h1><p>信号范围[1,31]，每种信号都有自己的一种处理方法<br>类型是typedef void (*handler_t)(int);函数指针<br>handler_t handler[31];这个类型的数组，其中每个指针都可以通过信号处理函数修改为自定义处理函数</p>
+<h2 id="信号处理方式"><a href="#信号处理方式" class="headerlink" title="信号处理方式"></a>信号处理方式</h2><ol>
+<li>忽略信号</li>
+<li>执行默认操作</li>
+<li>执行用户自定义的信号处理函数</li>
+</ol>
+<h3 id="信号处理函数"><a href="#信号处理函数" class="headerlink" title="信号处理函数"></a>信号处理函数</h3><pre><code class="language-c">#include &lt;signal.h&gt;
+
+void (*signal(int sig, void (*func)(int)))(int);
+</code></pre>
+<p>第一个参数为信号编号，第二个参数为信号处理函数的指针。</p>
+<h2 id="三张表"><a href="#三张表" class="headerlink" title="三张表"></a>三张表</h2><p>每个进程对应的结构体中对应三个表<br>分别是block表，作用是表面当前信号是否被屏蔽<br>pending表，作用是表面当前信号是否被挂起（也就是是否到达，如果到达并且没被屏蔽，就会进行信号的处理）。<br>handler表，表面当前信号的处理方式</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><pre><code class="language-c">#include &lt;signal.h&gt;
+
+int sigemptyset(sigset_t *set);
+
+</code></pre>
+<p>将一个信号集（sigset_t 类型）清空，也就是说，将该信号集中所有的信号都设置为不包含状态。</p>
+<pre><code class="language-c">#include &lt;signal.h&gt;
+
+int sigaddset(sigset_t *set, int signum);
+</code></pre>
+<p>sigaddset 是一个用于向信号集（sigset_t 类型）中添加特定信号的函数。</p>
+<pre><code class="language-c">#include &lt;signal.h&gt;
+
+int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
+</code></pre>
+<p>sigprocmask 是一个用于修改当前进程的信号屏蔽字的系统调用。信号屏蔽字定义了哪些信号在进程执行期间被阻塞（即不被处理）。<br>how: 指定如何修改信号屏蔽字的操作。可以是以下值之一：<br>    SIG_BLOCK: 将 set 中的信号添加到当前的信号屏蔽字中。<br>    SIG_UNBLOCK: 从当前的信号屏蔽字中删除 set 中的信号。<br>    SIG_SETMASK: 将当前的信号屏蔽字设置为 set 中的信号。<br>set: 指向一个 sigset_t 类型的变量，表示要添加、删除或设置的信号集。<br>oldset: 指向一个 sigset_t 类型的变量，用于存储修改前的信号屏蔽字（如果不需要，可以传递 NULL）。</p>
+<pre><code class="language-c">#include &lt;signal.h&gt;
+
+int sigpending(sigset_t *set);
+</code></pre>
+<p>sigpending 是一个用于检查当前进程中被阻塞但尚未处理的信号的系统调用。也就是得到pending表中的内容</p>
+<h3 id="小案例（先屏蔽2号信号，后释放）"><a href="#小案例（先屏蔽2号信号，后释放）" class="headerlink" title="小案例（先屏蔽2号信号，后释放）"></a>小案例（先屏蔽2号信号，后释放）</h3><pre><code class="language-c">#include&lt;iostream&gt;
+#include&lt;unistd.h&gt;
+#include&lt;signal.h&gt;
+
+using namespace std;
+
+void handler(int singno)&#123;
+    cout&lt;&lt;&quot;catch a signo: &quot;&lt;&lt;singno&lt;&lt;endl;
+&#125;
+
+void PrintPending(sigset_t &amp;pending)&#123;
+    for(int signo=31;signo&gt;=1;signo--)&#123;
+        if(sigismember(&amp;pending,signo))
+        &#123;
+            cout&lt;&lt;&quot;1&quot;;
+        &#125;else&#123;
+            cout&lt;&lt;&quot;0&quot;;
+        &#125;
+    &#125;
+    cout&lt;&lt;&quot;\n\n&quot;;
+&#125;
+
+int main()&#123;
+    //对2号新号进行自定义处理
+    signal(2,handler);
+
+    //初始化两个信号集
+    sigset_t bset,oset;
+    sigemptyset(&amp;bset);
+    sigemptyset(&amp;oset);
+
+    sigaddset(&amp;bset,2);
+    sigprocmask(SIG_SETMASK,&amp;bset,&amp;oset);
+
+    sigset_t pending;
+    int cnt=10;
+    while(true)&#123;
+        int n=sigpending(&amp;pending);
+        if(n&lt;0)&#123;
+            continue;
+        &#125;
+
+        PrintPending(pending);
+        sleep(1);
+        cnt--;
+        if(cnt==0)&#123;
+            sigprocmask(SIG_SETMASK,&amp;oset,nullptr);
+            cout&lt;&lt;&quot;unblock 2 signo &quot;&lt;&lt;endl;
+        &#125;
+    &#125;
+    //继续发送2号信号结果应该为
+    //全0
+&#125;
+</code></pre>
+<h2 id="信号什么时候被处理"><a href="#信号什么时候被处理" class="headerlink" title="信号什么时候被处理"></a>信号什么时候被处理</h2><p>当进程从内核态返回到用户态的时候，进行信号的检测和处理<br>内核态：允许访问操作系统对应的代码和数据<br>用户态：允许访问自己的代码和数据</p>
+<h3 id="信号的捕捉"><a href="#信号的捕捉" class="headerlink" title="信号的捕捉"></a>信号的捕捉</h3><ol>
+<li>用户态，在主控制流程中因为执行某条指令因为中断，异常或者系统调用进入内核。</li>
+<li>内核态，内核处理完异常准备返回用户模式之前可以先处理当前进程中pending的信号</li>
+<li>do_signal()，如果函数的处理动作是自定义的信号，处理函数则返回用户态执行</li>
+<li>用户态，执行自定义函数，当调用sigreturn返回内核态</li>
+<li>内核态,sys_sigreturn()，返回上一次被中断的地方继续执行</li>
+</ol>
+<h2 id="子进程退出会发送信号"><a href="#子进程退出会发送信号" class="headerlink" title="子进程退出会发送信号"></a>子进程退出会发送信号</h2><p>子进程在终止时会给父进程发SIGCHLD信号,该信号的默认处理动作是忽略,父进程可以自 定义SIGCHLD信号<br>的处理函数,这样父进程只需专心处理自己的工作,不必关心子进程了,子进程 终止时会通知父进程,父进程在信号处理<br>函数中调用wait清理子进程即可。</p>
+<pre><code class="language-c">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;ctime&gt;
+#include &lt;unistd.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+
+using namespace std;
+void handler(int signo)
+&#123;
+    sleep(5);
+    pid_t rid;
+    while ((rid = waitpid(-1, nullptr, WNOHANG)) &gt; 0)
+    &#123;
+        cout &lt;&lt; &quot;I am proccess: &quot; &lt;&lt; getpid() &lt;&lt; &quot; catch a signo: &quot; &lt;&lt; signo &lt;&lt; &quot;child process quit: &quot; &lt;&lt; rid &lt;&lt; endl;
+    &#125;
+&#125;
+
+
+int main()
+&#123;
+    //signal(17, SIG_IGN); // SIG_DFL -&gt; action -&gt; IGN
+    // 如果我们有10个子进程呢？？如果同时退出呢？
+    signal(17, handler);
+    for (int i = 0; i &lt; 10; i++)
+    &#123;
+        pid_t id = fork();
+        if (id == 0)
+        &#123;
+            while (true)
+            &#123;
+                cout &lt;&lt; &quot;I am child process: &quot; &lt;&lt; getpid() &lt;&lt; &quot;, ppid: &quot; &lt;&lt; getppid() &lt;&lt; endl;
+                sleep(5);
+                break;
+            &#125;
+            cout &lt;&lt; &quot;child quit!!!&quot; &lt;&lt; endl;
+            exit(0);
+        &#125;
+         sleep(rand()%5+3);
+        //sleep(1);
+    &#125;
+    // father
+    while (true)
+    &#123;
+        cout &lt;&lt; &quot;I am father process: &quot; &lt;&lt; getpid() &lt;&lt; endl;
+        sleep(1);
+    &#125;
+
+    return 0;
+&#125;
+</code></pre>
+<p>将17号信号捕捉，可以直观看出退出的时候子进程不是悄悄地退出，会主动的向父进程发送17号信号。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

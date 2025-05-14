@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Linux 套接字编程 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>Linux 套接字编程</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Linux/" style="color: #ffa2c4">
+                    Linux
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C/" style="color: #03a9f4">
+                    网络
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Socket/" style="color: #00a596">
+                    Socket
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="编程套接字"><a href="#编程套接字" class="headerlink" title="编程套接字"></a>编程套接字</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a></li>
+<li><a href="#socket-api%E8%AF%A6%E8%A7%A3">Socket API详解</a></li>
+<li><a href="#udp%E7%BC%96%E7%A8%8B">UDP编程</a></li>
+<li><a href="#tcp%E7%BC%96%E7%A8%8B">TCP编程</a></li>
+<li><a href="#%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0">地址转换函数</a></li>
+<li><a href="#tcp-vs-udp">TCP vs UDP</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ol>
+<hr>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="IP地址与端口号"><a href="#IP地址与端口号" class="headerlink" title="IP地址与端口号"></a>IP地址与端口号</h3><ul>
+<li><strong>IP地址</strong>：标识网络中的一台主机（如 <code>192.168.1.1</code>）。</li>
+<li><strong>端口号</strong>：2字节整数（0-65535），标识主机上的进程。<br>示例：QQ消息需通过IP地址发送到目标机器，再通过端口号区分具体进程。</li>
+</ul>
+<h3 id="网络字节序"><a href="#网络字节序" class="headerlink" title="网络字节序"></a>网络字节序</h3><ul>
+<li><strong>大端字节序</strong>：高位字节存储在低地址（网络传输标准）。</li>
+<li><strong>小端字节序</strong>：高位字节存储在高地址（常见于x86架构）。</li>
+<li>转换函数：  <pre><code class="language-c">#include &lt;arpa/inet.h&gt;
+uint32_t htonl(uint32_t hostlong);  // 主机转网络（32位）
+uint16_t htons(uint16_t hostshort); // 主机转网络（16位）
+</code></pre>
+</li>
+</ul>
+<h3 id="TCP与UDP协议对比"><a href="#TCP与UDP协议对比" class="headerlink" title="TCP与UDP协议对比"></a>TCP与UDP协议对比</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>连接方式</td>
+<td>有连接（三次握手）</td>
+<td>无连接</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td>可靠传输</td>
+<td>不可靠传输</td>
+</tr>
+<tr>
+<td>数据形式</td>
+<td>字节流</td>
+<td>数据报</td>
+</tr>
+<tr>
+<td>典型场景</td>
+<td>文件传输、网页浏览</td>
+<td>实时视频、DNS查询</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Socket-API详解"><a href="#Socket-API详解" class="headerlink" title="Socket API详解"></a>Socket API详解</h2><h3 id="核心函数"><a href="#核心函数" class="headerlink" title="核心函数"></a>核心函数</h3><pre><code class="language-c">int socket(int domain, int type, int protocol); // 创建socket
+int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen); // 绑定端口
+int listen(int sockfd, int backlog);            // 监听连接
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); // 接受连接
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen); // 建立连接
+</code></pre>
+<h3 id="关键数据结构"><a href="#关键数据结构" class="headerlink" title="关键数据结构"></a>关键数据结构</h3><ul>
+<li><strong>sockaddr</strong>：通用地址结构，需强制转换为具体类型（如 <code>sockaddr_in</code>）。</li>
+<li><strong>sockaddr_in</strong>（IPv4）：<pre><code class="language-c">struct sockaddr_in &#123;
+    sa_family_t sin_family; // 地址类型（AF_INET）
+    in_port_t sin_port;     // 端口号（16位）
+    struct in_addr sin_addr; // IP地址（32位）
+&#125;;
+</code></pre>
+</li>
+</ul>
+<hr>
+<h2 id="UDP编程"><a href="#UDP编程" class="headerlink" title="UDP编程"></a>UDP编程</h2><h3 id="服务器实现（C-示例）"><a href="#服务器实现（C-示例）" class="headerlink" title="服务器实现（C++示例）"></a>服务器实现（C++示例）</h3><pre><code class="language-cpp">// 创建UDP Socket并绑定端口
+UdpSocket sock;
+sock.Socket();
+sock.Bind(&quot;0.0.0.0&quot;, 8888);
+
+// 接收数据
+std::string req, client_ip;
+uint16_t client_port;
+sock.RecvFrom(&amp;req, &amp;client_ip, &amp;client_port);
+
+// 发送响应
+std::string resp = &quot;Hello from server!&quot;;
+sock.SendTo(resp, client_ip, client_port);
+</code></pre>
+<h3 id="客户端实现"><a href="#客户端实现" class="headerlink" title="客户端实现"></a>客户端实现</h3><pre><code class="language-cpp">UdpClient client(&quot;127.0.0.1&quot;, 8888);
+client.SendTo(&quot;Hello from client!&quot;);
+std::string resp;
+client.RecvFrom(&amp;resp);
+</code></pre>
+<hr>
+<h2 id="TCP编程"><a href="#TCP编程" class="headerlink" title="TCP编程"></a>TCP编程</h2><h3 id="单线程服务器"><a href="#单线程服务器" class="headerlink" title="单线程服务器"></a>单线程服务器</h3><pre><code class="language-cpp">TcpServer server(&quot;0.0.0.0&quot;, 9999);
+server.Start([](const std::string&amp; req, std::string* resp) &#123;
+    *resp = &quot;Response: &quot; + req;
+&#125;);
+</code></pre>
+<h3 id="多进程版本"><a href="#多进程版本" class="headerlink" title="多进程版本"></a>多进程版本</h3><pre><code class="language-cpp">// 父进程处理连接请求后fork子进程
+int ret = fork();
+if (ret == 0) &#123;
+    // 子进程处理数据读写
+    ProcessRequest(new_sock);
+    exit(0);
+&#125;
+</code></pre>
+<h3 id="多线程版本"><a href="#多线程版本" class="headerlink" title="多线程版本"></a>多线程版本</h3><pre><code class="language-cpp">pthread_t tid;
+pthread_create(&amp;tid, NULL, ThreadEntry, arg); // 创建线程处理请求
+pthread_detach(tid); // 分离线程
+</code></pre>
+<hr>
+<h2 id="地址转换函数"><a href="#地址转换函数" class="headerlink" title="地址转换函数"></a>地址转换函数</h2><ul>
+<li><strong>字符串转IP</strong>：<code>inet_aton(&quot;127.0.0.1&quot;, &amp;addr.sin_addr);</code></li>
+<li><strong>IP转字符串</strong>：<code>char* ip_str = inet_ntoa(addr.sin_addr);</code></li>
+<li><strong>注意</strong>：<code>inet_ntoa</code> 非线程安全，推荐使用 <code>inet_ntop</code>。</li>
+</ul>
+<hr>
+<h2 id="TCP-vs-UDP"><a href="#TCP-vs-UDP" class="headerlink" title="TCP vs UDP"></a>TCP vs UDP</h2><h3 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h3><ul>
+<li><strong>三次握手</strong>：  <ol>
+<li>客户端发送SYN  </li>
+<li>服务端回复SYN-ACK  </li>
+<li>客户端发送ACK</li>
+</ol>
+</li>
+<li><strong>四次挥手</strong>：  <ol>
+<li>客户端发送FIN  </li>
+<li>服务端回复ACK  </li>
+<li>服务端发送FIN  </li>
+<li>客户端回复ACK</li>
+</ol>
+</li>
+</ul>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li><strong>TCP</strong>：需可靠传输的场景（如HTTP、FTP）。  </li>
+<li><strong>UDP</strong>：低延迟、可容忍丢包（如直播、VoIP）。</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>TCP</strong> 提供可靠连接，适合需要数据完整性的场景。  </li>
+<li><strong>UDP</strong> 轻量高效，适合实时性要求高的场景。</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>共享内存 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>共享内存</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/13
+        </span>
+        
+        <span class="category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/Linux/" style="color: #ffa2c4">
+                    Linux
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E7%BD%91%E7%BB%9C/" style="color: #00a596">
+                    网络
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/Socket/" style="color: #ff7d73">
+                    Socket
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="进程通信的原理"><a href="#进程通信的原理" class="headerlink" title="进程通信的原理"></a>进程通信的原理</h1><p>是不同的进程能看到同一片内存空间</p>
+<p>不同进程相应的描述用的结构体的虚拟地址首地址建立在内存共享区，通过页表挂接在相同物理内存。</p>
+<p>共享内存是进程间通信的一种方式，它允许不同的进程看到同一片内存空间。共享内存的生命周期是随内核的，用户不主动关闭，共享内存一直存在，直到系统重启。关闭共享内存使用shmid，指令为<code>ipcrm -m shmid</code>。</p>
+<p>同时释放共享内存是，去关联释放也就是硬链接为0，释放。</p>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="shmget"><a href="#shmget" class="headerlink" title="shmget"></a>shmget</h2><pre><code class="language-c">#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+
+int shmget(key_t key, size_t size,int shmflg);
+</code></pre>
+<ol>
+<li><p>怎么保证不同的进程看到同一个共享内存？<br>通过操作系统中唯一的key</p>
+</li>
+<li><p>怎么知道共享内存是存在还是不存在？<br>通过shmflg,<br>IPC_CREAT(单独使用)：如果申请的共享内存不存在，就创建，存在就获取并返回<br>IPC_EXCL(不单独使用)<br>IPC_CREAT | IPC_EXCL：如果申请的共享内存不存在，就创建，存在就报错。第一次创建时候使用</p>
+</li>
+<li><p>接口的返回值返回的是shmid，共享内存标识符</p>
+</li>
+</ol>
+<h2 id="key-vs-shmid"><a href="#key-vs-shmid" class="headerlink" title="key vs shmid"></a>key vs shmid</h2><p>key是用户程序和内核通信的凭证，shmid是内核为共享内存分配的id<br>key是操作系统内标定的唯一性，也就是创建时使用，从此不再用到key<br>shmid只在进程内用来表示资源的唯一性</p>
+<h3 id="key的特点"><a href="#key的特点" class="headerlink" title="key的特点"></a>key的特点</h3><ol>
+<li>key只需要知道在内核中具有唯一性，能让不同进程进行唯一性标识</li>
+<li>第一个进程使用key创建共享内存，之后的进程使用key获取共享内存</li>
+<li>key在存在于共享内存的描述对象中</li>
+<li>key的创建<pre><code class="language-c">#include&lt;sys/types.h&gt;
+#include&lt;sys/ipc.h&gt;
+
+key_t ftok(const char *pathname, int proj_id);
+</code></pre>
+<ol>
+<li>pathname：文件路径，可以是任意存在的文件</li>
+<li>proj_id：项目id，可以是任意值，只要和pathname组合起来是唯一的即可</li>
+<li>返回值：key</li>
+</ol>
+</li>
+</ol>
+<h3 id="补充指令"><a href="#补充指令" class="headerlink" title="补充指令"></a>补充指令</h3><pre><code>ipcs -m 查看共享内存
+</code></pre>
+<h2 id="共享内存的特点"><a href="#共享内存的特点" class="headerlink" title="共享内存的特点"></a>共享内存的特点</h2><ol>
+<li>共享内存的生命周期是随内核的<br>用户不主动关闭，共享内存一直存在，直到系统重启<br>关闭共享内存使用shmid<pre><code>ipcrm -m shmid
+</code></pre>
+</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
