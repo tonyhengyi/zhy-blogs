@@ -2,7 +2,7 @@
 title: "Linux 套接字编程"
 date: 2025-05-13
 categories: 
-  - "编程"
+  - "编程实战"
 tags:
   - "Linux"
   - "网络"
