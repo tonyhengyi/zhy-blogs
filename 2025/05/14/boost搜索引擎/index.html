@@ -1,0 +1,717 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>boost搜索引擎 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/zhy-blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/zhy-blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/zhy-blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/zhy-blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/zhy-blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/zhy-blogs/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/zhy-blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/zhy-blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/zhy-blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/zhy-blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/zhy-blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/zhy-blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>boost搜索引擎</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/14
+        </span>
+        
+        <span class="category">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程实战
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/Boost/" style="color: #ff7d73">
+                    Boost
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">
+                    服务器
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="宏观原理"><a href="#宏观原理" class="headerlink" title="宏观原理"></a>宏观原理</h1><p>客户通过http的GET请求，上传搜索关键字，进行搜索。<br>服务器在搜索模块，通过检索索引得到相关的html，（去标签&amp;&amp;数据清理，建立索引）<br>拼接多个网页的title和desc+url，构建成html返回给用户。</p>
+<h1 id="用到的技术"><a href="#用到的技术" class="headerlink" title="用到的技术"></a>用到的技术</h1><p>c&#x2F;c++,STL,准标准库Boost,Jsoncpp,cppjieba,cpp-httplib</p>
+<h1 id="正排索引和倒排索引"><a href="#正排索引和倒排索引" class="headerlink" title="正排索引和倒排索引"></a>正排索引和倒排索引</h1><p>正派索引，就是建立文档ID和文档内容的关系，通过文档ID搜索文档内容<br>倒排索引，就是建立文档内容（分词）和文档ID的关系，通过文档内容搜索文档ID（需要先分词）</p>
+<h1 id="数据区标签和数据清洗的模块Parser"><a href="#数据区标签和数据清洗的模块Parser" class="headerlink" title="数据区标签和数据清洗的模块Parser"></a>数据区标签和数据清洗的模块Parser</h1><pre><code class="language-cpp">#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;boost/filesystem.hpp&gt;
+#include&lt;util.hpp&gt;
+
+const std::string src_path=&quot;/boost_searcher/data/input&quot;;
+const std::string output=&quot;data/raw_html/raw.txt&quot;;
+
+typedef struct DocInfo&#123;
+    std::string title;   //文档的标题
+    std::string content; //文档内容
+    std::string url;     //该文档在官网中的url
+&#125;DocInfo_t;
+
+bool EnumFile(const std::string &amp;src_path,std::vector&lt;std::string&gt; *files_list);
+bool ParseHtml(const std::vector&lt;std::string&gt;&amp;files_list,std::vector&lt;DocInfo&gt;* results);
+bool SaveHtml(std::vector&lt;DocInfo&gt; &amp;results,const std::string &amp;output);
+int main()
+&#123;
+    std::vector&lt;std::string&gt; files_list;
+    //第一步: 递归式的把每个html文件名带路径，保存到files_list中，方便后期进行一个一个的文件进行读取
+    if(!EnumFile(src_path, &amp;files_list))&#123;
+        std::cerr &lt;&lt; &quot;enum file name error!&quot; &lt;&lt; std::endl;
+        return 1;
+
+    &#125;
+    //第二步: 按照files_list读取每个文件的内容，并进行解析
+    std::vector&lt;DocInfo_t&gt; results;
+    if(!ParseHtml(files_list, &amp;results))&#123;
+        std::cerr &lt;&lt; &quot;parse html error&quot; &lt;&lt; std::endl;
+        return 2;
+    &#125;
+
+    //第三步: 把解析完毕的各个文件内容，写入到output,按照\3作为每个文档的分割符
+    if(!SaveHtml(results, output))&#123;
+        std::cerr &lt;&lt; &quot;sava html error&quot; &lt;&lt; std::endl;
+        return 3;
+    &#125;
+
+    return 0;
+&#125;
+
+bool EnumFile(const std::string &amp;src_path, std::vector&lt;std::string&gt; *files_list)
+&#123;
+    namespace fs = boost::filesystem;
+    fs::path root_path(src_path);
+
+    //判断路径是否存在，不存在，就没有必要再往后走了
+    if(!fs::exists(root_path))&#123;
+        std::cerr &lt;&lt; src_path &lt;&lt; &quot; not exists&quot; &lt;&lt; std::endl;
+        return false;
+    &#125;
+
+    //定义一个空的迭代器，用来进行判断递归结束
+    fs::recursive_directory_iterator end;
+    for(fs::recursive_directory_iterator iter(root_path); iter != end; iter++)&#123;
+        //判断文件是否是普通文件，html都是普通文件
+        if(!fs::is_regular_file(*iter))&#123; 
+            continue;
+        &#125;
+        if(iter-&gt;path().extension() != &quot;.html&quot;)&#123; //判断文件路径名的后缀是否符合要求
+            continue;
+        &#125;
+        //std::cout &lt;&lt; &quot;debug: &quot; &lt;&lt; iter-&gt;path().string() &lt;&lt; std::endl;
+        //当前的路径一定是一个合法的，以.html结束的普通网页文件
+        files_list-&gt;push_back(iter-&gt;path().string()); //将所有带路径的html保存在files_list,方便后续进行文本分析
+    &#125;
+
+    return true;
+&#125;
+
+static bool ParseTitle(const std::string &amp;file, std::string *title)
+&#123;
+    std::size_t begin = file.find(&quot;&lt;title&gt;&quot;);
+    if(begin == std::string::npos)&#123;
+        return false;
+    &#125;
+    std::size_t end = file.find(&quot;&lt;/title&gt;&quot;);
+    if(end == std::string::npos)&#123;
+        return false;
+    &#125;
+
+    begin += std::string(&quot;&lt;title&gt;&quot;).size();
+
+    if(begin &gt; end)&#123;
+        return false;
+    &#125;
+    *title = file.substr(begin, end - begin);
+    return true;
+&#125;
+
+static bool ParseContent(const std::string &amp;file, std::string *content)
+&#123;
+    //去标签,基于一个简易的状态机
+    enum status&#123;
+        LABLE,
+        CONTENT
+    &#125;;
+
+    enum status s = LABLE;
+    for( char c : file)&#123;
+        switch(s)&#123;
+            case LABLE:
+                if(c == &#39;&gt;&#39;) s = CONTENT;
+                break;
+            case CONTENT:
+                if(c == &#39;&lt;&#39;) s = LABLE;
+                else &#123;
+                    //我们不想保留原始文件中的\n,因为我们想用\n作为html解析之后文本的分隔符
+                    if(c == &#39;\n&#39;) c = &#39; &#39;;
+                    content-&gt;push_back(c);
+                &#125;
+                break;
+            default:
+                break;
+        &#125;
+    &#125;
+
+    return true;
+&#125;
+
+static bool ParseUrl(const std::string &amp;file_path, std::string *url)
+&#123;
+    std::string url_head = &quot;https://www.boost.org/doc/libs/1_78_0/doc/html&quot;;
+    std::string url_tail = file_path.substr(src_path.size());
+
+    *url = url_head + url_tail;
+    return true;
+&#125;
+
+//for debug
+static void ShowDoc( const DocInfo_t &amp;doc)
+&#123;
+    std::cout &lt;&lt; &quot;title: &quot; &lt;&lt; doc.title &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;content: &quot; &lt;&lt; doc.content &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;url: &quot; &lt;&lt; doc.url &lt;&lt; std::endl;
+&#125;
+
+bool ParseHtml(const std::vector&lt;std::string&gt; &amp;files_list, std::vector&lt;DocInfo_t&gt; *results)
+&#123;
+    for(const std::string &amp;file : files_list)&#123;
+        //1. 读取文件，Read();
+        std::string result;
+        if(!ns_util::FileUtil::ReadFile(file, &amp;result))&#123;
+            continue;
+        &#125;
+        DocInfo_t doc;
+        //2. 解析指定的文件，提取title
+        if(!ParseTitle(result, &amp;doc.title))&#123;
+            continue;
+        &#125;
+        //3. 解析指定的文件，提取content,就是去标签
+        if(!ParseContent(result, &amp;doc.content))&#123;
+            continue;
+        &#125;
+        //4. 解析指定的文件路径，构建url
+        if(!ParseUrl(file, &amp;doc.url))&#123;
+            continue;
+        &#125;
+
+       
+        results-&gt;push_back(std::move(doc)); 
+        //ShowDoc(doc);
+
+    &#125;
+    return true;
+&#125;
+
+bool SaveHtml(const std::vector&lt;DocInfo_t&gt; &amp;results, const std::string &amp;output)
+&#123;
+#define SEP &#39;\3&#39;
+    //按照二进制方式进行写入
+    std::ofstream out(output, std::ios::out | std::ios::binary);
+    if(!out.is_open())&#123;
+        std::cerr &lt;&lt; &quot;open &quot; &lt;&lt; output &lt;&lt; &quot; failed!&quot; &lt;&lt; std::endl;
+        return false;
+    &#125;
+
+    //就可以进行文件内容的写入了
+    for(auto &amp;item : results)&#123;
+        std::string out_string;
+        out_string = item.title;
+        out_string += SEP;
+        out_string += item.content;
+        out_string += SEP;
+        out_string += item.url;
+        out_string += &#39;\n&#39;;
+
+        out.write(out_string.c_str(), out_string.size());
+    &#125;
+
+    out.close();
+
+    return true;
+&#125;
+</code></pre>
+<p>将官网上下载的html文件都删去&lt;&gt;标签，然后以’\3’作为分隔符，将title、content、url写入文件，方便后续的文本分析。</p>
+<h1 id="建立索引文件"><a href="#建立索引文件" class="headerlink" title="建立索引文件"></a>建立索引文件</h1><h2 id="正排倒排的结构"><a href="#正排倒排的结构" class="headerlink" title="正排倒排的结构"></a>正排倒排的结构</h2><pre><code class="language-cpp">#pragma once
+
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;fstream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;mutex&gt;
+#include &quot;util.hpp&quot;
+#include &quot;log.hpp&quot;
+
+namespace ns_index&#123;
+
+    struct DocInfo&#123;
+        std::string title;   //文档的标题
+        std::string content; //文档对应的去标签之后的内容
+        std::string url;     //官网文档url
+        uint64_t doc_id;          //文档的ID
+    &#125;;
+
+    struct InvertedElem&#123;
+        uint64_t doc_id;
+        std::string word;
+        int weight;
+        InvertedElem():weight(0)&#123;&#125;
+    &#125;;
+
+    //倒排拉链
+    typedef std::vector&lt;InvertedElem&gt; InvertedList;
+
+    class Index&#123;
+        private:
+            //正排索引的数据结构用数组，数组的下标天然是文档的ID
+            std::vector&lt;DocInfo&gt; forward_index; //正排索引
+            //倒排索引一定是一个关键字和一组(个)InvertedElem对应[关键字和倒排拉链的映射关系]
+            std::unordered_map&lt;std::string, InvertedList&gt; inverted_index;
+        private:
+            Index()&#123;&#125; 
+            Index(const Index&amp;) = delete;
+            Index&amp; operator=(const Index&amp;) = delete;
+
+            static Index* instance;
+            static std::mutex mtx;
+        public:
+            ~Index()&#123;&#125;
+        public:
+            static Index* GetInstance()
+            &#123;
+                if(nullptr == instance)&#123;
+                    mtx.lock();
+                    if(nullptr == instance)&#123;
+                        instance = new Index();
+                    &#125;
+                    mtx.unlock();
+                &#125;
+                return instance;
+            &#125;
+            //根据doc_id找到找到文档内容
+            DocInfo *GetForwardIndex(uint64_t doc_id)
+            &#123;
+                if(doc_id &gt;= forward_index.size())&#123;
+                    std::cerr &lt;&lt; &quot;doc_id out range, error!&quot; &lt;&lt; std::endl;
+                    return nullptr;
+                &#125;
+                return &amp;forward_index[doc_id];
+            &#125;
+
+            //根据关键字string，获得倒排拉链
+            InvertedList *GetInvertedList(const std::string &amp;word)
+            &#123;
+                auto iter = inverted_index.find(word);
+                if(iter == inverted_index.end())&#123;
+                    std::cerr &lt;&lt; word &lt;&lt; &quot; have no InvertedList&quot; &lt;&lt; std::endl;
+                    return nullptr;
+                &#125;
+                return &amp;(iter-&gt;second);
+            &#125;
+            //根据去标签，格式化之后的文档，构建正排和倒排索引
+            //data/raw_html/raw.txt
+            bool BuildIndex(const std::string &amp;input) //parse处理完毕的数据交给我
+            &#123;
+                std::ifstream in(input, std::ios::in | std::ios::binary);
+                if(!in.is_open())&#123;
+                    std::cerr &lt;&lt; &quot;sorry, &quot; &lt;&lt; input &lt;&lt; &quot; open error&quot; &lt;&lt; std::endl;
+                    return false;
+                &#125;
+
+                std::string line;
+                int count = 0;
+                while(std::getline(in, line))&#123;
+                    DocInfo * doc = BuildForwardIndex(line);
+                    if(nullptr == doc)&#123;
+                        std::cerr &lt;&lt; &quot;build &quot; &lt;&lt; line &lt;&lt; &quot; error&quot; &lt;&lt; std::endl; //for deubg
+                        continue;
+                    &#125;
+
+                    BuildInvertedIndex(*doc);
+                    count++;
+
+                    LOG(NORMAL, &quot;当前的已经建立的索引文档: &quot; + std::to_string(count));
+                    
+                &#125;
+                return true;
+            &#125;
+        private:
+            DocInfo *BuildForwardIndex(const std::string &amp;line)
+            &#123;
+                //1. 解析line，字符串切分
+                //line -&gt; 3 string, title, content, url
+                std::vector&lt;std::string&gt; results;
+                const std::string sep = &quot;\3&quot;;   //行内分隔符
+                ns_util::StringUtil::Split(line, &amp;results, sep);
+               
+                if(results.size() != 3)&#123;
+                    return nullptr;
+                &#125;
+                //2. 字符串进行填充到DocIinfo
+                DocInfo doc;
+                doc.title = results[0]; //title
+                doc.content = results[1]; //content
+                doc.url = results[2];   ///url
+                doc.doc_id = forward_index.size(); //先进行保存id，在插入，对应的id就是当前doc在vector中的下标!
+                //3. 插入到正排索引的vector
+                forward_index.push_back(std::move(doc)); //doc,html文件内容
+                return &amp;forward_index.back();
+            &#125;
+
+            bool BuildInvertedIndex(const DocInfo &amp;doc)
+            &#123;
+                //DocInfo&#123;title, content, url, doc_id&#125;
+                //word -&gt; 倒排拉链
+                struct word_cnt&#123;
+                    int title_cnt;
+                    int content_cnt;
+
+                    word_cnt():title_cnt(0), content_cnt(0)&#123;&#125;
+                &#125;;
+                std::unordered_map&lt;std::string, word_cnt&gt; word_map; //用来暂存词频的映射表
+
+                //对标题进行分词
+                std::vector&lt;std::string&gt; title_words;
+                ns_util::JiebaUtil::CutString(doc.title, &amp;title_words);
+
+                //对标题进行词频统计
+                for(std::string s : title_words)&#123;
+                    boost::to_lower(s); //需要统一转化成为小写
+                    word_map[s].title_cnt++; //如果存在就获取，如果不存在就新建
+                &#125;
+
+                //对文档内容进行分词
+                std::vector&lt;std::string&gt; content_words;
+                ns_util::JiebaUtil::CutString(doc.content, &amp;content_words);
+
+                //对内容进行词频统计
+                for(std::string s : content_words)&#123;
+                    boost::to_lower(s);
+                    word_map[s].content_cnt++;
+                &#125;
+
+#define X 10
+#define Y 1
+                //Hello,hello,HELLO
+                for(auto &amp;word_pair : word_map)&#123;
+                    InvertedElem item;
+                    item.doc_id = doc.doc_id;
+                    item.word = word_pair.first;
+                    item.weight = X*word_pair.second.title_cnt + Y*word_pair.second.content_cnt; //相关性
+                    InvertedList &amp;inverted_list = inverted_index[word_pair.first];
+                    inverted_list.push_back(std::move(item));
+                &#125;
+
+                return true;
+            &#125;
+    &#125;;
+    Index* Index::instance = nullptr;
+    std::mutex Index::mtx;
+&#125;
+</code></pre>
+<p>处理过程我们拿到的文档内容是<br>struct DocInfo{<br>    std::string title;<br>    std::string content;<br>    std::string url;<br>    int doc_id;<br>};<br>我们需要识别为<br>title:<br>content:<br>url:<br>doc_id:</p>
+<p>根据文档内容，形成一个或者多个倒排拉链<br>一个文档会有多个“词”,都会对应到当前的doc_id</p>
+<p>我们需要对这些内容进行分词，使用jieba分词</p>
+<p>i like to eat apple<br>分为i &#x2F;like to &#x2F;eat&#x2F; apple&#x2F;eat apple；</p>
+<p>然后需要对词和文档的相关性进行处理，（简化处理，只是用词频）<br>对title_word和content_word进行词频统计，赋予不同的权重</p>
+<p>struct word_cnt{<br>    int title_cnt;<br>    int content_cnt;<br>};</p>
+<pre><code class="language-cpp">            //对内容进行词频统计
+                for(std::string s : content_words)&#123;
+                    boost::to_lower(s);
+                    word_map[s].content_cnt++;
+                &#125;
+
+#define X 10
+#define Y 1
+                //Hello,hello,HELLO
+                for(auto &amp;word_pair : word_map)&#123;
+                    InvertedElem item;
+                    item.doc_id = doc.doc_id;
+                    item.word = word_pair.first;
+                    item.weight = X*word_pair.second.title_cnt + Y*word_pair.second.content_cnt; //相关性
+                    InvertedList &amp;inverted_list = inverted_index[word_pair.first];
+                    inverted_list.push_back(std::move(item));
+                &#125;
+</code></pre>
+<p>这里的权值设置的是标题为10，内容为1，可以根据实际需求进行调整。</p>
+<h1 id="编写搜索引擎模块"><a href="#编写搜索引擎模块" class="headerlink" title="编写搜索引擎模块"></a>编写搜索引擎模块</h1><p>下面是搜索引擎的框架<br>我们首先要获得之前建立的索引对象<br>然后根据用户输入的query进行分词，根据分词结果，<br>在索引中查找对应的文档，<br>然后根据文档的相关性进行排序，最后将结果构建成json串返回给用户</p>
+<pre><code class="language-cpp">namespace ns_searcher &#123;
+class Searcher &#123;
+private:
+    ns_index::Index* index; // 供系统进行查找的索引
+public:
+    Searcher() &#123;&#125;
+    ~Searcher() &#123;&#125;
+
+public:
+    void InitSearcher(const std::string&amp; input) &#123;
+        // 1. 获取或者创建index对象
+        // 2. 根据index对象建立索引
+    &#125;
+    // query: 搜索关键字
+    // json_string: 返回给用户浏览器的搜索结果
+    void Search(const std::string&amp; query, std::string* json_string) &#123;
+        // 1.[分词]:对我们的query进行按照searcher的要求进行分词
+        // 2.[触发]:就是根据分词的各个&quot;词&quot;，进行index查找
+        // 3.[合并排序]：汇总查找结果，按照相关性(weight)降序排序
+        // 4.[构建]:根据查找出来的结果，构建json串 -- jsoncpp
+    &#125;
+  &#125;;
+&#125; 
+</code></pre>
+<p>回顾常规的浏览器搜索返回的三大件应该是：标题、摘要、url<br>需要对文档进行摘要处理，<br>首先获取文档的的内容，定义start,end，分别标定文档的前后界限<br>在内容中找到query中的词，然后根据词的位置，该词向前50，向后100（在不超过界限的前提下）形成摘要</p>
+<h1 id="编写http-server模块"><a href="#编写http-server模块" class="headerlink" title="编写http_server模块"></a>编写http_server模块</h1><p>需要使用cpp-httplib库</p>
+<pre><code class="language-cpp">#include &quot;httplib.h&quot;
+#include &quot;searcher.hpp&quot;
+
+const std::string input = &quot;data/raw_html/raw.txt&quot;;
+const std::string root_path = &quot;./wwwroot&quot;;
+
+int main()
+&#123;
+    ns_searcher::Searcher search;
+    search.InitSearcher(input);
+
+    httplib::Server svr;
+
+    svr.set_base_dir(root_path.c_str());
+    svr.Get(&quot;/s&quot;, [&amp;search](const httplib::Request &amp;req, httplib::Response &amp;rsp)&#123;
+            if(!req.has_param(&quot;word&quot;))&#123;
+                rsp.set_content(&quot;必须要有搜索关键字!&quot;, &quot;text/plain; charset=utf-8&quot;);
+                return;
+            &#125;
+            std::string word = req.get_param_value(&quot;word&quot;);
+          
+            LOG(NORMAL, &quot;用户搜索的: &quot; + word);
+            std::string json_string;
+            search.Search(word, &amp;json_string);
+            rsp.set_content(json_string, &quot;application/json; charset=utf-8&quot;);
+           
+            &#125;);
+
+
+    LOG(NORMAL, &quot;服务器启动成功...&quot;);
+
+    svr.listen(&quot;0.0.0.0&quot;, 8081);
+    return 0;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/zhy-blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

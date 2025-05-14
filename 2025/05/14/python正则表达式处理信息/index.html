@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>python正则表达式处理信息 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/zhy-blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/zhy-blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/zhy-blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/zhy-blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/zhy-blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/zhy-blogs/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/zhy-blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/zhy-blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/zhy-blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/zhy-blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/zhy-blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/zhy-blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>python正则表达式处理信息</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/14
+        </span>
+        
+        <span class="category">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程实战
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/python/" style="color: #ff7d73">
+                    python
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="color: #03a9f4">
+                    正则表达式
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" style="color: #00bcd4">
+                    数据处理
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="正则表达式基本语法详解"><a href="#正则表达式基本语法详解" class="headerlink" title="正则表达式基本语法详解"></a>正则表达式基本语法详解</h1><p>正则表达式(Regular Expression)是一种强大的文本模式匹配工具，下面将详细介绍其基本语法和常用元字符。</p>
+<h2 id="1-基本匹配"><a href="#1-基本匹配" class="headerlink" title="1. 基本匹配"></a>1. 基本匹配</h2><ul>
+<li><strong>字面字符</strong>：大多数字符（字母、数字）直接匹配自身<ul>
+<li><code>a</code> 匹配字符 “a”</li>
+<li><code>1</code> 匹配数字 “1”</li>
+</ul>
+</li>
+<li><strong>特殊字符</strong>（需要转义）：<code>. ^ $ * + ? &#123; &#125; [ ] \ | ( )</code><ul>
+<li>要匹配这些字符本身，需要加反斜杠转义，如 <code>\.</code> 匹配点号</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-常用元字符"><a href="#2-常用元字符" class="headerlink" title="2. 常用元字符"></a>2. 常用元字符</h2><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.</code></td>
+<td>匹配任意单个字符（除了换行符）</td>
+</tr>
+<tr>
+<td><code>\d</code></td>
+<td>匹配数字，等价于 <code>[0-9]</code></td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td>匹配非数字，等价于 <code>[^0-9]</code></td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>匹配单词字符（字母、数字、下划线），等价于 <code>[a-zA-Z0-9_]</code></td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td>匹配非单词字符</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>匹配空白字符（空格、制表符、换行符等）</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td>匹配非空白字符</td>
+</tr>
+<tr>
+<td><code>\b</code></td>
+<td>匹配单词边界</td>
+</tr>
+<tr>
+<td><code>\B</code></td>
+<td>匹配非单词边界</td>
+</tr>
+</tbody></table>
+<h2 id="3-字符类"><a href="#3-字符类" class="headerlink" title="3. 字符类 []"></a>3. 字符类 <code>[]</code></h2><ul>
+<li><code>[abc]</code> 匹配 “a”、”b” 或 “c”</li>
+<li><code>[a-z]</code> 匹配任何小写字母</li>
+<li><code>[0-9]</code> 匹配任何数字</li>
+<li><code>[^abc]</code> 匹配<strong>不是</strong> “a”、”b” 或 “c” 的任何字符</li>
+</ul>
+<h2 id="4-量词（重复）"><a href="#4-量词（重复）" class="headerlink" title="4. 量词（重复）"></a>4. 量词（重复）</h2><table>
+<thead>
+<tr>
+<th>量词</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*</code></td>
+<td>匹配前一个元素零次或多次</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>匹配前一个元素一次或多次</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>匹配前一个元素零次或一次</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;</code></td>
+<td>匹配前一个元素恰好 n 次</td>
+</tr>
+<tr>
+<td><code>&#123;n,&#125;</code></td>
+<td>匹配前一个元素至少 n 次</td>
+</tr>
+<tr>
+<td><code>&#123;n,m&#125;</code></td>
+<td>匹配前一个元素至少 n 次，但不超过 m 次</td>
+</tr>
+</tbody></table>
+<h2 id="5-位置锚点"><a href="#5-位置锚点" class="headerlink" title="5. 位置锚点"></a>5. 位置锚点</h2><table>
+<thead>
+<tr>
+<th>锚点</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>^</code></td>
+<td>匹配字符串的开头（多行模式下匹配行首）</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>匹配字符串的结尾（多行模式下匹配行尾）</td>
+</tr>
+</tbody></table>
+<h2 id="6-分组与捕获"><a href="#6-分组与捕获" class="headerlink" title="6. 分组与捕获 ()"></a>6. 分组与捕获 <code>()</code></h2><ul>
+<li><code>(abc)</code> 将多个字符组合为一个单元，并可捕获匹配的文本</li>
+<li><code>(?:abc)</code> 非捕获分组，只分组不捕获</li>
+</ul>
+<h2 id="7-或操作"><a href="#7-或操作" class="headerlink" title="7. 或操作 |"></a>7. 或操作 <code>|</code></h2><ul>
+<li><code>a|b</code> 匹配 “a” 或 “b”</li>
+</ul>
+<h2 id="8-转义字符"><a href="#8-转义字符" class="headerlink" title="8. 转义字符 \"></a>8. 转义字符 <code>\</code></h2><ul>
+<li><code>\.</code> 匹配字面点号</li>
+<li><code>\\</code> 匹配反斜杠</li>
+<li><code>\n</code> 匹配换行符</li>
+<li><code>\t</code> 匹配制表符</li>
+</ul>
+<h2 id="示例应用"><a href="#示例应用" class="headerlink" title="示例应用"></a>示例应用</h2><pre><code>import re
+
+# 匹配日期格式 YYYY-MM-DD
+date_pattern = r&#39;\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;&#39;
+text = &quot;日期：2023-05-20，另一个日期：2024-01-15&quot;
+dates = re.findall(date_pattern, text)  # [&#39;2023-05-20&#39;, &#39;2024-01-15&#39;]
+
+# 匹配邮箱地址
+email_pattern = r&#39;[\w.-]+@[\w.-]+\.\w+&#39;
+emails = re.findall(email_pattern, &quot;联系我：user@example.com 或 support@test.org&quot;)
+
+# 提取HTML标签内容
+html = &quot;&lt;div&gt;内容1&lt;/div&gt;&lt;p&gt;内容2&lt;/p&gt;&quot;
+contents = re.findall(r&#39;&lt;[^&gt;]+&gt;(.*?)&lt;/[^&gt;]+&gt;&#39;, html)  # [&#39;内容1&#39;, &#39;内容2&#39;]
+</code></pre>
+<h2 id="9-修饰符（标志）"><a href="#9-修饰符（标志）" class="headerlink" title="9. 修饰符（标志）"></a>9. 修饰符（标志）</h2><table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>re.I</code> 或 <code>re.IGNORECASE</code></td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td><code>re.M</code> 或 <code>re.MULTILINE</code></td>
+<td>多行模式，使 <code>^</code> 和 <code>$</code> 匹配每行的开头和结尾</td>
+</tr>
+<tr>
+<td><code>re.S</code> 或 <code>re.DOTALL</code></td>
+<td>使 <code>.</code> 匹配包括换行符在内的所有字符</td>
+</tr>
+</tbody></table>
+<pre><code># 使用修饰符
+text = &quot;Python is great\nPYTHON is powerful&quot;
+matches = re.findall(r&#39;^python&#39;, text, re.I | re.M)  # [&#39;Python&#39;, &#39;PYTHON&#39;]
+</code></pre>
+<h2 id="10-示例使用"><a href="#10-示例使用" class="headerlink" title="10.示例使用"></a>10.示例使用</h2><h3 id="提取html内容"><a href="#提取html内容" class="headerlink" title="提取html内容"></a>提取html内容</h3><pre><code class="language-python">import re
+
+html = &quot;&quot;&quot;
+&lt;div class=&quot;content&quot;&gt;
+    &lt;h1&gt;标题&lt;/h1&gt;
+    &lt;p&gt;第一段内容&lt;/p&gt;
+    &lt;p class=&quot;special&quot;&gt;特殊段落&lt;/p&gt;
+&lt;/div&gt;
+&quot;&quot;&quot;
+
+# 提取所有段落内容
+paragraphs = re.findall(r&#39;&lt;p.*?&gt;(.*?)&lt;/p&gt;&#39;, html)
+print(&quot;段落内容:&quot;, paragraphs)  # [&#39;第一段内容&#39;, &#39;特殊段落&#39;]
+
+# 提取带class的标签内容
+special_content = re.findall(r&#39;&lt;p\s+class=&quot;.*?&quot;&gt;(.*?)&lt;/p&gt;&#39;, html)
+print(&quot;特殊段落:&quot;, special_content)  # [&#39;特殊段落&#39;]
+</code></pre>
+<h3 id="提取日志信息"><a href="#提取日志信息" class="headerlink" title="提取日志信息"></a>提取日志信息</h3><pre><code class="language-python">log_data = &quot;&quot;&quot;
+192.168.1.1 - - [10/Oct/2023:13:55:36 +0800] &quot;GET /index.html&quot;
+10.0.0.2 - - [10/Oct/2023:13:56:12 +0800] &quot;POST /login&quot;
+&quot;&quot;&quot;
+
+# 提取IP和完整时间
+matches = re.findall(r&#39;(\d+\.\d+\.\d+\.\d+).*?$$(.*?)$$&#39;, log_data)
+for ip, timestamp in matches:
+    print(f&quot;IP: &#123;ip&#125;, 时间: &#123;timestamp&#125;&quot;)
+
+# 提取日期和时间部分
+date_times = re.findall(r&#39;\[(\d&#123;2&#125;/\w+/\d&#123;4&#125;):(\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;)&#39;, log_data)
+for date, time in date_times:
+    print(f&quot;日期: &#123;date&#125;, 时间: &#123;time&#125;&quot;)
+</code></pre>
+<h3 id="提取中文和标点符号"><a href="#提取中文和标点符号" class="headerlink" title="提取中文和标点符号"></a>提取中文和标点符号</h3><pre><code class="language-python">text = &quot;Python是一种面向对象的解释型计算机程序设计语言，由Guido van Rossum于1989年发明。&quot;
+
+# 提取所有中文字符
+chinese_chars = re.findall(r&#39;[\u4e00-\u9fa5]&#39;, text)
+print(&quot;中文字符:&quot;, chinese_chars)
+
+# 提取中文段落（包含标点）
+chinese_passage = re.findall(r&#39;[\u4e00-\u9fa5，。、；：？！&quot;&quot;&#39;&#39;（）【】]+&#39;, text)
+print(&quot;中文段落:&quot;, chinese_passage)
+
+# 提取中英文混合的专有名词
+mixed_terms = re.findall(r&#39;[a-zA-Z]+（[\u4e00-\u9fa5]+）&#39;, text)
+print(&quot;混合术语:&quot;, mixed_terms)  # [&#39;Python&#39;]
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/zhy-blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
