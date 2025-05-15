@@ -184,7 +184,7 @@
             
             <span class="tag">
                 
-                <a href="/zhy-blogs/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ffa2c4">
+                <a href="/zhy-blogs/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #00a596">
                     服务器
                 </a>
             </span>
@@ -198,7 +198,7 @@
             
             <span class="tag">
                 
-                <a href="/zhy-blogs/tags/http/" style="color: #ffa2c4">
+                <a href="/zhy-blogs/tags/http/" style="color: #ff7d73">
                     http
                 </a>
             </span>
@@ -208,7 +208,255 @@
     </div>
     
     <div class="content" v-pre>
+        <h1 id="C-HTTP-服务与构建系统实战教程"><a href="#C-HTTP-服务与构建系统实战教程" class="headerlink" title="C++ HTTP 服务与构建系统实战教程"></a>C++ HTTP 服务与构建系统实战教程</h1><h2 id="一、网络基础与设计理论"><a href="#一、网络基础与设计理论" class="headerlink" title="一、网络基础与设计理论"></a>一、网络基础与设计理论</h2><h3 id="1-1-HTTP-协议核心概念"><a href="#1-1-HTTP-协议核心概念" class="headerlink" title="1.1 HTTP 协议核心概念"></a>1.1 HTTP 协议核心概念</h3><p>HTTP (HyperText Transfer Protocol) 是构建现代 Web 服务的基石，我们的服务基于 HTTP&#x2F;1.1 实现：</p>
+<ul>
+<li><strong>请求方法语义</strong>：<ul>
+<li><code>POST /api/clone</code> - 非幂等操作，创建新资源</li>
+<li><code>GET /api/status</code> - 安全且幂等的读取操作</li>
+<li>符合 RESTful 设计原则</li>
+</ul>
+</li>
+<li><strong>状态码使用规范</strong>：<ul>
+<li><code>200 OK</code> - 成功响应</li>
+<li><code>400 Bad Request</code> - 客户端请求错误</li>
+<li><code>404 Not Found</code> - 资源不存在</li>
+<li><code>500 Internal Server Error</code> - 服务端错误</li>
+</ul>
+</li>
+<li><strong>持久连接</strong>：默认保持连接复用（Keep-Alive）</li>
+</ul>
+<h3 id="1-2-线程安全模型"><a href="#1-2-线程安全模型" class="headerlink" title="1.2 线程安全模型"></a>1.2 线程安全模型</h3><p>多线程环境下共享资源保护方案：</p>
+<pre><code>// 互斥锁使用模式
+std::mutex resource_mutex;
+
+void safe_operation() &#123;
+    std::lock_guard&lt;std::mutex&gt; lock(resource_mutex);
+    // 临界区操作
+&#125;
+</code></pre>
+<p><strong>设计考量</strong>：</p>
+<ul>
+<li>使用 <code>std::lock_guard</code> 实现 RAII 风格的锁管理</li>
+<li>原子变量 <code>std::atomic&lt;bool&gt;</code> 用于简单状态标志</li>
+<li>避免死锁：按固定顺序获取多个锁</li>
+</ul>
+<h2 id="二、接口规范详解"><a href="#二、接口规范详解" class="headerlink" title="二、接口规范详解"></a>二、接口规范详解</h2><h3 id="2-1-克隆项目接口"><a href="#2-1-克隆项目接口" class="headerlink" title="2.1 克隆项目接口"></a>2.1 克隆项目接口</h3><p><strong>端点</strong>：<code>POST /api/clone</code></p>
+<h4 id="请求格式："><a href="#请求格式：" class="headerlink" title="请求格式："></a>请求格式：</h4><pre><code>&#123;
+    &quot;project_name&quot;: &quot;my_project&quot;,
+    &quot;repo_url&quot;: &quot;https://github.com/user/repo.git&quot;
+&#125;
+</code></pre>
+<h4 id="响应格式："><a href="#响应格式：" class="headerlink" title="响应格式："></a>响应格式：</h4><p>成功：</p>
+<pre><code>&#123;&quot;status&quot;: &quot;success&quot;&#125;
+</code></pre>
+<p>冲突：</p>
+<pre><code>&#123;&quot;status&quot;: &quot;exists&quot;&#125;
+</code></pre>
+<h4 id="实现解析："><a href="#实现解析：" class="headerlink" title="实现解析："></a>实现解析：</h4><pre><code>svr.Post(&quot;/api/clone&quot;, [&amp;](const httplib::Request&amp; req, httplib::Response&amp; res) &#123;
+    try &#123;
+        auto json = nlohmann::json::parse(req.body);
         
+        // 参数验证
+        if (!json.contains(&quot;project_name&quot;) || !json.contains(&quot;repo_url&quot;)) &#123;
+            res.status = 400;
+            return;
+        &#125;
+        
+        // 路径安全处理
+        fs::path project_dir = sanitize_path(json[&quot;project_name&quot;]);
+        // ...克隆操作...
+    &#125; catch (...) &#123;
+        res.status = 500;
+    &#125;
+&#125;);
+</code></pre>
+<p><strong>关键设计</strong>：</p>
+<ol>
+<li>输入验证：检查必需字段</li>
+<li>路径消毒：防止目录遍历攻击</li>
+<li>子进程管理：通过 <code>system()</code> 执行 git 命令</li>
+</ol>
+<h3 id="2-2-构建状态接口"><a href="#2-2-构建状态接口" class="headerlink" title="2.2 构建状态接口"></a>2.2 构建状态接口</h3><p><strong>端点</strong>：<code>GET /api/status</code></p>
+<h4 id="响应格式：-1"><a href="#响应格式：-1" class="headerlink" title="响应格式："></a>响应格式：</h4><pre><code>&#123;
+    &quot;progress&quot;: 75,
+    &quot;stage&quot;: &quot;building&quot;,
+    &quot;message&quot;: &quot;正在执行构建...&quot;,
+    &quot;timestamp&quot;: 1630000000
+&#125;
+</code></pre>
+<h4 id="状态机设计："><a href="#状态机设计：" class="headerlink" title="状态机设计："></a>状态机设计：</h4><pre><code>stateDiagram
+    [*] --&gt; Idle
+    Idle --&gt; Preparing: 开始构建
+    Preparing --&gt; Building: 环境就绪
+    Building --&gt; Analyzing: 构建成功
+    Analyzing --&gt; Visualizing: 分析完成
+    Visualizing --&gt; Completed: 服务就绪
+    Building --&gt; Failed: 构建错误
+    Analyzing --&gt; Failed: 分析错误
+    Visualizing --&gt; Failed: 服务错误
+</code></pre>
+<p><svg aria-roledescription="stateDiagram" role="graphics-document document" style="overflow: hidden; max-width: 100%;" class="statediagram" xmlns="http://www.w3.org/2000/svg" width="100%" id="svgGraph98560251332532" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"><g id="viewport-20250515111444961" class="svg-pan-zoom_viewport" transform="matrix(0,0,0,0,0,0)" style="transform: matrix(0, 0, 0, 0, 0, 0);"><g><defs><marker orient="auto" markerUnits="userSpaceOnUse" markerHeight="14" markerWidth="20" refY="7" refX="19" id="svgGraph98560251332532_stateDiagram-barbEnd"><path d="M 19,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge0" d="M191.8,22L191.8,26.167C191.8,30.333,191.8,38.667,191.8,47C191.8,55.333,191.8,63.667,191.8,67.833L191.8,72"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge1" d="M191.8,112L191.8,118.167C191.8,124.333,191.8,136.667,191.8,149C191.8,161.333,191.8,173.667,191.8,179.833L191.8,186"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge2" d="M191.8,226L191.8,232.167C191.8,238.333,191.8,250.667,191.8,263C191.8,275.333,191.8,287.667,191.8,293.833L191.8,300"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge3" d="M178.28,340L174.112,346.167C169.943,352.333,161.606,364.667,157.437,377C153.269,389.333,153.269,401.667,153.269,407.833L153.269,414"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge4" d="M133.487,454L127.388,460.167C121.288,466.333,109.089,478.667,102.99,491C96.891,503.333,96.891,515.667,96.891,521.833L96.891,528"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge5" d="M82.154,568L77.61,574.167C73.066,580.333,63.978,592.667,59.434,605C54.891,617.333,54.891,629.667,54.891,635.833L54.891,642"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge6" d="M224.782,340L234.952,346.167C245.122,352.333,265.461,364.667,275.63,380.333C285.8,396,285.8,415,285.8,434C285.8,453,285.8,472,285.8,491C285.8,510,285.8,529,285.8,548C285.8,567,285.8,586,279.674,601.667C273.548,617.333,261.297,629.667,255.171,635.833L249.045,642"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge7" d="M177.128,454L184.485,460.167C191.842,466.333,206.555,478.667,213.912,494.333C221.269,510,221.269,529,221.269,548C221.269,567,221.269,586,222.124,601.667C222.98,617.333,224.692,629.667,225.547,635.833L226.403,642"></path><path marker-end="url(#svgGraph98560251332532_stateDiagram-barbEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid transition" id="edge8" d="M111.627,568L116.171,574.167C120.715,580.333,129.803,592.667,144.417,605.191C159.031,617.715,179.172,630.43,189.242,636.788L199.313,643.145"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignObject height="0" width="0"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"></span></div></foreignObject></g></g><g transform="translate(191.80000114440918, 149)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>开始构建</p></span></div></foreignObject></g></g><g transform="translate(191.80000114440918, 263)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>环境就绪</p></span></div></foreignObject></g></g><g transform="translate(153.26875114440918, 377)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>构建成功</p></span></div></foreignObject></g></g><g transform="translate(96.890625, 491)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>分析完成</p></span></div></foreignObject></g></g><g transform="translate(54.890625, 605)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>服务就绪</p></span></div></foreignObject></g></g><g transform="translate(285.8000011444092, 491)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>构建错误</p></span></div></foreignObject></g></g><g transform="translate(221.26875114440918, 548)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>分析错误</p></span></div></foreignObject></g></g><g transform="translate(138.890625, 605)" class="edgeLabel"><g transform="translate(-32, -12)" class="label"><foreignObject height="24" width="64"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" class="labelBkg" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel"><p>服务错误</p></span></div></foreignObject></g></g></g><g class="nodes"><g transform="translate(191.80000114440918, 15)" id="state-root_start-0" class="node default"><circle height="14" width="14" r="7" class="state-start"></circle></g><g transform="translate(191.80000114440918, 92)" id="state-Idle-1" class="node  statediagram-state"><rect height="40" width="42.8125" y="-20" x="-21.40625" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-13.40625, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="26.8125"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Idle</p></span></div></foreignObject></g></g><g transform="translate(191.80000114440918, 206)" id="state-Preparing-2" class="node  statediagram-state"><rect height="40" width="83.9937515258789" y="-20" x="-41.99687576293945" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-33.99687576293945, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="67.9937515258789"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Preparing</p></span></div></foreignObject></g></g><g transform="translate(191.80000114440918, 320)" id="state-Building-6" class="node  statediagram-state"><rect height="40" width="73.33124923706055" y="-20" x="-36.66562461853027" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-28.665624618530273, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="57.33124923706055"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Building</p></span></div></foreignObject></g></g><g transform="translate(153.26875114440918, 434)" id="state-Analyzing-7" class="node  statediagram-state"><rect height="40" width="84.125" y="-20" x="-42.0625" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-34.0625, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="68.125"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Analyzing</p></span></div></foreignObject></g></g><g transform="translate(96.890625, 548)" id="state-Visualizing-8" class="node  statediagram-state"><rect height="40" width="91.51250457763672" y="-20" x="-45.75625228881836" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-37.75625228881836, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="75.51250457763672"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Visualizing</p></span></div></foreignObject></g></g><g transform="translate(54.890625, 662)" id="state-Completed-5" class="node  statediagram-state"><rect height="40" width="93.78125" y="-20" x="-46.890625" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-38.890625, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="77.78125"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Completed</p></span></div></foreignObject></g></g><g transform="translate(229.17812633514404, 662)" id="state-Failed-8" class="node  statediagram-state"><rect height="40" width="59.73125076293945" y="-20" x="-29.865625381469727" ry="5" rx="5" style="" class="basic label-container"></rect><g transform="translate(-21.865625381469727, -12)" style="" class="label"><rect></rect><foreignObject height="24" width="43.73125076293945"><div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel"><p>Failed</p></span></div></foreignObject></g></g></g></g></g></g></svg></p>
+<p><strong>实现要点</strong>：</p>
+<ul>
+<li>使用原子变量保证状态可见性</li>
+<li>时间戳记录状态变更时间</li>
+<li>细粒度进度报告（0-100%）</li>
+</ul>
+<h2 id="三、高级网络特性实现"><a href="#三、高级网络特性实现" class="headerlink" title="三、高级网络特性实现"></a>三、高级网络特性实现</h2><h3 id="3-1-连接管理"><a href="#3-1-连接管理" class="headerlink" title="3.1 连接管理"></a>3.1 连接管理</h3><pre><code>// 在 Server 配置中
+svr.set_keep_alive_max_count(100);  // 最大持久连接数
+svr.set_keep_alive_timeout(30);     // 超时时间(秒)
+</code></pre>
+<p><strong>性能考量</strong>：</p>
+<ul>
+<li>减少 TCP 握手开销</li>
+<li>适合频繁的小数据请求场景</li>
+<li>需要合理设置超时时间</li>
+</ul>
+<h3 id="3-2-流量控制"><a href="#3-2-流量控制" class="headerlink" title="3.2 流量控制"></a>3.2 流量控制</h3><pre><code>svr.set_payload_max_length(1024 * 1024); // 限制1MB请求体
+svr.set_read_timeout(10, 0); // 10秒读取超时
+</code></pre>
+<p><strong>安全防护</strong>：</p>
+<ol>
+<li>防止 DDoS 攻击</li>
+<li>避免内存耗尽</li>
+<li>保证服务响应性</li>
+</ol>
+<h2 id="四、完整示例：构建分析接口"><a href="#四、完整示例：构建分析接口" class="headerlink" title="四、完整示例：构建分析接口"></a>四、完整示例：构建分析接口</h2><h3 id="4-1-接口定义"><a href="#4-1-接口定义" class="headerlink" title="4.1 接口定义"></a>4.1 接口定义</h3><p><strong>端点</strong>：<code>POST /api/analyze</code></p>
+<h4 id="请求格式：-1"><a href="#请求格式：-1" class="headerlink" title="请求格式："></a>请求格式：</h4><pre><code>&#123;
+    &quot;build_id&quot;: &quot;project_1630000000&quot;,
+    &quot;analysis_type&quot;: &quot;dependencies&quot;
+&#125;
+</code></pre>
+<h4 id="响应格式：-2"><a href="#响应格式：-2" class="headerlink" title="响应格式："></a>响应格式：</h4><p>成功：</p>
+<pre><code>&#123;
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;graph&quot;: &#123;
+        &quot;nodes&quot;: [...],
+        &quot;edges&quot;: [...]
+    &#125;
+&#125;
+</code></pre>
+<h3 id="4-2-实现代码"><a href="#4-2-实现代码" class="headerlink" title="4.2 实现代码"></a>4.2 实现代码</h3><pre><code>svr.Post(&quot;/api/analyze&quot;, [](const auto&amp; req, auto&amp; res) &#123;
+    // 1. 解析请求
+    auto params = json::parse(req.body);
+    
+    // 2. 创建分析任务
+    auto task = std::make_shared&lt;AnalysisTask&gt;(
+        params[&quot;build_id&quot;],
+        params[&quot;analysis_type&quot;]
+    );
+    
+    // 3. 提交线程池
+    thread_pool.enqueue([task, &amp;res]&#123;
+        try &#123;
+            auto result = task-&gt;execute();
+            res.set_content(result.dump(), &quot;application/json&quot;);
+        &#125; catch (const AnalysisException&amp; e) &#123;
+            res.status = 400;
+            res.set_content(json&#123;&#123;"error": e.what()&#125;&#125;);
+        &#125;
+    &#125;);
+&#125;);
+</code></pre>
+<p><strong>架构优势</strong>：</p>
+<ul>
+<li>异步处理耗时操作</li>
+<li>资源隔离：每个任务独立运行</li>
+<li>错误隔离：单个任务失败不影响整体</li>
+</ul>
+<h2 id="五、性能优化技巧"><a href="#五、性能优化技巧" class="headerlink" title="五、性能优化技巧"></a>五、性能优化技巧</h2><h3 id="5-1-响应缓存"><a href="#5-1-响应缓存" class="headerlink" title="5.1 响应缓存"></a>5.1 响应缓存</h3><pre><code>std::unordered_map&lt;std::string, std::pair&lt;time_t, std::string&gt;&gt; response_cache;
+
+svr.Get(&quot;/api/cached&quot;, [&amp;](auto&amp;, auto&amp; res) &#123;
+    auto now = time(nullptr);
+    if (auto it = cache.find(&quot;key&quot;); it != cache.end()) &#123;
+        if (now - it-&gt;second.first &lt; CACHE_TTL) &#123;
+            res.set_content(it-&gt;second.second, &quot;application/json&quot;);
+            return;
+        &#125;
+    &#125;
+    
+    // ...生成新响应并缓存...
+&#125;);
+</code></pre>
+<h3 id="5-2-连接池优化"><a href="#5-2-连接池优化" class="headerlink" title="5.2 连接池优化"></a>5.2 连接池优化</h3><pre><code>class DBConnectionPool &#123;
+    std::mutex pool_mutex;
+    std::vector&lt;DBConnection*&gt; connections;
+    
+public:
+    DBConnection* get_connection() &#123;
+        std::lock_guard lock(pool_mutex);
+        if (!connections.empty()) &#123;
+            auto conn = connections.back();
+            connections.pop_back();
+            return conn;
+        &#125;
+        return new DBConnection();
+    &#125;
+    
+    void release_connection(DBConnection* conn) &#123;
+        std::lock_guard lock(pool_mutex);
+        connections.push_back(conn);
+    &#125;
+&#125;;
+</code></pre>
+<h2 id="六、部署与监控"><a href="#六、部署与监控" class="headerlink" title="六、部署与监控"></a>六、部署与监控</h2><h3 id="6-1-系统d服务配置"><a href="#6-1-系统d服务配置" class="headerlink" title="6.1 系统d服务配置"></a>6.1 系统d服务配置</h3><pre><code>[Unit]
+Description=Build Analysis Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/build_server
+WorkingDirectory=/opt/build
+Restart=always
+User=builduser
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<h3 id="6-2-健康检查端点"><a href="#6-2-健康检查端点" class="headerlink" title="6.2 健康检查端点"></a>6.2 健康检查端点</h3><pre><code>svr.Get(&quot;/health&quot;, [](auto&amp;, auto&amp; res) &#123;
+    json health = &#123;
+        &#123;&quot;status&quot;, &quot;healthy&quot;&#125;,
+        &#123;&quot;uptime&quot;, get_uptime()&#125;,
+        &#123;&quot;memory&quot;, get_memory_usage()&#125;,
+        &#123;&quot;active_connections&quot;, get_connection_count()&#125;
+    &#125;;
+    res.set_content(health.dump(), &quot;application/json&quot;);
+&#125;);
+</code></pre>
+<h2 id="七、安全最佳实践"><a href="#七、安全最佳实践" class="headerlink" title="七、安全最佳实践"></a>七、安全最佳实践</h2><ol>
+<li><p><strong>输入验证</strong>：</p>
+<pre><code>if (!is_valid_project_name(name)) &#123;
+    throw std::invalid_argument(&quot;Invalid project name&quot;);
+&#125;
+</code></pre>
+</li>
+<li><p><strong>命令执行安全</strong>：</p>
+<pre><code>std::string escaped = escape_shell_arg(user_input);
+std::string cmd = &quot;script.sh &quot; + escaped;
+</code></pre>
+</li>
+<li><p><strong>HTTPS 配置</strong>：</p>
+<pre><code>svr.set_mount_point(&quot;/&quot;, &quot;./static&quot;);
+svr.set_base_dir(&quot;./certs&quot;);
+svr.listen(&quot;0.0.0.0&quot;, 443, SSL_CERT_FILE, SSL_KEY_FILE);
+</code></pre>
+</li>
+</ol>
+<p>本教程通过理论结合实践的方式，展示了如何构建一个生产级的构建分析服务。关键点包括：</p>
+<ul>
+<li>严格的接口规范设计</li>
+<li>资源的安全管理</li>
+<li>性能优化策略</li>
+<li>完善的错误处理机制</li>
+<li>可观测性建设</li>
+</ul>
+<p>每个设计决策都基于以下原则：</p>
+<ol>
+<li><strong>可靠性</strong>：通过状态机和原子操作保证一致性</li>
+<li><strong>可扩展性</strong>：使用线程池处理并发请求</li>
+<li><strong>安全性</strong>：输入验证和访问控制</li>
+<li><strong>可维护性</strong>：清晰的接口文档和日志记录</li>
+</ol>
+
     </div>
     
     
