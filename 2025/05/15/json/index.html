@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>共享内存 | zhy-blogs</title>
+    <title>json | zhy-blogs</title>
     <meta name="author" content="zhyneko" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -156,22 +156,22 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>共享内存</h1>
+        <h1>json</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/5/13
+            2025/5/15
         </span>
         
         <span class="category">
-            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E7%90%86%E8%AE%BA/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                编程实战
+                编程理论
             </a>
         </span>
         
@@ -184,22 +184,8 @@
             
             <span class="tag">
                 
-                <a href="/zhy-blogs/tags/Linux/" style="color: #00bcd4">
-                    Linux
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/zhy-blogs/tags/%E7%BD%91%E7%BB%9C/" style="color: #ffa2c4">
-                    网络
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/zhy-blogs/tags/Socket/" style="color: #00bcd4">
-                    Socket
+                <a href="/zhy-blogs/tags/json/" style="color: #00bcd4">
+                    json
                 </a>
             </span>
             
@@ -208,47 +194,55 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="进程通信的原理"><a href="#进程通信的原理" class="headerlink" title="进程通信的原理"></a>进程通信的原理</h1><p>是不同的进程能看到同一片内存空间</p>
-<p>不同进程相应的描述用的结构体的虚拟地址首地址建立在内存共享区，通过页表挂接在相同物理内存。</p>
-<p>共享内存是进程间通信的一种方式，它允许不同的进程看到同一片内存空间。共享内存的生命周期是随内核的，用户不主动关闭，共享内存一直存在，直到系统重启。关闭共享内存使用shmid，指令为<code>ipcrm -m shmid</code>。</p>
-<p>同时释放共享内存是，去关联释放也就是硬链接为0，释放。</p>
-<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="shmget"><a href="#shmget" class="headerlink" title="shmget"></a>shmget</h2><pre><code class="language-c">#include &lt;sys/ipc.h&gt;
-#include &lt;sys/shm.h&gt;
-
-int shmget(key_t key, size_t size,int shmflg);
-</code></pre>
+        <hr>
+<p><strong>1. JSON简介</strong><br>• 定义：JSON是一种轻量级的数据交换格式，易于人阅读和编写，也易于机器解析和生成。</p>
+<p>• 特点：</p>
+<p>  • 基于JavaScript的子集（ECMA-262标准）。</p>
+<p>  • 完全独立于语言，但借鉴了C语言家族的习惯（如C、Java、Python等）。</p>
+<p>  • 采用文本格式，支持嵌套结构。</p>
+<hr>
+<p><strong>2. JSON的两种核心结构</strong></p>
 <ol>
-<li><p>怎么保证不同的进程看到同一个共享内存？<br>通过操作系统中唯一的key</p>
+<li><p>对象（Object）<br>• 无序的“名称&#x2F;值”对集合，用花括号 <code>&#123;&#125;</code> 包裹。  </p>
+<p>• 语法：<code>&#123;&quot;key1&quot;: value1, &quot;key2&quot;: value2&#125;</code>  </p>
+<p>• 键名必须是字符串（双引号包裹），值可以是任意JSON类型。</p>
 </li>
-<li><p>怎么知道共享内存是存在还是不存在？<br>通过shmflg,<br>IPC_CREAT(单独使用)：如果申请的共享内存不存在，就创建，存在就获取并返回<br>IPC_EXCL(不单独使用)<br>IPC_CREAT | IPC_EXCL：如果申请的共享内存不存在，就创建，存在就报错。第一次创建时候使用</p>
-</li>
-<li><p>接口的返回值返回的是shmid，共享内存标识符</p>
+<li><p>数组（Array）<br>• 值的有序列表，用方括号 <code>[]</code> 包裹。  </p>
+<p>• 语法：<code>[value1, value2, ...]</code>  </p>
+<p>• 值之间用逗号分隔。</p>
 </li>
 </ol>
-<h2 id="key-vs-shmid"><a href="#key-vs-shmid" class="headerlink" title="key vs shmid"></a>key vs shmid</h2><p>key是用户程序和内核通信的凭证，shmid是内核为共享内存分配的id<br>key是操作系统内标定的唯一性，也就是创建时使用，从此不再用到key<br>shmid只在进程内用来表示资源的唯一性</p>
-<h3 id="key的特点"><a href="#key的特点" class="headerlink" title="key的特点"></a>key的特点</h3><ol>
-<li>key只需要知道在内核中具有唯一性，能让不同进程进行唯一性标识</li>
-<li>第一个进程使用key创建共享内存，之后的进程使用key获取共享内存</li>
-<li>key在存在于共享内存的描述对象中</li>
-<li>key的创建<pre><code class="language-c">#include&lt;sys/types.h&gt;
-#include&lt;sys/ipc.h&gt;
-
-key_t ftok(const char *pathname, int proj_id);
+<hr>
+<p><strong>3. JSON支持的数据类型</strong><br>• 字符串（String）：双引号包裹的Unicode字符，支持转义字符（如<code>\&quot;</code>、<code>\n</code>）。</p>
+<p>• 数值（Number）：整数或浮点数，不支持八进制&#x2F;十六进制。</p>
+<p>• 布尔值（Boolean）：<code>true</code> 或 <code>false</code>。</p>
+<p>• 空值（Null）：<code>null</code>。</p>
+<p>• 对象（Object）和数组（Array）：可嵌套使用。</p>
+<hr>
+<p><strong>4. 语法规则</strong><br>• 对象语法：  </p>
+<pre><code class="language-json">&#123;
+  &quot;key&quot;: &quot;value&quot;,
+  &quot;nested&quot;: &#123; &quot;child&quot;: 123 &#125;
+&#125;
 </code></pre>
-<ol>
-<li>pathname：文件路径，可以是任意存在的文件</li>
-<li>proj_id：项目id，可以是任意值，只要和pathname组合起来是唯一的即可</li>
-<li>返回值：key</li>
-</ol>
-</li>
-</ol>
-<h3 id="补充指令"><a href="#补充指令" class="headerlink" title="补充指令"></a>补充指令</h3><pre><code>ipcs -m 查看共享内存
+<p>• 数组语法：  </p>
+<pre><code class="language-json">[1, &quot;text&quot;, true, null]
 </code></pre>
-<h2 id="共享内存的特点"><a href="#共享内存的特点" class="headerlink" title="共享内存的特点"></a>共享内存的特点</h2><ol>
-<li>共享内存的生命周期是随内核的<br>用户不主动关闭，共享内存一直存在，直到系统重启<br>关闭共享内存使用shmid<pre><code>ipcrm -m shmid
-</code></pre>
-</li>
-</ol>
+<p>• 空白字符：空格、制表符、换行符可自由添加以提高可读性。</p>
+<hr>
+<p><strong>5. 语法图示</strong><br>• 文件通过图片展示了JSON的语法规则：</p>
+<p>  • 对象：<code>&#123;</code> → 键值对 → <code>&#125;</code>。</p>
+<p>  • 数组：<code>[</code> → 值列表 → <code>]</code>。</p>
+<p>  • 字符串&#x2F;数值&#x2F;布尔值的详细格式。</p>
+<hr>
+<p><strong>6. 相关资源</strong><br>• 官方标准：<a target="_blank" rel="noopener" href="https://www.ecma-international.org/publications-and-standards/standards/ecma-404/">ECMA-404 JSON标准</a>。</p>
+<p>• 多语言支持：列出了几乎所有编程语言的JSON库（如Python的<code>json</code>模块、Java的<code>Jackson</code>、C++的<code>RapidJSON</code>等）。</p>
+<p>• 视频教程：提供了关于JSON和JSON标志的YouTube播放列表链接。</p>
+<hr>
+<p><strong>7. 其他信息</strong><br>• 设计哲学：强调简洁性和跨语言兼容性。</p>
+<p>• 与XML对比：JSON更轻量，更适合数据交换场景。</p>
+<hr>
+<p><strong>总结</strong><br>JSON的核心是键值对和有序列表的组合，通过简单明确的语法实现跨平台数据交换。其广泛支持的语言库使其成为现代Web开发中最常用的数据格式之一。</p>
 
     </div>
     
