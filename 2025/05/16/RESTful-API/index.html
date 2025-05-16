@@ -1,0 +1,535 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>RESTful-API | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/zhy-blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/zhy-blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/zhy-blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/zhy-blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/zhy-blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/zhy-blogs/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/zhy-blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/zhy-blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/zhy-blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/zhy-blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/zhy-blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/zhy-blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>RESTful-API</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/16
+        </span>
+        
+        <span class="category">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E7%90%86%E8%AE%BA/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程理论
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="color: #ff7d73">
+                    服务器
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/restful/" style="color: #03a9f4">
+                    restful
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="RESTful-API"><a href="#RESTful-API" class="headerlink" title="RESTful API"></a>RESTful API</h1><h2 id="1-什么是RESTful-API"><a href="#1-什么是RESTful-API" class="headerlink" title="1. 什么是RESTful API"></a>1. 什么是RESTful API</h2><p>REST(Representational State Transfer)是一种软件架构风格，旨在指导网络应用的架构设计和开发。RESTful API是基于REST原则设计的Web API，它使用HTTP协议的标准方法对资源进行操作。</p>
+<h2 id="2-REST的六个约束条件"><a href="#2-REST的六个约束条件" class="headerlink" title="2. REST的六个约束条件"></a>2. REST的六个约束条件</h2><ol>
+<li><strong>客户端-服务器架构</strong>：关注点分离，客户端负责用户界面，服务器负责数据存储</li>
+<li><strong>无状态</strong>：每个请求必须包含处理所需的所有信息</li>
+<li><strong>可缓存</strong>：响应必须明确表明是否可缓存</li>
+<li><strong>统一接口</strong>：简化系统架构，提高可见性</li>
+<li><strong>分层系统</strong>：客户端不需要知道是否直接连接到最终服务器</li>
+<li><strong>按需代码(可选)</strong>：服务器可以临时扩展或自定义客户端功能</li>
+</ol>
+<h2 id="3-RESTful-API设计原则"><a href="#3-RESTful-API设计原则" class="headerlink" title="3. RESTful API设计原则"></a>3. RESTful API设计原则</h2><h3 id="3-1-URL设计"><a href="#3-1-URL设计" class="headerlink" title="3.1 URL设计"></a>3.1 URL设计</h3><ul>
+<li><p><strong>使用名词而非动词</strong>：</p>
+<ul>
+<li>正确：<code>/users</code> (获取用户列表)</li>
+<li>错误：<code>/getUsers</code></li>
+</ul>
+</li>
+<li><p><strong>资源使用复数形式</strong>：</p>
+<ul>
+<li>正确：<code>/users/123</code></li>
+<li>错误：<code>/user/123</code></li>
+</ul>
+</li>
+<li><p><strong>URL层级表示关系</strong>：</p>
+<pre><code>/users/&#123;userId&#125;/orders  # 获取某用户的所有订单
+/users/&#123;userId&#125;/orders/&#123;orderId&#125;  # 获取某用户的特定订单
+</code></pre>
+</li>
+<li><p><strong>版本控制</strong>（可选）：</p>
+<pre><code>/v1/users  # 版本1的用户API
+/v2/users  # 版本2的用户API
+</code></pre>
+<p>或者通过HTTP头控制：</p>
+<pre><code>Accept: application/vnd.myapi.v1+json
+</code></pre>
+</li>
+</ul>
+<h3 id="3-2-HTTP方法使用"><a href="#3-2-HTTP方法使用" class="headerlink" title="3.2 HTTP方法使用"></a>3.2 HTTP方法使用</h3><table>
+<thead>
+<tr>
+<th>HTTP方法</th>
+<th>操作</th>
+<th>幂等性</th>
+<th>安全性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>获取资源</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>创建资源</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>更新整个资源</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>部分更新资源</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>删除资源</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>获取资源元数据</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>获取可用操作</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<h3 id="3-3-状态码使用"><a href="#3-3-状态码使用" class="headerlink" title="3.3 状态码使用"></a>3.3 状态码使用</h3><table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>含义</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>OK</td>
+<td>成功请求</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>资源创建成功</td>
+</tr>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>成功但无返回内容</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>请求参数错误</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>未认证</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>无权限</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>资源不存在</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed</td>
+<td>不支持的HTTP方法</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests</td>
+<td>请求过于频繁</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>服务器内部错误</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>服务不可用</td>
+</tr>
+</tbody></table>
+<h2 id="4-请求和响应示例"><a href="#4-请求和响应示例" class="headerlink" title="4. 请求和响应示例"></a>4. 请求和响应示例</h2><h3 id="4-1-获取用户列表"><a href="#4-1-获取用户列表" class="headerlink" title="4.1 获取用户列表"></a>4.1 获取用户列表</h3><p><strong>请求</strong>:</p>
+<pre><code>GET /v1/users HTTP/1.1
+Host: api.example.com
+Accept: application/json
+</code></pre>
+<p><strong>响应</strong>:</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+&#123;
+  &quot;data&quot;: [
+    &#123;
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;张三&quot;,
+      &quot;email&quot;: &quot;zhangsan@example.com&quot;,
+      &quot;links&quot;: &#123;
+        &quot;self&quot;: &quot;/v1/users/1&quot;
+      &#125;
+    &#125;,
+    &#123;
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;李四&quot;,
+      &quot;email&quot;: &quot;lisi@example.com&quot;,
+      &quot;links&quot;: &#123;
+        &quot;self&quot;: &quot;/v1/users/2&quot;
+      &#125;
+    &#125;
+  ],
+  &quot;pagination&quot;: &#123;
+    &quot;total&quot;: 2,
+    &quot;page&quot;: 1,
+    &quot;per_page&quot;: 20
+  &#125;,
+  &quot;links&quot;: &#123;
+    &quot;self&quot;: &quot;/v1/users?page=1&quot;,
+    &quot;next&quot;: &quot;/v1/users?page=2&quot;
+  &#125;
+&#125;
+</code></pre>
+<h3 id="4-2-创建用户"><a href="#4-2-创建用户" class="headerlink" title="4.2 创建用户"></a>4.2 创建用户</h3><p><strong>请求</strong>:</p>
+<pre><code>POST /v1/users HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+&#123;
+  &quot;name&quot;: &quot;王五&quot;,
+  &quot;email&quot;: &quot;wangwu@example.com&quot;,
+  &quot;password&quot;: &quot;securepassword&quot;
+&#125;
+</code></pre>
+<p><strong>响应</strong>:</p>
+<pre><code>HTTP/1.1 201 Created
+Content-Type: application/json
+Location: /v1/users/3
+
+&#123;
+  &quot;data&quot;: &#123;
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;王五&quot;,
+    &quot;email&quot;: &quot;wangwu@example.com&quot;,
+    &quot;links&quot;: &#123;
+      &quot;self&quot;: &quot;/v1/users/3&quot;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h3 id="4-3-更新用户"><a href="#4-3-更新用户" class="headerlink" title="4.3 更新用户"></a>4.3 更新用户</h3><p><strong>请求</strong>:</p>
+<pre><code>PATCH /v1/users/3 HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+&#123;
+  &quot;name&quot;: &quot;王五(更新)&quot;
+&#125;
+</code></pre>
+<p><strong>响应</strong>:</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+&#123;
+  &quot;data&quot;: &#123;
+    &quot;id&quot;: 3,
+    &quot;name&quot;: &quot;王五(更新)&quot;,
+    &quot;email&quot;: &quot;wangwu@example.com&quot;,
+    &quot;links&quot;: &#123;
+      &quot;self&quot;: &quot;/v1/users/3&quot;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="5-最佳实践"><a href="#5-最佳实践" class="headerlink" title="5. 最佳实践"></a>5. 最佳实践</h2><ol>
+<li><p><strong>使用HTTPS</strong>：所有API请求都应通过HTTPS进行</p>
+</li>
+<li><p><strong>认证</strong>：使用OAuth2.0或JWT进行认证</p>
+</li>
+<li><p><strong>分页</strong>：对于可能返回大量数据的端点实现分页</p>
+</li>
+<li><p>过滤、排序和字段选择：</p>
+<pre><code>GET /v1/users?fields=name,email&amp;sort=-created_at&amp;status=active
+</code></pre>
+</li>
+<li><p><strong>速率限制</strong>：防止滥用API</p>
+</li>
+<li><p><strong>HATEOAS</strong>：在响应中包含相关资源的链接</p>
+</li>
+<li><p><strong>文档</strong>：提供清晰、完整的API文档</p>
+</li>
+<li><p>错误处理：提供详细的错误信息</p>
+<pre><code>&#123;
+  &quot;error&quot;: &#123;
+    &quot;code&quot;: &quot;invalid_email&quot;,
+    &quot;message&quot;: &quot;The provided email is invalid&quot;,
+    &quot;target&quot;: &quot;email&quot;,
+    &quot;details&quot;: [
+      &#123;
+        &quot;code&quot;: &quot;format_error&quot;,
+        &quot;message&quot;: &quot;Email must be a valid email address&quot;
+      &#125;
+    ]
+  &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h2 id="6-Richardson成熟度模型"><a href="#6-Richardson成熟度模型" class="headerlink" title="6. Richardson成熟度模型"></a>6. Richardson成熟度模型</h2><p>RESTful API可以分为四个成熟度级别：</p>
+<ol>
+<li><strong>Level 0 - The Swamp of POX</strong>：使用HTTP作为传输协议，但所有请求都是POST</li>
+<li><strong>Level 1 - Resources</strong>：引入资源概念，不同URL对应不同资源</li>
+<li><strong>Level 2 - HTTP Verbs</strong>：正确使用HTTP方法(GET, POST, PUT, DELETE等)</li>
+<li><strong>Level 3 - Hypermedia Controls</strong>：响应中包含链接，指导客户端下一步操作</li>
+</ol>
+<p>现代RESTful API通常至少达到Level 2，优秀的API会努力实现Level 3。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/zhy-blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
