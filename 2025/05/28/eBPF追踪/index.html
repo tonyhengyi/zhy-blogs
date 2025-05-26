@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>使用 eBPF 实时追踪软件构建过程 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/zhy-blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/zhy-blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/zhy-blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/zhy-blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/zhy-blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/zhy-blogs/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/zhy-blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/zhy-blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/zhy-blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/zhy-blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/zhy-blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/zhy-blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>使用 eBPF 实时追踪软件构建过程</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/5/28
+        </span>
+        
+        <span class="category">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程实战
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/eBPF/" style="color: #03a9f4">
+                    eBPF
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E8%BF%BD%E8%B8%AA/" style="color: #ffa2c4">
+                    系统调用追踪
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%9E%84%E5%BB%BA%E5%88%86%E6%9E%90/" style="color: #00bcd4">
+                    构建分析
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7/" style="color: #ffa2c4">
+                    性能监控
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h3 id="一、引言：为什么要追踪软件构建过程？"><a href="#一、引言：为什么要追踪软件构建过程？" class="headerlink" title="一、引言：为什么要追踪软件构建过程？"></a><strong>一、引言：为什么要追踪软件构建过程？</strong></h3><p>软件构建（如使用 <code>make</code>, <code>cmake</code>, <code>gcc</code>, <code>cargo</code> 等）通常涉及一系列复杂的步骤：</p>
+<ul>
+<li><strong>进程创建</strong>：调用编译器、链接器、代码生成器等。</li>
+<li><strong>文件访问</strong>：读取源代码、头文件、库文件；写入目标文件、日志、中间产物。</li>
+</ul>
+<p>理解这些底层的操作对于：</p>
+<ul>
+<li><strong>依赖分析</strong>：找出哪些文件真正影响了构建结果。</li>
+<li><strong>性能瓶颈定位</strong>：发现构建过程中耗时较长的步骤或不必要的文件操作。</li>
+<li><strong>构建系统调试</strong>：深入了解构建工具的实际行为。</li>
+</ul>
+<p>传统工具如 <code>strace</code> 虽然可以追踪系统调用，但其通过 <code>ptrace</code> 实现，性能开销巨大，不适合实时监控复杂的构建过程。<strong>eBPF</strong> 提供了一种在内核态进行高效、低开销监控的强大机制。</p>
+<h3 id="二、eBPF-追踪构建过程的基本原理"><a href="#二、eBPF-追踪构建过程的基本原理" class="headerlink" title="二、eBPF 追踪构建过程的基本原理"></a><strong>二、eBPF 追踪构建过程的基本原理</strong></h3><h4 id="1-什么是-eBPF？"><a href="#1-什么是-eBPF？" class="headerlink" title="1. 什么是 eBPF？"></a>1. <strong>什么是 eBPF？</strong></h4><ul>
+<li><strong>eBPF</strong>（Extended Berkeley Packet Filter）是 Linux 内核中的一种虚拟机，允许用户在不修改内核代码、不重新编译内核的情况下，将自定义的小程序（eBPF 程序）动态加载到内核中运行。</li>
+<li>这些 eBPF 程序可以挂钩到内核的特定事件点（如系统调用、函数入口&#x2F;出口、网络事件等），安全地收集信息或进行有限的操作。</li>
+</ul>
+<h4 id="2-为什么用-eBPF-追踪构建？"><a href="#2-为什么用-eBPF-追踪构建？" class="headerlink" title="2. 为什么用 eBPF 追踪构建？"></a>2. <strong>为什么用 eBPF 追踪构建？</strong></h4><ul>
+<li><strong>低开销</strong>：eBPF 程序在内核中运行，事件过滤和初步处理也在内核完成，避免了大量数据在内核态和用户态之间的频繁拷贝，性能远超 <code>strace</code>。</li>
+<li><strong>安全性</strong>：eBPF 程序在加载到内核前会经过严格的验证器检查，确保其不会导致内核崩溃或产生安全问题。</li>
+<li><strong>灵活性</strong>：可以精确地选择要追踪的事件和收集的数据。</li>
+</ul>
+<h4 id="3-本工具追踪的关键事件-通过-Tracepoints"><a href="#3-本工具追踪的关键事件-通过-Tracepoints" class="headerlink" title="3. 本工具追踪的关键事件 (通过 Tracepoints)"></a>3. <strong>本工具追踪的关键事件 (通过 Tracepoints)</strong></h4><p><strong>Tracepoints</strong> 是内核源码中预设的静态探测点，提供稳定的 ABI，是进行事件追踪的推荐方式。本工具主要关注以下 tracepoints：</p>
+<ul>
+<li><code>syscalls:sys_enter_execve</code>: 当任何进程即将执行一个新的程序时触发。用于捕获构建命令（如 <code>gcc</code>, <code>cmake</code>）及其调用的其他工具的执行。</li>
+<li><code>syscalls:sys_enter_openat</code>: 当任何进程即将打开一个文件时触发 (现代Linux上 <code>open</code> 通常是 <code>openat</code> 的封装)。用于捕获源文件、依赖库的读取，以及目标文件、日志的写入。</li>
+<li><code>sched:sched_process_fork</code>: 当一个新进程被创建时（通过 <code>fork</code> 或 <code>clone</code>）触发。用于将追踪范围从父构建进程扩展到其所有子进程。</li>
+<li><code>sched:sched_process_exit</code>: 当一个进程退出时触发。用于清理追踪状态。</li>
+</ul>
+<h3 id="三、详细追踪流程与代码解析"><a href="#三、详细追踪流程与代码解析" class="headerlink" title="三、详细追踪流程与代码解析"></a><strong>三、详细追踪流程与代码解析</strong></h3><h4 id="1-eBPF-C-程序核心逻辑-bpf-text"><a href="#1-eBPF-C-程序核心逻辑-bpf-text" class="headerlink" title="1. eBPF C 程序核心逻辑 (bpf_text)"></a>1. <strong>eBPF C 程序核心逻辑 (<code>bpf_text</code>)</strong></h4><p>我们的 eBPF 程序是用 C 语言编写的，它将在内核中运行。</p>
+<h5 id="a-数据结构与BPF-Map"><a href="#a-数据结构与BPF-Map" class="headerlink" title="a. 数据结构与BPF Map"></a>a. 数据结构与BPF Map</h5><pre><code class="language-c">// Data structure for events sent to userspace
+struct event_t &#123;
+    u64 ts_ns;          // Nanosecond timestamp (monotonic from boot)
+    u32 pid;            // Process ID
+    u32 ppid;           // Parent Process ID
+    char comm[TASK_COMM_LEN]; // Command name
+    char event_type;    // &#39;E&#39; for exec, &#39;O&#39; for open
+    char filename[MAX_FILENAME_LEN]; // Filename for exec/open
+    int flags_or_ret;   // Flags for open, placeholder for exec
+&#125;;
+BPF_PERF_OUTPUT(events); // Perf buffer to send events to userspace
+
+// BPF map to store PIDs of processes we want to trace
+BPF_HASH(pids_to_trace, u32, u8); // Key: PID, Value: 1 (means trace)
+</code></pre>
+<ul>
+<li><code>struct event_t</code>: 定义了从内核发送到用户空间的数据包格式。</li>
+<li><code>BPF_PERF_OUTPUT(events)</code>: 声明一个性能事件缓冲区，用于高效地将 <code>event_t</code> 数据发送给用户态的 Python 程序。</li>
+<li><code>BPF_HASH(pids_to_trace, u32, u8)</code>: 声明一个哈希表（BPF map），用于在内核中存储需要追踪的进程ID。这是实现选择性追踪的关键。</li>
+</ul>
+<h5 id="b-追踪-execve-系统调用"><a href="#b-追踪-execve-系统调用" class="headerlink" title="b. 追踪 execve 系统调用"></a>b. 追踪 <code>execve</code> 系统调用</h5><pre><code class="language-c">TRACEPOINT_PROBE(syscalls, sys_enter_execve) &#123;
+    struct event_t event = &#123;&#125;;
+    struct task_struct *task = (struct task_struct *)bpf_get_current_task();
+
+    event.ts_ns = bpf_ktime_get_ns(); // Get monotonic timestamp
+    event.pid = bpf_get_current_pid_tgid() &gt;&gt; 32; // Get current PID
+
+    // Get Parent PID (PPID) using bpf_probe_read_kernel (CO-RE is preferred if available)
+    event.ppid = 0;
+    if (task) &#123;
+        struct task_struct *real_parent_ptr;
+        if (bpf_probe_read_kernel(&amp;real_parent_ptr, sizeof(real_parent_ptr), &amp;task-&gt;real_parent) == 0 &amp;&amp; real_parent_ptr) &#123;
+            bpf_probe_read_kernel(&amp;event.ppid, sizeof(event.ppid), &amp;real_parent_ptr-&gt;tgid);
+        &#125;
+    &#125;
+
+    bpf_get_current_comm(&amp;event.comm, sizeof(event.comm)); // Get current command name
+    bpf_probe_read_user_str(&amp;event.filename, sizeof(event.filename), (void *)args-&gt;filename); // Get filename being exec&#39;d
+    
+    event.event_type = &#39;E&#39;;
+    events.perf_submit(args, &amp;event, sizeof(event)); // Send event to userspace
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li>当任何进程调用 <code>execve</code> 时，此探针被触发。</li>
+<li>它收集进程ID、父进程ID、当前命令名、执行的文件名和时间戳。</li>
+<li><strong>所有 <code>execve</code> 事件都会被发送到用户空间</strong>。用户空间逻辑将决定这个 <code>execve</code> 是否是触发器（如 <code>make</code>, <code>gcc</code>），如果是，则将此PID添加到内核的 <code>pids_to_trace</code> map 中。</li>
+</ul>
+<h5 id="c-追踪-openat-系统调用"><a href="#c-追踪-openat-系统调用" class="headerlink" title="c. 追踪 openat 系统调用"></a>c. 追踪 <code>openat</code> 系统调用</h5><pre><code class="language-c">TRACEPOINT_PROBE(syscalls, sys_enter_openat) &#123;
+    u32 pid = bpf_get_current_pid_tgid() &gt;&gt; 32;
+    // !!! Crucial Filter: Only trace if PID is in our map !!!
+    u8 *should_trace = pids_to_trace.lookup(&amp;pid);
+    if (should_trace == NULL) &#123;
+        return 0; // Not a traced process, ignore this openat
+    &#125;
+
+    struct event_t event = &#123;&#125;;
+    // ... (collect pid, comm, filename, flags, timestamp) ...
+    bpf_probe_read_user_str(&amp;event.filename, sizeof(event.filename), (void *)args-&gt;filename);
+    event.flags_or_ret = args-&gt;flags;
+    event.event_type = &#39;O&#39;;
+    events.perf_submit(args, &amp;event, sizeof(event));
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li>当任何进程调用 <code>openat</code> 时触发。</li>
+<li><strong>关键过滤</strong>：首先检查当前进程的PID是否存在于 <code>pids_to_trace</code> map中。如果不存在，则说明这个 <code>openat</code> 调用与我们关心的构建过程无关，直接返回，不进行任何处理。</li>
+<li>如果需要追踪，则收集相关信息并发送到用户空间。</li>
+</ul>
+<h5 id="d-追踪进程创建与退出-维护-pids-to-trace-map"><a href="#d-追踪进程创建与退出-维护-pids-to-trace-map" class="headerlink" title="d. 追踪进程创建与退出 (维护 pids_to_trace map)"></a>d. 追踪进程创建与退出 (维护 <code>pids_to_trace</code> map)</h5><pre><code class="language-c">TRACEPOINT_PROBE(sched, sched_process_fork) &#123;
+    u32 parent_pid = args-&gt;parent_pid;
+    u32 child_pid = args-&gt;child_pid;
+    u8 *is_parent_traced = pids_to_trace.lookup(&amp;parent_pid);
+
+    if (is_parent_traced) &#123; // If parent is traced...
+        u8 one = 1;
+        pids_to_trace.update(&amp;child_pid, &amp;one); // ...trace the child too.
+    &#125;
+    return 0;
+&#125;
+
+TRACEPOINT_PROBE(sched, sched_process_exit) &#123;
+    u32 pid = bpf_get_current_pid_tgid() &gt;&gt; 32;
+    pids_to_trace.delete(&amp;pid); // Clean up map when process exits
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li><code>sched_process_fork</code>: 当一个被追踪的进程创建子进程时，将子进程的PID也加入到 <code>pids_to_trace</code> map中，确保追踪链的延续。</li>
+<li><code>sched_process_exit</code>: 当进程退出时，将其从 <code>pids_to_trace</code> map中移除，保持map的清洁。</li>
+</ul>
+<h4 id="2-Python-用户空间控制程序"><a href="#2-Python-用户空间控制程序" class="headerlink" title="2. Python 用户空间控制程序"></a>2. <strong>Python 用户空间控制程序</strong></h4><p>Python 脚本（使用 BCC 框架）负责：</p>
+<ul>
+<li>加载和管理 eBPF C 程序。</li>
+<li>处理用户输入（如日志文件名、触发命令列表）。</li>
+<li>从内核的 perf buffer 中读取事件。</li>
+<li>实现时间戳校准。</li>
+<li>根据 <code>execve</code> 事件的程序名，判断是否为触发命令，并更新内核的 <code>pids_to_trace</code> BPF map。</li>
+<li>格式化事件数据并写入日志文件。</li>
+</ul>
+<h5 id="a-初始化与BPF加载"><a href="#a-初始化与BPF加载" class="headerlink" title="a. 初始化与BPF加载"></a>a. 初始化与BPF加载</h5><pre><code class="language-python">from bcc import BPF
+# ... (argparse for --output, --triggers) ...
+
+# eBPF C code as a string
+bpf_text = &quot;&quot;&quot;... (as shown above) ...&quot;&quot;&quot;
+
+# Load BPF program
+b = BPF(text=bpf_text)
+pids_to_trace_map = b.get_table(&quot;pids_to_trace&quot;) # Get a reference to the BPF map
+</code></pre>
+<h5 id="b-时间戳校准-重要"><a href="#b-时间戳校准-重要" class="headerlink" title="b. 时间戳校准 (重要)"></a>b. 时间戳校准 (重要)</h5><p>内核 <code>bpf_ktime_get_ns()</code> 返回的是自系统启动以来的 monotonic 时间戳。我们需要将其转换为标准的 wall clock 时间（自 Epoch）。</p>
+<pre><code class="language-python">import time
+from datetime import datetime, timezone
+
+INITIAL_BOOT_TIME_NS = 0
+try:
+    # Preferred: Read boot time (seconds since epoch) from /proc/stat
+    with open(&quot;/proc/stat&quot;, &quot;r&quot;) as f:
+        for line in f:
+            if line.startswith(&quot;btime &quot;):
+                INITIAL_BOOT_TIME_NS = int(line.split()[1]) * 1_000_000_000 # s to ns
+                break
+    if INITIAL_BOOT_TIME_NS == 0: raise FileNotFoundError(&quot;btime not found&quot;)
+except Exception as e:
+    # Fallback: Estimate using current wall time and monotonic time
+    WALL_TIME_AT_SCRIPT_START_NS = int(datetime.now(timezone.utc).timestamp() * 1_000_000_000)
+    MONOTONIC_TIME_AT_SCRIPT_START_NS = time.monotonic_ns()
+    INITIAL_BOOT_TIME_NS = WALL_TIME_AT_SCRIPT_START_NS - MONOTONIC_TIME_AT_SCRIPT_START_NS
+</code></pre>
+<p>这个 <code>INITIAL_BOOT_TIME_NS</code> 将用于校准每个事件的时间戳。</p>
+<h5 id="c-事件处理回调"><a href="#c-事件处理回调" class="headerlink" title="c. 事件处理回调"></a>c. 事件处理回调</h5><pre><code class="language-python">def print_event(cpu, data, size):
+    event = b[&quot;events&quot;].event(data) # Cast raw data to event_t
+
+    # Apply timestamp correction
+    corrected_event_ts_ns = INITIAL_BOOT_TIME_NS + event.ts_ns
+    timestamp_str = datetime.fromtimestamp(corrected_event_ts_ns / 1e9, timezone.utc).isoformat()
+
+    if event.event_type == b&#39;E&#39;: # Exec event
+        filename_decoded = event.filename.decode(&#39;utf-8&#39;, &#39;replace&#39;)
+        executable_name = os.path.basename(filename_decoded)
+
+        # If it&#39;s a trigger command, add its PID to the kernel map
+        if executable_name in trigger_commands and event.pid not in userspace_activated_pids:
+            key = ct.c_uint(event.pid)
+            leaf = ct.c_ubyte(1)
+            pids_to_trace_map[key] = leaf # Update BPF map
+            userspace_activated_pids.add(event.pid)
+            # Log trigger message
+            log_file.write(f&quot;# &#123;timestamp_str&#125; INFO: Triggered by &#39;&#123;executable_name&#125;&#39; ...\n&quot;)
+        
+        # Log the exec event if its PID (or its ancestor) was a trigger
+        key_check = ct.c_uint(event.pid)
+        if key_check in pids_to_trace_map:
+            # ... (format and write EXEC log line) ...
+            log_file.write(f&quot;&#123;timestamp_str&#125; &#123;event.pid&#125; ... EXEC &#123;filename_decoded&#125;\n&quot;)
+
+    elif event.event_type == b&#39;O&#39;: # Open event (already filtered by BPF for traced PIDs)
+        # ... (format and write OPEN log line) ...
+        filename_decoded = event.filename.decode(&#39;utf-8&#39;, &#39;replace&#39;)
+        # Further userspace filtering for common non-source files can be added here
+        if not filename_decoded.startswith((&quot;/dev/&quot;, &quot;/proc/&quot;, &quot;/sys/&quot;)):
+             log_file.write(f&quot;&#123;timestamp_str&#125; &#123;event.pid&#125; ... OPEN &#123;filename_decoded&#125; (flags: &#123;event.flags_or_ret:#x&#125;)\n&quot;)
+
+# Open perf buffer and attach callback
+b[&quot;events&quot;].open_perf_buffer(print_event, page_cnt=128)
+
+# Poll for events
+while True:
+    try:
+        b.perf_buffer_poll(timeout=100)
+    except KeyboardInterrupt:
+        break
+</code></pre>
+<ul>
+<li><code>print_event</code> 函数是核心。当eBPF程序通过perf buffer发送事件时，此函数被调用。</li>
+<li>它首先校正时间戳。</li>
+<li>对于 <code>EXEC</code> 事件 (<code>event_type == b&#39;E&#39;</code>)：<ul>
+<li>检查执行的程序名是否在用户提供的 <code>trigger_commands</code> 列表中。</li>
+<li>如果是，则通过 <code>pids_to_trace_map[key] = leaf</code> 将该进程的PID更新到内核的BPF map中，以便内核开始追踪该进程的 <code>openat</code> 调用及其子进程。</li>
+<li>记录 <code>EXEC</code> 事件。</li>
+</ul>
+</li>
+<li>对于 <code>OPEN</code> 事件 (<code>event_type == b&#39;O&#39;</code>)：<ul>
+<li>这些事件已经被内核中的eBPF程序根据 <code>pids_to_trace</code> map过滤过了，所以我们直接记录它们。</li>
+<li>可以添加额外的用户空间过滤（例如，忽略对 <code>/dev</code>, <code>/proc</code> 等虚拟文件系统的访问）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-数据流图示"><a href="#3-数据流图示" class="headerlink" title="3. 数据流图示"></a>3. <strong>数据流图示</strong></h4><pre><code>+---------------------------+     +----------------------------+     +---------------------------------+
+| 1. User runs `make` (PID X) | --&gt; | 2. sys_enter_execve hook   | --&gt; | 3. Python: &#39;make&#39; is trigger.   |
+| (Initial Trigger Command) |     |    eBPF sends exec event.  |     |    Update BPF_HASH(pids_to_trace)|
++---------------------------+     +----------------------------+     |    with X. Log EXEC event.      |
+                                                                     +---------------------------------+
+                                                                                       | (PID X now in map)
+                                                                                       v
++---------------------------+     +----------------------------+     +---------------------------------+
+| 4. `make` (PID X) calls   | --&gt; | 5. sys_enter_openat hook.  | --&gt; | 6. Python: Log OPEN event for   |
+|    `open(&quot;Makefile&quot;)`     |     |    eBPF: X in map? Yes.    |     |    Makefile.                    |
++---------------------------+     |    Send open event.        |     +---------------------------------+
+                                  +----------------------------+
+
++---------------------------+     +----------------------------+     +---------------------------------+
+| 7. `make` (PID X) forks   | --&gt; | 8. sched_process_fork hook.| --&gt; | 9. eBPF: X in map? Yes.         |
+|    child `gcc` (PID Y)    |     |    Parent=X, Child=Y.      |     |    Add Y to BPF_HASH.           |
++---------------------------+     +----------------------------+     +---------------------------------+
+                                                                                       | (PID Y now in map)
+                                                                                       v
++---------------------------+     +----------------------------+     +---------------------------------+
+| 10. `gcc` (PID Y) execs   | --&gt; | 11. sys_enter_execve hook. | --&gt; | 12. Python: &#39;gcc&#39; is trigger.   |
+|     itself.               |     |     eBPF sends exec event. |     |     (Optional) Update BPF_HASH. |
++---------------------------+     +----------------------------+     |     Log EXEC event for gcc.     |
+                                                                     +---------------------------------+
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/zhy-blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
