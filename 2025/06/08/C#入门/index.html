@@ -1,0 +1,2544 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>C#入门 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/zhy-blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/zhy-blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/zhy-blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/zhy-blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/zhy-blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/zhy-blogs/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/zhy-blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/zhy-blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/zhy-blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/zhy-blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/zhy-blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/zhy-blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>C#入门</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/8
+        </span>
+        
+        <span class="category">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程实战
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/C/" style="color: #00a596">
+                    C#
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" style="color: #03a9f4">
+                    编程语言
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="C-入门手册：从零开始，实战提升"><a href="#C-入门手册：从零开始，实战提升" class="headerlink" title="C# 入门手册：从零开始，实战提升"></a>C# 入门手册：从零开始，实战提升</h2><h3 id="章节一：C-简介与开发环境搭建"><a href="#章节一：C-简介与开发环境搭建" class="headerlink" title="章节一：C# 简介与开发环境搭建"></a>章节一：C# 简介与开发环境搭建</h3><h4 id="1-1-什么是-C-？"><a href="#1-1-什么是-C-？" class="headerlink" title="1.1 什么是 C#？"></a>1.1 什么是 C#？</h4><p>C#（读作 “C Sharp”）是由微软开发的一种现代的、面向对象的编程语言。它构建在 .NET 框架之上，广泛应用于：</p>
+<ul>
+<li><strong>Windows 桌面应用程序：</strong> 使用 WPF (Windows Presentation Foundation) 或 WinForms (Windows Forms) 创建图形用户界面应用。</li>
+<li><strong>Web 应用程序：</strong> 使用 ASP.NET Core 构建强大的网站和 Web API。</li>
+<li><strong>游戏开发：</strong> 使用 Unity 引擎开发跨平台游戏。</li>
+<li><strong>移动应用程序：</strong> 使用 Xamarin 或 .NET MAUI 开发 iOS 和 Android 应用。</li>
+<li><strong>云计算：</strong> 在 Azure 等云平台上开发服务。</li>
+<li><strong>数据科学与机器学习：</strong> 结合 ML.NET 等库进行数据分析和模型训练。</li>
+</ul>
+<p>C# 语言的特点包括：</p>
+<ul>
+<li><strong>简单易学：</strong> 语法结构清晰，与 C++ 和 Java 相似。</li>
+<li><strong>面向对象：</strong> 支持封装、继承、多态等面向对象特性。</li>
+<li><strong>类型安全：</strong> 在编译时检查类型，减少运行时错误。</li>
+<li><strong>垃圾回收：</strong> 自动管理内存，无需手动释放。</li>
+<li><strong>强大的类库：</strong> .NET 框架提供了丰富的类库，可以方便地实现各种功能。</li>
+</ul>
+<h4 id="1-2-开发环境搭建"><a href="#1-2-开发环境搭建" class="headerlink" title="1.2 开发环境搭建"></a>1.2 开发环境搭建</h4><p>要开始C#编程，你需要安装 Visual Studio。Visual Studio 是微软官方提供的一款强大的集成开发环境 (IDE)，它集成了代码编辑器、编译器、调试器等工具。</p>
+<p><strong>步骤：</strong></p>
+<ol>
+<li><p><strong>下载 Visual Studio Community 版本：</strong> 这是免费的，适用于个人开发者、学生和开源贡献者。访问 Visual Studio 官网下载：<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/downloads/">https://visualstudio.microsoft.com/zh-hans/downloads/</a></p>
+</li>
+<li><p><strong>运行安装程序：</strong> 启动下载的安装程序。</p>
+</li>
+<li><p>选择工作负载：</p>
+<p> 在安装过程中，你会看到“工作负载”选项。根据你的需求选择：</p>
+<ul>
+<li><strong>“.NET 桌面开发”：</strong> 如果你打算开发桌面应用。</li>
+<li><strong>“ASP.NET 和 Web 开发”：</strong> 如果你打算开发 Web 应用。</li>
+<li><strong>“使用 Unity 的游戏开发”：</strong> 如果你打算开发游戏。</li>
+<li><strong>“.NET 多平台应用 UI 开发”：</strong> 如果你打算开发移动应用（Xamarin&#x2F;.NET MAUI）。</li>
+<li>通常，选择 <strong>“.NET 桌面开发”</strong> 和 <strong>“ASP.NET 和 Web 开发”</strong> 会覆盖大部分入门需求。</li>
+</ul>
+</li>
+<li><p><strong>安装：</strong> 点击安装按钮，等待安装完成。</p>
+</li>
+</ol>
+<p>安装完成后，你就可以启动 Visual Studio 并开始你的C#编程之旅了！</p>
+<h4 id="1-3-你的第一个-C-程序：Hello-World"><a href="#1-3-你的第一个-C-程序：Hello-World" class="headerlink" title="1.3 你的第一个 C# 程序：Hello World"></a>1.3 你的第一个 C# 程序：Hello World</h4><p>让我们从最经典的“Hello World”程序开始。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>打开 Visual Studio。</li>
+<li>点击 <strong>“创建新项目”</strong>。</li>
+<li>在模板列表中搜索 <strong>“控制台应用”</strong> (Console App)，并选择 C# 版本的控制台应用。</li>
+<li>点击 <strong>“下一步”</strong>。</li>
+<li>输入项目名称（例如：<code>HelloWorld</code>），选择项目存放位置。</li>
+<li>点击 <strong>“创建”</strong>。</li>
+</ol>
+<p>Visual Studio 会为你自动生成一个基本的项目结构，其中包含一个 <code>Program.cs</code> 文件。</p>
+<p><strong><code>Program.cs</code> 文件内容：</strong></p>
+<p>C#</p>
+<pre><code>// Program.cs
+
+using System; // 引入 System 命名空间，包含了 Console 类
+
+namespace HelloWorld // 命名空间，组织代码
+&#123;
+    class Program // 类，所有代码都写在类中
+    &#123;
+        static void Main(string[] args) // Main 方法是程序的入口点
+        &#123;
+            Console.WriteLine(&quot;Hello World!&quot;); // 打印 &quot;Hello World!&quot; 到控制台
+            Console.ReadKey(); // 等待用户按下任意键，避免程序立即关闭
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><p><code>using System;</code>: 这行代码引入了 <code>System</code> 命名空间。<code>System</code> 命名空间是 .NET 框架中最基本的命名空间之一，它包含了许多常用的类和功能，例如 <code>Console</code> 类，用于控制台输入输出。</p>
+</li>
+<li><p><code>namespace HelloWorld</code>: <code>namespace</code> 用于组织代码。它有助于避免命名冲突，并提供一种逻辑上的分组方式。在这个例子中，<code>HelloWorld</code> 是我们程序的命名空间。</p>
+</li>
+<li><p><code>class Program</code>: 在 C# 中，所有的代码都必须在一个类 (class) 中。<code>Program</code> 是我们创建的一个类。类是面向对象编程的基本构建块，它封装了数据和行为。</p>
+</li>
+<li><pre><code>static void Main(string[] args)
+</code></pre>
+<p>: 这是 C# 程序的入口点。当程序启动时，</p>
+<pre><code>Main
+</code></pre>
+<p> 方法会被自动执行。</p>
+<ul>
+<li><code>static</code>: 表示这个方法是静态的，可以直接通过类名调用，无需创建类的实例。</li>
+<li><code>void</code>: 表示这个方法不返回任何值。</li>
+<li><code>Main</code>: 方法的名称，C# 程序的入口点必须是 <code>Main</code>。</li>
+<li><code>string[] args</code>: 这是一个可选的参数，用于接收命令行参数。</li>
+</ul>
+</li>
+<li><p><code>Console.WriteLine(&quot;Hello World!&quot;);</code>: <code>Console</code> 是 <code>System</code> 命名空间中的一个类，它提供了与控制台交互的方法。<code>WriteLine</code> 是 <code>Console</code> 类的一个静态方法，用于将文本输出到控制台，并在末尾添加一个换行符。</p>
+</li>
+<li><p><code>Console.ReadKey();</code>: 这个方法的作用是让程序在执行完毕后等待用户按下任意键，避免控制台窗口一闪而过。在实际的控制台应用中，这通常用于查看输出结果。</p>
+</li>
+</ul>
+<p><strong>运行程序：</strong></p>
+<p>在 Visual Studio 中，你可以点击工具栏上的绿色“启动”按钮（通常是“IIS Express”或“本地 Windows 调试器”旁边），或者按下 <code>F5</code> 键来运行程序。</p>
+<p>你会在控制台窗口中看到输出：</p>
+<pre><code>Hello World!
+</code></pre>
+<hr>
+<h3 id="章节二：C-基础语法"><a href="#章节二：C-基础语法" class="headerlink" title="章节二：C# 基础语法"></a>章节二：C# 基础语法</h3><p>本章将介绍 C# 的基本语法元素，包括变量、数据类型、运算符、控制流等。</p>
+<h4 id="2-1-变量与数据类型"><a href="#2-1-变量与数据类型" class="headerlink" title="2.1 变量与数据类型"></a>2.1 变量与数据类型</h4><p><strong>变量</strong>用于存储数据。在使用变量之前，你需要声明它的类型，并可以给它一个初始值。</p>
+<p><strong>C# 常用数据类型：</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td>整数（例如：10, -5）</td>
+<td><code>int age = 30;</code></td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>双精度浮点数（例如：3.14, 0.001）</td>
+<td><code>double pi = 3.14159;</code></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>单精度浮点数（需要f后缀，例如：3.14f）</td>
+<td><code>float temperature = 25.5f;</code></td>
+</tr>
+<tr>
+<td><code>decimal</code></td>
+<td>用于高精度计算（例如：货币，需要m后缀）</td>
+<td><code>decimal price = 99.99m;</code></td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td>布尔值（<code>true</code> 或 <code>false</code>）</td>
+<td><code>bool isStudent = true;</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>单个字符（用单引号）</td>
+<td><code>char initial = &#39;J&#39;;</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>字符串（用双引号）</td>
+<td><code>string name = &quot;Alice&quot;;</code></td>
+</tr>
+</tbody></table>
+<p>导出到 Google 表格</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace VariablesAndDataTypes
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 声明并初始化不同类型的变量
+            int age = 25; // 整数
+            double height = 1.75; // 双精度浮点数
+            float weight = 70.5f; // 单精度浮点数，注意f后缀
+            decimal salary = 5000.00m; // 高精度浮点数，注意m后缀
+            bool isEmployed = true; // 布尔值
+            char grade = &#39;A&#39;; // 字符
+            string firstName = &quot;John&quot;; // 字符串
+            string lastName = &quot;Doe&quot;;
+
+            // 输出变量的值
+            Console.WriteLine($&quot;姓名: &#123;firstName&#125; &#123;lastName&#125;&quot;);
+            Console.WriteLine($&quot;年龄: &#123;age&#125;&quot;);
+            Console.WriteLine($&quot;身高: &#123;height&#125; 米&quot;);
+            Console.WriteLine($&quot;体重: &#123;weight&#125; 公斤&quot;);
+            Console.WriteLine($&quot;月薪: &#123;salary&#125; 元&quot;);
+            Console.WriteLine($&quot;是否在职: &#123;isEmployed&#125;&quot;);
+            Console.WriteLine($&quot;成绩等级: &#123;grade&#125;&quot;);
+
+            // 变量的重新赋值
+            age = 26;
+            Console.WriteLine($&quot;新年龄: &#123;age&#125;&quot;);
+
+            // 字符串拼接
+            string fullName = firstName + &quot; &quot; + lastName;
+            Console.WriteLine($&quot;全名: &#123;fullName&#125;&quot;);
+
+            // 字符串插值 (C# 6.0 引入，更简洁)
+            string message = $&quot;Hello, &#123;firstName&#125;! 你的年龄是 &#123;age&#125; 岁。&quot;;
+            Console.WriteLine(message);
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>注意：</strong></p>
+<ul>
+<li>变量名通常遵循 <strong>camelCase</strong> 命名约定（第一个单词小写，后续单词首字母大写，例如 <code>firstName</code>）。</li>
+<li>C# 是强类型语言，这意味着你必须在声明变量时指定其类型，并且该变量只能存储该类型的值。</li>
+<li><code>$&quot;&quot;</code> 是字符串插值语法，它允许你在字符串中嵌入表达式，使得字符串拼接更加方便和可读。</li>
+</ul>
+<h4 id="2-2-常量"><a href="#2-2-常量" class="headerlink" title="2.2 常量"></a>2.2 常量</h4><p><strong>常量</strong>是其值在程序执行期间不能更改的变量。使用 <code>const</code> 关键字声明常量。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ConstantsExample
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 声明常量，通常用大写字母和下划线命名（约定）
+            const double PI = 3.14159;
+            const int MAX_USERS = 1000;
+            const string COMPANY_NAME = &quot;MyAwesomeCorp&quot;;
+
+            Console.WriteLine($&quot;圆周率: &#123;PI&#125;&quot;);
+            Console.WriteLine($&quot;最大用户数: &#123;MAX_USERS&#125;&quot;);
+            Console.WriteLine($&quot;公司名称: &#123;COMPANY_NAME&#125;&quot;);
+
+            // 尝试修改常量会引发编译错误
+            // PI = 3.14; // 这会报错！
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="2-3-运算符"><a href="#2-3-运算符" class="headerlink" title="2.3 运算符"></a>2.3 运算符</h4><p>C# 提供了丰富的运算符，用于执行各种操作。</p>
+<p><strong>2.3.1 算术运算符：</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>+</code></td>
+<td>加法</td>
+<td><code>a + b</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>减法</td>
+<td><code>a - b</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>乘法</td>
+<td><code>a * b</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>除法</td>
+<td><code>a / b</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>取模</td>
+<td><code>a % b</code> (余数)</td>
+</tr>
+</tbody></table>
+<p>导出到 Google 表格</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ArithmeticOperators
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int a = 10;
+            int b = 3;
+
+            Console.WriteLine($&quot;a + b = &#123;a + b&#125;&quot;); // 13
+            Console.WriteLine($&quot;a - b = &#123;a - b&#125;&quot;); // 7
+            Console.WriteLine($&quot;a * b = &#123;a * b&#125;&quot;); // 30
+            Console.WriteLine($&quot;a / b = &#123;a / b&#125;&quot;); // 3 (整数除法，小数部分截断)
+            Console.WriteLine($&quot;a % b = &#123;a % b&#125;&quot;); // 1 (10 除以 3 的余数)
+
+            double x = 10.0;
+            double y = 3.0;
+            Console.WriteLine($&quot;x / y = &#123;x / y&#125;&quot;); // 3.3333333333333335 (浮点数除法)
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.3.2 关系运算符（比较运算符）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>==</code></td>
+<td>等于</td>
+<td><code>a == b</code></td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>不等于</td>
+<td><code>a != b</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>大于</td>
+<td><code>a &gt; b</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>小于</td>
+<td><code>a &lt; b</code></td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>大于等于</td>
+<td><code>a &gt;= b</code></td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>小于等于</td>
+<td><code>a &lt;= b</code></td>
+</tr>
+</tbody></table>
+<p>导出到 Google 表格</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace RelationalOperators
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int num1 = 10;
+            int num2 = 20;
+
+            Console.WriteLine($&quot;num1 == num2: &#123;num1 == num2&#125;&quot;); // False
+            Console.WriteLine($&quot;num1 != num2: &#123;num1 != num2&#125;&quot;); // True
+            Console.WriteLine($&quot;num1 &gt; num2: &#123;num1 &gt; num2&#125;&quot;);   // False
+            Console.WriteLine($&quot;num1 &lt; num2: &#123;num1 &lt; num2&#125;&quot;);   // True
+            Console.WriteLine($&quot;num1 &gt;= 10: &#123;num1 &gt;= 10&#125;&quot;);     // True
+            Console.WriteLine($&quot;num2 &lt;= 20: &#123;num2 &lt;= 20&#125;&quot;);     // True
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.3.3 逻辑运算符：</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&amp;&amp;</code></td>
+<td>逻辑与</td>
+<td><code>condition1 &amp;&amp; condition2</code></td>
+</tr>
+<tr>
+<td>&#96;</td>
+<td>&#96;</td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>逻辑非</td>
+<td><code>!condition</code></td>
+</tr>
+</tbody></table>
+<p>导出到 Google 表格</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace LogicalOperators
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            bool isSunny = true;
+            bool isWarm = false;
+            int age = 18;
+            bool hasLicense = true;
+
+            // 逻辑与 (&amp;&amp;)：两个条件都为真才为真
+            Console.WriteLine($&quot;isSunny &amp;&amp; isWarm: &#123;isSunny &amp;&amp; isWarm&#125;&quot;); // False
+
+            // 逻辑或 (||)：只要一个条件为真就为真
+            Console.WriteLine($&quot;isSunny || isWarm: &#123;isSunny || isWarm&#125;&quot;); // True
+
+            // 逻辑非 (!)：取反
+            Console.WriteLine($&quot;!isSunny: &#123;!isSunny&#125;&quot;); // False
+
+            // 组合使用
+            bool canDrive = (age &gt;= 18) &amp;&amp; hasLicense;
+            Console.WriteLine($&quot;Can drive: &#123;canDrive&#125;&quot;); // True
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.3.4 赋值运算符：</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>示例</th>
+<th>等价于</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>=</code></td>
+<td>赋值</td>
+<td><code>x = 5</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>+=</code></td>
+<td>加等于</td>
+<td><code>x += 2</code></td>
+<td><code>x = x + 2</code></td>
+</tr>
+<tr>
+<td><code>-=</code></td>
+<td>减等于</td>
+<td><code>x -= 2</code></td>
+<td><code>x = x - 2</code></td>
+</tr>
+<tr>
+<td><code>*=</code></td>
+<td>乘等于</td>
+<td><code>x *= 2</code></td>
+<td><code>x = x * 2</code></td>
+</tr>
+<tr>
+<td><code>/=</code></td>
+<td>除等于</td>
+<td><code>x /= 2</code></td>
+<td><code>x = x / 2</code></td>
+</tr>
+<tr>
+<td><code>%=</code></td>
+<td>模等于</td>
+<td><code>x %= 2</code></td>
+<td><code>x = x % 2</code></td>
+</tr>
+</tbody></table>
+<p>导出到 Google 表格</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace AssignmentOperators
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int num = 10;
+            Console.WriteLine($&quot;初始值: &#123;num&#125;&quot;); // 10
+
+            num += 5; // num = num + 5
+            Console.WriteLine($&quot;num += 5: &#123;num&#125;&quot;); // 15
+
+            num -= 3; // num = num - 3
+            Console.WriteLine($&quot;num -= 3: &#123;num&#125;&quot;); // 12
+
+            num *= 2; // num = num * 2
+            Console.WriteLine($&quot;num *= 2: &#123;num&#125;&quot;); // 24
+
+            num /= 4; // num = num / 4
+            Console.WriteLine($&quot;num /= 4: &#123;num&#125;&quot;); // 6
+
+            num %= 3; // num = num % 3
+            Console.WriteLine($&quot;num %= 3: &#123;num&#125;&quot;); // 0
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="2-4-类型转换"><a href="#2-4-类型转换" class="headerlink" title="2.4 类型转换"></a>2.4 类型转换</h4><p>在 C# 中，有时需要将一个数据类型的值转换为另一个数据类型。</p>
+<p><strong>2.4.1 隐式转换 (Implicit Conversion)：</strong></p>
+<p>当转换是安全的，不会导致数据丢失时，C# 会自动进行隐式转换。例如，将 <code>int</code> 转换为 <code>double</code>。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace TypeConversion
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int myInt = 100;
+            double myDouble = myInt; // 隐式转换：int 到 double，安全
+            Console.WriteLine($&quot;Int to Double: &#123;myDouble&#125;&quot;); // 100
+
+            float myFloat = myInt; // 隐式转换：int 到 float，安全
+            Console.WriteLine($&quot;Int to Float: &#123;myFloat&#125;&quot;); // 100
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.4.2 显式转换 (Explicit Conversion &#x2F; Casting)：</strong></p>
+<p>当转换可能导致数据丢失时，你需要使用显式转换（强制类型转换）。使用括号 <code>()</code> 来指定要转换的目标类型。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace TypeConversion
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            double myDouble = 9.78;
+            int myInt = (int)myDouble; // 显式转换：double 到 int，小数部分会被截断
+            Console.WriteLine($&quot;Double to Int: &#123;myInt&#125;&quot;); // 9
+
+            int num1 = 10;
+            int num2 = 3;
+            double result = (double)num1 / num2; // 先将num1转换为double，再进行浮点数除法
+            Console.WriteLine($&quot;Int division to Double: &#123;result&#125;&quot;); // 3.3333333333333335
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.4.3 使用 <code>Convert</code> 类：</strong></p>
+<p><code>Convert</code> 类提供了多种方法，用于在不同数据类型之间进行转换，它更安全，并且可以处理一些边界情况（如字符串转换为数字）。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace TypeConversion
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            string strNumber = &quot;123&quot;;
+            int number = Convert.ToInt32(strNumber); // 字符串转换为整数
+            Console.WriteLine($&quot;String to Int: &#123;number&#125;&quot;); // 123
+
+            string strDouble = &quot;45.67&quot;;
+            double dblNumber = Convert.ToDouble(strDouble); // 字符串转换为双精度浮点数
+            Console.WriteLine($&quot;String to Double: &#123;dblNumber&#125;&quot;); // 45.67
+
+            int value = 200;
+            string strValue = Convert.ToString(value); // 整数转换为字符串
+            Console.WriteLine($&quot;Int to String: &#123;strValue&#125;&quot;); // &quot;200&quot;
+
+            // 尝试转换非法字符串会导致异常
+            string invalidString = &quot;abc&quot;;
+            try
+            &#123;
+                int invalidNumber = Convert.ToInt32(invalidString);
+            &#125;
+            catch (FormatException ex)
+            &#123;
+                Console.WriteLine($&quot;转换错误: &#123;ex.Message&#125;&quot;); // Input string was not in a correct format.
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.4.4 使用 <code>Parse</code> 或 <code>TryParse</code> 方法：</strong></p>
+<p>对于字符串转换为数字类型，通常更推荐使用 <code>Parse</code> 或 <code>TryParse</code> 方法。</p>
+<ul>
+<li><code>Parse</code>：如果转换失败会抛出 <code>FormatException</code> 异常。</li>
+<li><code>TryParse</code>：如果转换失败会返回 <code>false</code>，不会抛出异常，更安全，适用于用户输入等不确定数据。</li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace TypeConversion
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            string s1 = &quot;100&quot;;
+            int i1 = int.Parse(s1); // 成功转换
+            Console.WriteLine($&quot;Parse string to int: &#123;i1&#125;&quot;);
+
+            string s2 = &quot;abc&quot;;
+            int i2;
+            bool success = int.TryParse(s2, out i2); // 尝试转换，不会抛出异常
+            if (success)
+            &#123;
+                Console.WriteLine($&quot;TryParse string to int: &#123;i2&#125;&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine($&quot;Failed to parse &#39;&#123;s2&#125;&#39; to int.&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="2-5-控制流语句"><a href="#2-5-控制流语句" class="headerlink" title="2.5 控制流语句"></a>2.5 控制流语句</h4><p>控制流语句允许你根据条件执行不同的代码块，或者重复执行某些代码。</p>
+<p><strong>2.5.1 <code>if-else if-else</code> 语句：</strong></p>
+<p>根据条件执行不同的代码块。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ControlFlow
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int score = 85;
+
+            if (score &gt;= 90)
+            &#123;
+                Console.WriteLine(&quot;A 级&quot;);
+            &#125;
+            else if (score &gt;= 80)
+            &#123;
+                Console.WriteLine(&quot;B 级&quot;);
+            &#125;
+            else if (score &gt;= 70)
+            &#123;
+                Console.WriteLine(&quot;C 级&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine(&quot;D 级&quot;);
+            &#125;
+
+            // 示例：判断奇偶数
+            int number = 7;
+            if (number % 2 == 0)
+            &#123;
+                Console.WriteLine($&quot;&#123;number&#125; 是偶数。&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine($&quot;&#123;number&#125; 是奇数。&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.5.2 <code>switch</code> 语句：</strong></p>
+<p>当有多个可能的值需要判断时，<code>switch</code> 语句比多个 <code>if-else if</code> 更简洁。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ControlFlow
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            char grade = &#39;B&#39;;
+
+            switch (grade)
+            &#123;
+                case &#39;A&#39;:
+                    Console.WriteLine(&quot;优秀！&quot;);
+                    break; // break 关键字用于跳出 switch 语句
+                case &#39;B&#39;:
+                    Console.WriteLine(&quot;良好！&quot;);
+                    break;
+                case &#39;C&#39;:
+                    Console.WriteLine(&quot;及格。&quot;);
+                    break;
+                case &#39;D&#39;:
+                case &#39;F&#39;: // 多个 case 可以执行相同的代码块
+                    Console.WriteLine(&quot;不及格。&quot;);
+                    break;
+                default: // 默认情况
+                    Console.WriteLine(&quot;无效的成绩。&quot;);
+                    break;
+            &#125;
+
+            // 示例：判断星期几
+            int dayOfWeek = 3; // 1代表周一，7代表周日
+
+            switch (dayOfWeek)
+            &#123;
+                case 1:
+                    Console.WriteLine(&quot;星期一&quot;);
+                    break;
+                case 2:
+                    Console.WriteLine(&quot;星期二&quot;);
+                    break;
+                case 3:
+                    Console.WriteLine(&quot;星期三&quot;);
+                    break;
+                case 4:
+                    Console.WriteLine(&quot;星期四&quot;);
+                    break;
+                case 5:
+                    Console.WriteLine(&quot;星期五&quot;);
+                    break;
+                case 6:
+                    Console.WriteLine(&quot;星期六&quot;);
+                    break;
+                case 7:
+                    Console.WriteLine(&quot;星期日&quot;);
+                    break;
+                default:
+                    Console.WriteLine(&quot;无效的日期&quot;);
+                    break;
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.5.3 <code>for</code> 循环：</strong></p>
+<p>用于重复执行一段代码固定次数。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ControlFlow
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 打印从 0 到 4 的数字
+            for (int i = 0; i &lt; 5; i++)
+            &#123;
+                Console.WriteLine($&quot;for 循环: &#123;i&#125;&quot;);
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 打印偶数
+            for (int i = 0; i &lt;= 10; i += 2) // i += 2 等同于 i = i + 2
+            &#123;
+                Console.WriteLine($&quot;偶数: &#123;i&#125;&quot;);
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 倒序打印
+            for (int i = 5; i &gt; 0; i--)
+            &#123;
+                Console.WriteLine($&quot;倒序: &#123;i&#125;&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.5.4 <code>while</code> 循环：</strong></p>
+<p>只要条件为真，就重复执行一段代码。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ControlFlow
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int count = 0;
+            while (count &lt; 5)
+            &#123;
+                Console.WriteLine($&quot;while 循环: &#123;count&#125;&quot;);
+                count++; // 每次循环增加 count 的值，否则会无限循环
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 示例：用户输入直到输入“quit”
+            string input = &quot;&quot;;
+            while (input != &quot;quit&quot;)
+            &#123;
+                Console.Write(&quot;请输入一个单词 (输入 &#39;quit&#39; 退出): &quot;);
+                input = Console.ReadLine(); // 从控制台读取一行输入
+                Console.WriteLine($&quot;你输入了: &#123;input&#125;&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.5.5 <code>do-while</code> 循环：</strong></p>
+<p><code>do-while</code> 循环至少执行一次，然后根据条件重复执行。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ControlFlow
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            int i = 0;
+            do
+            &#123;
+                Console.WriteLine($&quot;do-while 循环: &#123;i&#125;&quot;);
+                i++;
+            &#125; while (i &lt; 5); // 即使 i 初始值不满足条件，do 块也会执行一次
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 示例：强制用户输入一个正数
+            int positiveNumber;
+            do
+            &#123;
+                Console.Write(&quot;请输入一个正数: &quot;);
+                string input = Console.ReadLine();
+                // 尝试将用户输入转换为整数，如果转换失败或不是正数，则继续循环
+                if (int.TryParse(input, out positiveNumber) &amp;&amp; positiveNumber &gt; 0)
+                &#123;
+                    break; // 输入有效，跳出循环
+                &#125;
+                else
+                &#123;
+                    Console.WriteLine(&quot;输入无效，请重新输入一个正数。&quot;);
+                &#125;
+            &#125; while (true); // 无限循环，直到 break 跳出
+
+            Console.WriteLine($&quot;你输入的正数是: &#123;positiveNumber&#125;&quot;);
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>2.5.6 <code>foreach</code> 循环：</strong></p>
+<p>用于遍历集合中的每个元素，例如数组、列表。</p>
+<p>C#</p>
+<pre><code>using System;
+using System.Collections.Generic; // 引入 List 需要此命名空间
+
+namespace ControlFlow
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            string[] names = &#123; &quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot; &#125;;
+
+            Console.WriteLine(&quot;遍历数组:&quot;);
+            foreach (string name in names)
+            &#123;
+                Console.WriteLine(name);
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            List&lt;int&gt; numbers = new List&lt;int&gt; &#123; 10, 20, 30, 40, 50 &#125;;
+
+            Console.WriteLine(&quot;遍历列表:&quot;);
+            foreach (int num in numbers)
+            &#123;
+                Console.WriteLine(num);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<h3 id="章节三：数组和集合"><a href="#章节三：数组和集合" class="headerlink" title="章节三：数组和集合"></a>章节三：数组和集合</h3><p>本章将介绍 C# 中用于存储多个数据的结构：数组和常用的集合类型。</p>
+<h4 id="3-1-数组-Arrays"><a href="#3-1-数组-Arrays" class="headerlink" title="3.1 数组 (Arrays)"></a>3.1 数组 (Arrays)</h4><p><strong>数组</strong>是相同类型的数据的固定大小的有序集合。</p>
+<p><strong>声明和初始化数组：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ArraysAndCollections
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 声明一个整数数组，大小为 5
+            int[] numbers = new int[5]; // 默认值为 0
+
+            // 初始化数组元素
+            numbers[0] = 10;
+            numbers[1] = 20;
+            numbers[2] = 30;
+            numbers[3] = 40;
+            numbers[4] = 50;
+
+            // 访问数组元素
+            Console.WriteLine($&quot;第一个元素: &#123;numbers[0]&#125;&quot;); // 10
+            Console.WriteLine($&quot;第三个元素: &#123;numbers[2]&#125;&quot;); // 30
+
+            // 声明并同时初始化数组
+            string[] fruits = &#123; &quot;Apple&quot;, &quot;Banana&quot;, &quot;Cherry&quot;, &quot;Date&quot; &#125;;
+
+            Console.WriteLine($&quot;水果数组的长度: &#123;fruits.Length&#125;&quot;); // 4
+
+            // 遍历数组 (使用 for 循环)
+            Console.WriteLine(&quot;使用 for 循环遍历水果:&quot;);
+            for (int i = 0; i &lt; fruits.Length; i++)
+            &#123;
+                Console.WriteLine($&quot;索引 &#123;i&#125;: &#123;fruits[i]&#125;&quot;);
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 遍历数组 (使用 foreach 循环，推荐)
+            Console.WriteLine(&quot;使用 foreach 循环遍历水果:&quot;);
+            foreach (string fruit in fruits)
+            &#123;
+                Console.WriteLine(fruit);
+            &#125;
+
+            // 多维数组（二维数组）
+            int[,] matrix = &#123; &#123; 1, 2, 3 &#125;, &#123; 4, 5, 6 &#125;, &#123; 7, 8, 9 &#125; &#125;;
+
+            Console.WriteLine($&quot;矩阵元素 (0,0): &#123;matrix[0, 0]&#125;&quot;); // 1
+            Console.WriteLine($&quot;矩阵元素 (1,2): &#123;matrix[1, 2]&#125;&quot;); // 6
+
+            // 遍历二维数组
+            Console.WriteLine(&quot;遍历二维数组:&quot;);
+            for (int row = 0; row &lt; matrix.GetLength(0); row++) // GetLength(0) 获取行数
+            &#123;
+                for (int col = 0; col &lt; matrix.GetLength(1); col++) // GetLength(1) 获取列数
+                &#123;
+                    Console.Write($&quot;&#123;matrix[row, col]&#125; &quot;);
+                &#125;
+                Console.WriteLine(); // 换行
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="3-2-列表-List"><a href="#3-2-列表-List" class="headerlink" title="3.2 列表 (List&lt;T&gt;)"></a>3.2 列表 (List&lt;T&gt;)</h4><p><code>List&lt;T&gt;</code> 是一个泛型集合，它是一个动态大小的数组，比传统数组更灵活，可以方便地添加、删除和查找元素。<code>T</code> 是一个类型参数，表示列表中存储的元素类型。</p>
+<p>要使用 <code>List&lt;T&gt;</code>，你需要引入 <code>System.Collections.Generic</code> 命名空间。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+using System.Collections.Generic; // 引入 List&lt;T&gt; 需要此命名空间
+
+namespace ArraysAndCollections
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 声明并初始化一个整数列表
+            List&lt;int&gt; scores = new List&lt;int&gt;();
+
+            // 添加元素
+            scores.Add(95);
+            scores.Add(88);
+            scores.Add(72);
+            scores.Add(90);
+
+            Console.WriteLine($&quot;列表中的元素数量: &#123;scores.Count&#125;&quot;); // 4
+
+            // 访问元素 (通过索引)
+            Console.WriteLine($&quot;第一个分数: &#123;scores[0]&#125;&quot;); // 95
+
+            // 插入元素
+            scores.Insert(1, 80); // 在索引 1 处插入 80
+            Console.WriteLine(&quot;插入 80 后:&quot;);
+            foreach (int score in scores)
+            &#123;
+                Console.Write($&quot;&#123;score&#125; &quot;); // 95 80 88 72 90
+            &#125;
+            Console.WriteLine();
+
+            // 移除元素
+            scores.Remove(72); // 移除值为 72 的第一个元素
+            Console.WriteLine(&quot;移除 72 后:&quot;);
+            foreach (int score in scores)
+            &#123;
+                Console.Write($&quot;&#123;score&#125; &quot;); // 95 80 88 90
+            &#125;
+            Console.WriteLine();
+
+            scores.RemoveAt(0); // 移除索引 0 处的元素 (95)
+            Console.WriteLine(&quot;移除索引 0 后:&quot;);
+            foreach (int score in scores)
+            &#123;
+                Console.Write($&quot;&#123;score&#125; &quot;); // 80 88 90
+            &#125;
+            Console.WriteLine();
+
+            // 检查元素是否存在
+            bool contains90 = scores.Contains(90);
+            Console.WriteLine($&quot;列表中是否包含 90: &#123;contains90&#125;&quot;); // True
+
+            // 清空列表
+            scores.Clear();
+            Console.WriteLine($&quot;清空后元素数量: &#123;scores.Count&#125;&quot;); // 0
+
+            // 声明并初始化一个字符串列表
+            List&lt;string&gt; colors = new List&lt;string&gt; &#123; &quot;Red&quot;, &quot;Green&quot;, &quot;Blue&quot; &#125;;
+            Console.WriteLine(&quot;颜色列表:&quot;);
+            foreach (string color in colors)
+            &#123;
+                Console.WriteLine(color);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="3-3-字典-Dictionary"><a href="#3-3-字典-Dictionary" class="headerlink" title="3.3 字典 (Dictionary&lt;TKey, TValue&gt;)"></a>3.3 字典 (Dictionary&lt;TKey, TValue&gt;)</h4><p><code>Dictionary&lt;TKey, TValue&gt;</code> 是一种键值对集合，其中每个键都必须是唯一的。它提供了一种快速查找数据的方式，通过键来检索对应的值。</p>
+<p>要使用 <code>Dictionary&lt;TKey, TValue&gt;</code>，你需要引入 <code>System.Collections.Generic</code> 命名空间。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+using System.Collections.Generic; // 引入 Dictionary&lt;TKey, TValue&gt; 需要此命名空间
+
+namespace ArraysAndCollections
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 声明并初始化一个字典，键为 string，值为 int
+            Dictionary&lt;string, int&gt; ages = new Dictionary&lt;string, int&gt;();
+
+            // 添加键值对
+            ages.Add(&quot;Alice&quot;, 30);
+            ages.Add(&quot;Bob&quot;, 25);
+            ages.Add(&quot;Charlie&quot;, 35);
+
+            // 另一种添加方式 (推荐，如果键已存在会更新值)
+            ages[&quot;David&quot;] = 28;
+
+            // 访问值 (通过键)
+            Console.WriteLine($&quot;Alice 的年龄: &#123;ages[&quot;Alice&quot;]&#125;&quot;); // 30
+
+            // 检查键是否存在
+            if (ages.ContainsKey(&quot;Bob&quot;))
+            &#123;
+                Console.WriteLine($&quot;Bob 的年龄: &#123;ages[&quot;Bob&quot;]&#125;&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine(&quot;字典中不包含 Bob。&quot;);
+            &#125;
+
+            // 安全地获取值 (TryGetValue)
+            int charlieAge;
+            if (ages.TryGetValue(&quot;Charlie&quot;, out charlieAge))
+            &#123;
+                Console.WriteLine($&quot;Charlie 的年龄 (TryGetValue): &#123;charlieAge&#125;&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine(&quot;字典中不包含 Charlie。&quot;);
+            &#125;
+
+            // 遍历字典 (遍历键值对)
+            Console.WriteLine(&quot;遍历字典:&quot;);
+            foreach (KeyValuePair&lt;string, int&gt; entry in ages)
+            &#123;
+                Console.WriteLine($&quot;姓名: &#123;entry.Key&#125;, 年龄: &#123;entry.Value&#125;&quot;);
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 遍历字典 (只遍历键)
+            Console.WriteLine(&quot;只遍历键:&quot;);
+            foreach (string name in ages.Keys)
+            &#123;
+                Console.WriteLine($&quot;姓名: &#123;name&#125;&quot;);
+            &#125;
+
+            Console.WriteLine(&quot;--------------------&quot;);
+
+            // 遍历字典 (只遍历值)
+            Console.WriteLine(&quot;只遍历值:&quot;);
+            foreach (int age in ages.Values)
+            &#123;
+                Console.WriteLine($&quot;年龄: &#123;age&#125;&quot;);
+            &#125;
+
+            // 移除键值对
+            ages.Remove(&quot;Bob&quot;);
+            Console.WriteLine($&quot;移除 Bob 后，字典中的元素数量: &#123;ages.Count&#125;&quot;); // 3
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<h3 id="章节四：方法-Methods"><a href="#章节四：方法-Methods" class="headerlink" title="章节四：方法 (Methods)"></a>章节四：方法 (Methods)</h3><p><strong>方法</strong>是包含一系列语句的代码块，用于执行特定任务。使用方法可以提高代码的重用性、可读性和模块化。</p>
+<h4 id="4-1-声明和调用方法"><a href="#4-1-声明和调用方法" class="headerlink" title="4.1 声明和调用方法"></a>4.1 声明和调用方法</h4><p>方法的声明包括：访问修饰符、返回类型、方法名、参数列表。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace MethodsExample
+&#123;
+    class Program
+    &#123;
+        // 1. 无参数无返回值的方法
+        static void SayHello()
+        &#123;
+            Console.WriteLine(&quot;你好，世界！&quot;);
+        &#125;
+
+        // 2. 带参数无返回值的方法
+        static void GreetUser(string name)
+        &#123;
+            Console.WriteLine($&quot;你好，&#123;name&#125;！&quot;);
+        &#125;
+
+        // 3. 带参数有返回值的方法
+        static int Add(int a, int b)
+        &#123;
+            int sum = a + b;
+            return sum; // 返回计算结果
+        &#125;
+
+        // 4. 计算圆的面积的方法
+        static double CalculateCircleArea(double radius)
+        &#123;
+            return Math.PI * radius * radius;
+        &#125;
+
+        // 5. 带有多个参数的方法
+        static void PrintPersonInfo(string name, int age, string city)
+        &#123;
+            Console.WriteLine($&quot;姓名: &#123;name&#125;, 年龄: &#123;age&#125;, 城市: &#123;city&#125;&quot;);
+        &#125;
+
+        static void Main(string[] args)
+        &#123;
+            // 调用无参数无返回值的方法
+            SayHello();
+
+            // 调用带参数无返回值的方法
+            GreetUser(&quot;张三&quot;);
+            GreetUser(&quot;李四&quot;);
+
+            // 调用带参数有返回值的方法
+            int result = Add(10, 20);
+            Console.WriteLine($&quot;10 + 20 = &#123;result&#125;&quot;);
+
+            int x = 5;
+            int y = 7;
+            int sumXY = Add(x, y);
+            Console.WriteLine($&quot;&#123;x&#125; + &#123;y&#125; = &#123;sumXY&#125;&quot;);
+
+            // 调用计算圆面积的方法
+            double circleRadius = 5.0;
+            double area = CalculateCircleArea(circleRadius);
+            Console.WriteLine($&quot;半径为 &#123;circleRadius&#125; 的圆的面积是: &#123;area:F2&#125;&quot;); // F2 格式化为两位小数
+
+            // 调用带有多个参数的方法
+            PrintPersonInfo(&quot;王五&quot;, 30, &quot;北京&quot;);
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>static</code>: 表示该方法属于类本身，而不是类的某个实例。在 <code>Main</code> 方法中调用其他方法时，通常需要将它们声明为 <code>static</code>。</li>
+<li><code>void</code>: 表示方法不返回任何值。如果方法需要返回一个值，你需要指定返回值的类型（例如 <code>int</code>, <code>double</code>, <code>string</code> 等）。</li>
+<li><code>string name</code>: <code>name</code> 是方法的参数，它的类型是 <code>string</code>。</li>
+<li><code>return sum;</code>: <code>return</code> 语句用于从方法中返回一个值。</li>
+</ul>
+<h4 id="4-2-参数传递"><a href="#4-2-参数传递" class="headerlink" title="4.2 参数传递"></a>4.2 参数传递</h4><p>C# 中方法的参数传递主要有两种方式：值传递和引用传递。</p>
+<p><strong>4.2.1 值传递 (Value Parameters)：</strong></p>
+<p>默认情况下，C# 使用值传递。这意味着当一个变量作为参数传递给方法时，实际上是传递了该变量的一个副本。方法内部对参数的修改不会影响原始变量。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace MethodsExample
+&#123;
+    class Program
+    &#123;
+        static void ChangeValue(int num)
+        &#123;
+            num = num + 10; // 这里修改的是 num 的副本
+            Console.WriteLine($&quot;方法内部的 num: &#123;num&#125;&quot;);
+        &#125;
+
+        static void Main(string[] args)
+        &#123;
+            int myNumber = 5;
+            Console.WriteLine($&quot;方法调用前的 myNumber: &#123;myNumber&#125;&quot;); // 5
+
+            ChangeValue(myNumber); // 传递的是 myNumber 的值
+            Console.WriteLine($&quot;方法调用后的 myNumber: &#123;myNumber&#125;&quot;); // 5 (未改变)
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>4.2.2 引用传递 (Reference Parameters - <code>ref</code> 关键字)：</strong></p>
+<p>使用 <code>ref</code> 关键字可以将参数通过引用传递。这意味着方法操作的是原始变量的内存地址，因此方法内部对参数的修改会影响原始变量。</p>
+<p><strong>注意：</strong> 使用 <code>ref</code> 关键字时，参数在传递前必须已被初始化。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace MethodsExample
+&#123;
+    class Program
+    &#123;
+        static void ChangeReference(ref int num) // 使用 ref 关键字
+        &#123;
+            num = num + 10; // 这里修改的是原始变量
+            Console.WriteLine($&quot;方法内部的 num: &#123;num&#125;&quot;);
+        &#125;
+
+        static void Main(string[] args)
+        &#123;
+            int myNumber = 5;
+            Console.WriteLine($&quot;方法调用前的 myNumber: &#123;myNumber&#125;&quot;); // 5
+
+            ChangeReference(ref myNumber); // 传递的是 myNumber 的引用
+            Console.WriteLine($&quot;方法调用后的 myNumber: &#123;myNumber&#125;&quot;); // 15 (已改变)
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>4.2.3 输出参数 (Output Parameters - <code>out</code> 关键字)：</strong></p>
+<p>使用 <code>out</code> 关键字可以将参数作为输出参数传递。这意味着方法可以在不使用 <code>return</code> 语句的情况下返回多个值。</p>
+<p><strong>注意：</strong> 使用 <code>out</code> 关键字时，参数在方法内部必须被赋值，且在传递前可以不被初始化。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace MethodsExample
+&#123;
+    class Program
+    &#123;
+        static void GetMinMax(int[] numbers, out int min, out int max)
+        &#123;
+            min = numbers[0]; // 必须在方法内部为 out 参数赋值
+            max = numbers[0];
+
+            foreach (int num in numbers)
+            &#123;
+                if (num &lt; min)
+                &#123;
+                    min = num;
+                &#125;
+                if (num &gt; max)
+                &#123;
+                    max = num;
+                &#125;
+            &#125;
+        &#125;
+
+        static void Main(string[] args)
+        &#123;
+            int[] data = &#123; 10, 5, 20, 8, 15 &#125;;
+            int minimum; // 无需初始化
+            int maximum; // 无需初始化
+
+            GetMinMax(data, out minimum, out maximum);
+
+            Console.WriteLine($&quot;最小值: &#123;minimum&#125;&quot;); // 5
+            Console.WriteLine($&quot;最大值: &#123;maximum&#125;&quot;); // 20
+
+            // 示例：TryParse 就是一个典型的 out 参数应用
+            string strNum = &quot;123&quot;;
+            int parsedNum;
+            bool success = int.TryParse(strNum, out parsedNum);
+            if (success)
+            &#123;
+                Console.WriteLine($&quot;解析成功: &#123;parsedNum&#125;&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="4-3-方法重载-Method-Overloading"><a href="#4-3-方法重载-Method-Overloading" class="headerlink" title="4.3 方法重载 (Method Overloading)"></a>4.3 方法重载 (Method Overloading)</h4><p><strong>方法重载</strong>允许在同一个类中定义多个同名的方法，但它们的参数列表必须不同（参数的数量、类型或顺序不同）。编译器会根据调用时提供的参数类型和数量来决定调用哪个重载方法。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace MethodsExample
+&#123;
+    class Program
+    &#123;
+        // 加法方法 1：两个整数相加
+        static int Add(int a, int b)
+        &#123;
+            Console.WriteLine(&quot;调用了 Add(int, int)&quot;);
+            return a + b;
+        &#125;
+
+        // 加法方法 2：三个整数相加
+        static int Add(int a, int b, int c)
+        &#123;
+            Console.WriteLine(&quot;调用了 Add(int, int, int)&quot;);
+            return a + b + c;
+        &#125;
+
+        // 加法方法 3：两个双精度浮点数相加
+        static double Add(double a, double b)
+        &#123;
+            Console.WriteLine(&quot;调用了 Add(double, double)&quot;);
+            return a + b;
+        &#125;
+
+        // 连接字符串
+        static string Concatenate(string s1, string s2)
+        &#123;
+            Console.WriteLine(&quot;调用了 Concatenate(string, string)&quot;);
+            return s1 + s2;
+        &#125;
+
+        // 连接三个字符串
+        static string Concatenate(string s1, string s2, string s3)
+        &#123;
+            Console.WriteLine(&quot;调用了 Concatenate(string, string, string)&quot;);
+            return s1 + s2 + s3;
+        &#125;
+
+        static void Main(string[] args)
+        &#123;
+            Console.WriteLine($&quot;Add(10, 20): &#123;Add(10, 20)&#125;&quot;); // 调用 Add(int, int)
+            Console.WriteLine($&quot;Add(10, 20, 30): &#123;Add(10, 20, 30)&#125;&quot;); // 调用 Add(int, int, int)
+            Console.WriteLine($&quot;Add(10.5, 20.3): &#123;Add(10.5, 20.3)&#125;&quot;); // 调用 Add(double, double)
+
+            Console.WriteLine($&quot;Concatenate(&#39;Hello&#39;, &#39;World&#39;): &#123;Concatenate(&quot;Hello&quot;, &quot;World&quot;)&#125;&quot;);
+            Console.WriteLine($&quot;Concatenate(&#39;C#&#39;, &#39;is&#39;, &#39;fun&#39;): &#123;Concatenate(&quot;C#&quot;, &quot; is&quot;, &quot; fun!&quot;)&#125;&quot;);
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<h3 id="章节五：面向对象编程-OOP-基础"><a href="#章节五：面向对象编程-OOP-基础" class="headerlink" title="章节五：面向对象编程 (OOP) 基础"></a>章节五：面向对象编程 (OOP) 基础</h3><p>C# 是一种面向对象的语言。面向对象编程 (OOP) 是一种编程范式，它将程序中的实体建模为“对象”，每个对象都包含数据（属性）和行为（方法）。</p>
+<p>OOP 的四大核心原则：</p>
+<ul>
+<li><strong>封装 (Encapsulation)：</strong> 将数据和操作数据的方法捆绑在一起，并对外部隐藏内部实现细节。</li>
+<li><strong>继承 (Inheritance)：</strong> 允许一个类（子类）继承另一个类（父类）的属性和方法，从而实现代码重用。</li>
+<li><strong>多态 (Polymorphism)：</strong> 允许不同类的对象对同一个消息做出不同的响应（例如，父类引用指向子类对象）。</li>
+<li><strong>抽象 (Abstraction)：</strong> 隐藏复杂的实现细节，只向用户暴露必要的功能。</li>
+</ul>
+<h4 id="5-1-类-Class-和对象-Object"><a href="#5-1-类-Class-和对象-Object" class="headerlink" title="5.1 类 (Class) 和对象 (Object)"></a>5.1 类 (Class) 和对象 (Object)</h4><ul>
+<li><strong>类 (Class)：</strong> 是创建对象的蓝图或模板。它定义了对象的属性（数据）和行为（方法）。</li>
+<li><strong>对象 (Object)：</strong> 是类的实例。当你创建一个类的对象时，你就在内存中分配了该类定义的属性和方法。</li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace OOP
+&#123;
+    // 定义一个 Person 类
+    class Person
+    &#123;
+        // 属性 (Properties)
+        public string Name &#123; get; set; &#125; // 自动实现的属性，包含 get 和 set 访问器
+        public int Age &#123; get; set; &#125;
+        public string City &#123; get; set; &#125;
+
+        // 构造函数 (Constructor)
+        // 构造函数是一个特殊的方法，在创建对象时被调用，用于初始化对象的属性
+        public Person(string name, int age, string city)
+        &#123;
+            Name = name;
+            Age = age;
+            City = city;
+            Console.WriteLine($&quot;创建了一个新的 Person 对象: &#123;Name&#125;&quot;);
+        &#125;
+
+        // 方法 (Methods)
+        public void Introduce()
+        &#123;
+            Console.WriteLine($&quot;你好，我叫 &#123;Name&#125;，我今年 &#123;Age&#125; 岁，来自 &#123;City&#125;。&quot;);
+        &#125;
+
+        public void CelebrateBirthday()
+        &#123;
+            Age++;
+            Console.WriteLine($&quot;&#123;Name&#125; 庆祝了生日，现在 &#123;Age&#125; 岁了！&quot;);
+        &#125;
+    &#125;
+
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 创建 Person 类的对象 (实例化)
+            Person person1 = new Person(&quot;张三&quot;, 30, &quot;北京&quot;);
+            Person person2 = new Person(&quot;李四&quot;, 25, &quot;上海&quot;);
+
+            // 访问对象的属性
+            Console.WriteLine($&quot;Person1 的名字: &#123;person1.Name&#125;&quot;);
+            Console.WriteLine($&quot;Person2 的年龄: &#123;person2.Age&#125;&quot;);
+
+            // 调用对象的方法
+            person1.Introduce();
+            person2.Introduce();
+
+            person1.CelebrateBirthday(); // 张三的年龄变为 31
+            person1.Introduce();
+
+            // 尝试创建另一个 Person 对象，但没有指定所有参数 (会报错，因为没有匹配的构造函数)
+            // Person person3 = new Person(&quot;王五&quot;); // 编译错误
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>public string Name &#123; get; set; &#125;</code>: 这是一种 C# 属性的简写语法，称为“自动实现的属性”。它会自动创建私有字段来存储数据，并提供公共的 <code>get</code>（读取）和 <code>set</code>（写入）访问器。</li>
+<li><code>public Person(string name, int age, string city)</code>: 这是 <code>Person</code> 类的构造函数。它的名称与类名相同，没有返回类型。当使用 <code>new Person(...)</code> 创建对象时，构造函数会被调用。</li>
+<li><code>this.Name = name;</code>（在此示例中直接 <code>Name = name;</code> 也可以，因为参数名与属性名不同）：在构造函数中，<code>name</code> 是传入的参数，<code>Name</code> 是类的属性。<code>this</code> 关键字可以用于区分同名的参数和属性，尽管在本例中不是必需的。</li>
+</ul>
+<h4 id="5-2-访问修饰符-Access-Modifiers"><a href="#5-2-访问修饰符-Access-Modifiers" class="headerlink" title="5.2 访问修饰符 (Access Modifiers)"></a>5.2 访问修饰符 (Access Modifiers)</h4><p>访问修饰符控制类、成员（属性、方法、字段）的可访问性。</p>
+<ul>
+<li><code>public</code>: 成员可以从任何地方访问。</li>
+<li><code>private</code>: 成员只能在声明它们的类内部访问。这是默认的访问修饰符。</li>
+<li><code>protected</code>: 成员可以在声明它们的类内部以及派生类（子类）内部访问。</li>
+<li><code>internal</code>: 成员可以在同一程序集（通常是一个项目）中的任何代码中访问。</li>
+<li><code>protected internal</code>: <code>protected</code> 和 <code>internal</code> 的组合。</li>
+<li><code>private protected</code>: <code>private</code> 和 <code>protected</code> 的组合。</li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace OOP
+&#123;
+    class Account
+    &#123;
+        public string AccountNumber &#123; get; private set; &#125; // 账号可以从外部读取，但只能在 Account 类内部设置
+        private decimal _balance; // 私有字段，只能在 Account 类内部访问
+
+        public Account(string accountNumber, decimal initialBalance)
+        &#123;
+            AccountNumber = accountNumber;
+            _balance = initialBalance;
+        &#125;
+
+        public decimal GetBalance() // 公共方法，用于获取余额
+        &#123;
+            return _balance;
+        &#125;
+
+        public void Deposit(decimal amount) // 公共方法，用于存款
+        &#123;
+            if (amount &gt; 0)
+            &#123;
+                _balance += amount;
+                Console.WriteLine($&quot;存款 &#123;amount&#125; 成功。当前余额: &#123;_balance&#125;&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine(&quot;存款金额必须大于零。&quot;);
+            &#125;
+        &#125;
+
+        public void Withdraw(decimal amount) // 公共方法，用于取款
+        &#123;
+            if (amount &gt; 0 &amp;&amp; _balance &gt;= amount)
+            &#123;
+                _balance -= amount;
+                Console.WriteLine($&quot;取款 &#123;amount&#125; 成功。当前余额: &#123;_balance&#125;&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine(&quot;取款失败：金额无效或余额不足。&quot;);
+            &#125;
+        &#125;
+    &#125;
+
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            Account myAccount = new Account(&quot;123456789&quot;, 1000m);
+
+            Console.WriteLine($&quot;账号: &#123;myAccount.AccountNumber&#125;&quot;);
+            Console.WriteLine($&quot;初始余额: &#123;myAccount.GetBalance()&#125;&quot;);
+
+            myAccount.Deposit(500m);
+            myAccount.Withdraw(200m);
+            myAccount.Withdraw(2000m); // 余额不足
+
+            // myAccount._balance = 5000m; // 编译错误：_balance 是 private
+            // myAccount.AccountNumber = &quot;987654321&quot;; // 编译错误：AccountNumber 的 set 是 private
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="5-3-继承-Inheritance"><a href="#5-3-继承-Inheritance" class="headerlink" title="5.3 继承 (Inheritance)"></a>5.3 继承 (Inheritance)</h4><p><strong>继承</strong>允许一个类（子类&#x2F;派生类）从另一个类（父类&#x2F;基类）继承属性和方法。子类可以重用父类的代码，并可以添加自己的特有属性和方法，或者覆盖（Override）父类的方法。</p>
+<p>使用冒号 <code>:</code> 来表示继承。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace OOP
+&#123;
+    // 基类 (父类)
+    class Animal
+    &#123;
+        public string Name &#123; get; set; &#125;
+        public int Age &#123; get; set; &#125;
+
+        public Animal(string name, int age)
+        &#123;
+            Name = name;
+            Age = age;
+        &#125;
+
+        public void Eat()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 正在吃东西。&quot;);
+        &#125;
+
+        public virtual void MakeSound() // virtual 关键字表示该方法可以在子类中被重写
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 发出声音。&quot;);
+        &#125;
+    &#125;
+
+    // 派生类 (子类) Dog 继承自 Animal
+    class Dog : Animal
+    &#123;
+        public string Breed &#123; get; set; &#125;
+
+        public Dog(string name, int age, string breed) : base(name, age) // base 关键字调用父类的构造函数
+        &#123;
+            Breed = breed;
+        &#125;
+
+        public void Bark()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 汪汪叫！&quot;);
+        &#125;
+
+        // 重写 (Override) 父类的方法
+        public override void MakeSound() // override 关键字表示重写父类方法
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 发出狗叫声：汪汪！&quot;);
+        &#125;
+    &#125;
+
+    // 派生类 (子类) Cat 继承自 Animal
+    class Cat : Animal
+    &#123;
+        public Cat(string name, int age) : base(name, age) &#123; &#125;
+
+        public void Meow()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 喵喵叫！&quot;);
+        &#125;
+
+        public override void MakeSound()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 发出猫叫声：喵喵！&quot;);
+        &#125;
+    &#125;
+
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            Animal animal = new Animal(&quot;动物&quot;, 5);
+            animal.Eat();
+            animal.MakeSound(); // 动物发出声音。
+
+            Dog myDog = new Dog(&quot;旺财&quot;, 3, &quot;金毛&quot;);
+            myDog.Eat(); // 继承自 Animal
+            myDog.Bark(); // Dog 自己的方法
+            myDog.MakeSound(); // 旺财发出狗叫声：汪汪！ (重写后的方法)
+
+            Cat myCat = new Cat(&quot;咪咪&quot;, 2);
+            myCat.Eat(); // 继承自 Animal
+            myCat.Meow(); // Cat 自己的方法
+            myCat.MakeSound(); // 咪咪发出猫叫声：喵喵！ (重写后的方法)
+
+            // 多态性：父类引用指向子类对象
+            Animal pet1 = new Dog(&quot;哈士奇&quot;, 4, &quot;哈士奇&quot;);
+            Animal pet2 = new Cat(&quot;布偶&quot;, 1);
+
+            pet1.MakeSound(); // 哈士奇发出狗叫声：汪汪！
+            pet2.MakeSound(); // 布偶发出猫叫声：喵喵！
+            // pet1.Bark(); // 编译错误，pet1 是 Animal 类型，没有 Bark 方法
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>public virtual void MakeSound()</code>: <code>virtual</code> 关键字允许子类重写这个方法。</li>
+<li><code>public override void MakeSound()</code>: <code>override</code> 关键字表示子类正在重写父类的一个虚方法。</li>
+<li><code>: base(name, age)</code>: 在子类的构造函数中，使用 <code>base</code> 关键字调用父类的构造函数，以初始化父类中定义的属性。</li>
+<li><strong>多态性 (Polymorphism)：</strong> 在 <code>Main</code> 方法中，<code>Animal pet1 = new Dog(...)</code> 和 <code>Animal pet2 = new Cat(...)</code> 展示了多态性。尽管 <code>pet1</code> 和 <code>pet2</code> 的类型都是 <code>Animal</code>，但当调用 <code>MakeSound()</code> 方法时，实际执行的是它们各自子类中重写的方法。</li>
+</ul>
+<h4 id="5-4-抽象类-Abstract-Classes-和抽象方法-Abstract-Methods"><a href="#5-4-抽象类-Abstract-Classes-和抽象方法-Abstract-Methods" class="headerlink" title="5.4 抽象类 (Abstract Classes) 和抽象方法 (Abstract Methods)"></a>5.4 抽象类 (Abstract Classes) 和抽象方法 (Abstract Methods)</h4><p><strong>抽象类</strong>不能被实例化，只能作为其他类的基类。抽象类可以包含抽象方法（没有实现的方法）和非抽象方法。</p>
+<p><strong>抽象方法</strong>没有实现，必须在派生类中被重写。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace OOP
+&#123;
+    // 抽象基类
+    abstract class Shape
+    &#123;
+        public string Color &#123; get; set; &#125;
+
+        public Shape(string color)
+        &#123;
+            Color = color;
+        &#125;
+
+        // 抽象方法 (没有实现，必须在派生类中重写)
+        public abstract double GetArea();
+
+        // 非抽象方法
+        public void DisplayColor()
+        &#123;
+            Console.WriteLine($&quot;这个形状的颜色是: &#123;Color&#125;&quot;);
+        &#125;
+    &#125;
+
+    // 派生类 Circle
+    class Circle : Shape
+    &#123;
+        public double Radius &#123; get; set; &#125;
+
+        public Circle(string color, double radius) : base(color)
+        &#123;
+            Radius = radius;
+        &#125;
+
+        // 重写抽象方法 GetArea
+        public override double GetArea()
+        &#123;
+            return Math.PI * Radius * Radius;
+        &#125;
+    &#125;
+
+    // 派生类 Rectangle
+    class Rectangle : Shape
+    &#123;
+        public double Width &#123; get; set; &#125;
+        public double Height &#123; get; set; &#125;
+
+        public Rectangle(string color, double width, double height) : base(color)
+        &#123;
+            Width = width;
+            Height = height;
+        &#125;
+
+        // 重写抽象方法 GetArea
+        public override double GetArea()
+        &#123;
+            return Width * Height;
+        &#125;
+    &#125;
+
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // Shape shape = new Shape(&quot;红色&quot;); // 编译错误：不能创建抽象类的实例
+
+            Circle circle = new Circle(&quot;蓝色&quot;, 5.0);
+            Rectangle rectangle = new Rectangle(&quot;绿色&quot;, 4.0, 6.0);
+
+            circle.DisplayColor();
+            Console.WriteLine($&quot;圆的面积: &#123;circle.GetArea():F2&#125;&quot;);
+
+            rectangle.DisplayColor();
+            Console.WriteLine($&quot;矩形的面积: &#123;rectangle.GetArea():F2&#125;&quot;);
+
+            // 通过抽象类引用多态地调用 GetArea
+            Shape[] shapes = new Shape[2];
+            shapes[0] = circle;
+            shapes[1] = rectangle;
+
+            Console.WriteLine(&quot;\n遍历形状数组，多态调用 GetArea:&quot;);
+            foreach (Shape s in shapes)
+            &#123;
+                s.DisplayColor();
+                Console.WriteLine($&quot;面积: &#123;s.GetArea():F2&#125;&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>abstract class Shape</code>: <code>abstract</code> 关键字声明一个抽象类。</li>
+<li><code>public abstract double GetArea();</code>: 抽象方法只有声明，没有方法体。</li>
+<li>子类 <code>Circle</code> 和 <code>Rectangle</code> 必须 <code>override</code> 抽象方法 <code>GetArea()</code>，否则会发生编译错误。</li>
+</ul>
+<h4 id="5-5-接口-Interfaces"><a href="#5-5-接口-Interfaces" class="headerlink" title="5.5 接口 (Interfaces)"></a>5.5 接口 (Interfaces)</h4><p><strong>接口</strong>定义了一组行为（方法、属性、事件、索引器），但没有实现。类可以实现一个或多个接口，从而承诺提供接口中定义的所有行为的实现。接口可以实现多重继承，而类不能。</p>
+<p>使用 <code>interface</code> 关键字声明接口。接口成员默认是 <code>public</code> 的。</p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace OOP
+&#123;
+    // 定义一个接口
+    interface ISwimmable
+    &#123;
+        void Swim(); // 接口方法没有方法体
+    &#125;
+
+    interface IFlyable
+    &#123;
+        void Fly();
+    &#125;
+
+    // Dog 类实现 ISwimmable 接口
+    class Dog : ISwimmable
+    &#123;
+        public string Name &#123; get; set; &#125;
+
+        public Dog(string name)
+        &#123;
+            Name = name;
+        &#125;
+
+        public void Bark()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 汪汪叫！&quot;);
+        &#125;
+
+        // 实现 ISwimmable 接口的 Swim 方法
+        public void Swim()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 正在狗刨式游泳！&quot;);
+        &#125;
+    &#125;
+
+    // Bird 类实现 IFlyable 接口
+    class Bird : IFlyable
+    &#123;
+        public string Name &#123; get; set; &#125;
+
+        public Bird(string name)
+        &#123;
+            Name = name;
+        &#125;
+
+        // 实现 IFlyable 接口的 Fly 方法
+        public void Fly()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 正在天空翱翔！&quot;);
+        &#125;
+    &#125;
+
+    // Duck 类实现 ISwimmable 和 IFlyable 两个接口
+    class Duck : ISwimmable, IFlyable
+    &#123;
+        public string Name &#123; get; set; &#125;
+
+        public Duck(string name)
+        &#123;
+            Name = name;
+        &#125;
+
+        public void Swim()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 正在水里嘎嘎地游。&quot;);
+        &#125;
+
+        public void Fly()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 正在扇动翅膀飞翔。&quot;);
+        &#125;
+
+        public void Quack()
+        &#123;
+            Console.WriteLine($&quot;&#123;Name&#125; 嘎嘎叫。&quot;);
+        &#125;
+    &#125;
+
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            Dog myDog = new Dog(&quot;小黑&quot;);
+            myDog.Bark();
+            myDog.Swim(); // 调用接口实现的方法
+
+            Bird myBird = new Bird(&quot;小鸟&quot;);
+            myBird.Fly();
+
+            Duck myDuck = new Duck(&quot;唐老鸭&quot;);
+            myDuck.Swim();
+            myDuck.Fly();
+            myDuck.Quack();
+
+            // 多态性：通过接口引用
+            ISwimmable swimmer1 = new Dog(&quot;金毛&quot;);
+            ISwimmable swimmer2 = new Duck(&quot;小黄鸭&quot;);
+
+            Console.WriteLine(&quot;\n通过 ISwimmable 接口调用 Swim 方法:&quot;);
+            swimmer1.Swim();
+            swimmer2.Swim();
+
+            IFlyable flyer1 = new Bird(&quot;鹦鹉&quot;);
+            IFlyable flyer2 = new Duck(&quot;野鸭&quot;);
+
+            Console.WriteLine(&quot;\n通过 IFlyable 接口调用 Fly 方法:&quot;);
+            flyer1.Fly();
+            flyer2.Fly();
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>interface ISwimmable</code>: 声明一个接口。</li>
+<li><code>void Swim();</code>: 接口方法没有访问修饰符（因为默认是 <code>public</code>），也没有方法体。</li>
+<li><code>class Dog : ISwimmable</code>: <code>Dog</code> 类实现了 <code>ISwimmable</code> 接口。</li>
+<li>当一个类实现一个接口时，它必须提供接口中所有方法的具体实现。</li>
+</ul>
+<hr>
+<h3 id="章节六：异常处理-Exception-Handling"><a href="#章节六：异常处理-Exception-Handling" class="headerlink" title="章节六：异常处理 (Exception Handling)"></a>章节六：异常处理 (Exception Handling)</h3><p><strong>异常</strong>是程序在运行时发生的错误或非预期事件。C# 提供了一种结构化的异常处理机制，使用 <code>try-catch-finally</code> 块来管理错误。</p>
+<ul>
+<li><code>try</code> 块：包含可能引发异常的代码。</li>
+<li><code>catch</code> 块：用于捕获和处理 <code>try</code> 块中抛出的特定类型的异常。</li>
+<li><code>finally</code> 块：无论是否发生异常，<code>finally</code> 块中的代码都总会执行（例如，用于释放资源）。</li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+
+namespace ExceptionHandling
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 示例 1: 除以零异常
+            Console.WriteLine(&quot;--- 示例 1: 除以零异常 ---&quot;);
+            try
+            &#123;
+                int a = 10;
+                int b = 0;
+                int result = a / b; // 这里会引发 DivideByZeroException
+                Console.WriteLine($&quot;结果: &#123;result&#125;&quot;); // 这行代码不会执行
+            &#125;
+            catch (DivideByZeroException ex) // 捕获特定类型的异常
+            &#123;
+                Console.WriteLine($&quot;错误: 除数不能为零！&quot;);
+                Console.WriteLine($&quot;异常消息: &#123;ex.Message&#125;&quot;);
+                // Console.WriteLine($&quot;堆栈跟踪: &#123;ex.StackTrace&#125;&quot;); // 打印详细的错误信息
+            &#125;
+            catch (Exception ex) // 捕获所有其他类型的异常（通常放在最后）
+            &#123;
+                Console.WriteLine($&quot;发生了未知错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+            finally
+            &#123;
+                Console.WriteLine(&quot;除法操作完成。&quot;); // 无论是否发生异常，都会执行
+            &#125;
+
+            Console.WriteLine(&quot;\n--- 示例 2: 数组越界异常 ---&quot;);
+            try
+            &#123;
+                int[] numbers = &#123; 1, 2, 3 &#125;;
+                Console.WriteLine($&quot;访问数组元素: &#123;numbers[5]&#125;&quot;); // 这里会引发 IndexOutOfRangeException
+            &#125;
+            catch (IndexOutOfRangeException ex)
+            &#123;
+                Console.WriteLine($&quot;错误: 数组索引超出范围！&quot;);
+                Console.WriteLine($&quot;异常消息: &#123;ex.Message&#125;&quot;);
+            &#125;
+            finally
+            &#123;
+                Console.WriteLine(&quot;数组操作完成。&quot;);
+            &#125;
+
+
+            Console.WriteLine(&quot;\n--- 示例 3: 用户输入转换异常 ---&quot;);
+            Console.Write(&quot;请输入一个整数: &quot;);
+            string input = Console.ReadLine();
+
+            try
+            &#123;
+                int parsedNumber = int.Parse(input); // 尝试将字符串转换为整数
+                Console.WriteLine($&quot;你输入的整数是: &#123;parsedNumber&#125;&quot;);
+            &#125;
+            catch (FormatException ex)
+            &#123;
+                Console.WriteLine($&quot;输入格式错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+            catch (OverflowException ex)
+            &#123;
+                Console.WriteLine($&quot;输入值过大或过小: &#123;ex.Message&#125;&quot;);
+            &#125;
+            finally
+            &#123;
+                Console.WriteLine(&quot;用户输入处理完毕。&quot;);
+            &#125;
+
+            Console.WriteLine(&quot;\n--- 示例 4: 使用 throw 抛出自定义异常 ---&quot;);
+            try
+            &#123;
+                ProcessAge(-5); // 传递一个无效年龄
+            &#125;
+            catch (ArgumentOutOfRangeException ex)
+            &#123;
+                Console.WriteLine($&quot;年龄处理错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+
+        // 模拟一个可能抛出异常的方法
+        static void ProcessAge(int age)
+        &#123;
+            if (age &lt; 0 || age &gt; 150)
+            &#123;
+                // 抛出自定义的 ArgumentOutOfRangeException 异常
+                throw new ArgumentOutOfRangeException(nameof(age), &quot;年龄必须在 0 到 150 之间。&quot;);
+            &#125;
+            Console.WriteLine($&quot;年龄 &#123;age&#125; 已成功处理。&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>try</code>: 包含可能发生异常的代码。</li>
+<li><code>catch (ExceptionType ex)</code>: 如果 <code>try</code> 块中发生 <code>ExceptionType</code> 类型的异常，则执行此 <code>catch</code> 块。<code>ex</code> 是一个异常对象，包含了关于异常的详细信息。</li>
+<li>可以有多个 <code>catch</code> 块来捕获不同类型的异常。通常，将更具体的异常类型放在前面，将更通用的 <code>Exception</code> 类型放在最后。</li>
+<li><code>finally</code>: 无论 <code>try</code> 块中是否发生异常，甚至在 <code>try</code> 或 <code>catch</code> 块中有 <code>return</code> 语句，<code>finally</code> 块中的代码都一定会执行。这对于资源清理（如关闭文件、数据库连接）非常有用。</li>
+<li><code>throw new ExceptionType(...)</code>: 使用 <code>throw</code> 关键字可以手动抛出异常。你可以抛出 .NET 内置的异常类型，也可以自定义异常。</li>
+</ul>
+<hr>
+<h3 id="章节七：文件操作-File-I-O"><a href="#章节七：文件操作-File-I-O" class="headerlink" title="章节七：文件操作 (File I&#x2F;O)"></a>章节七：文件操作 (File I&#x2F;O)</h3><p>C# 提供了 <code>System.IO</code> 命名空间中的类来处理文件和目录。</p>
+<p><strong>常用类：</strong></p>
+<ul>
+<li><code>File</code>: 用于文件操作（读写、复制、删除等）。</li>
+<li><code>Directory</code>: 用于目录操作（创建、删除、移动等）。</li>
+<li><code>StreamReader</code>: 用于从文件中读取文本。</li>
+<li><code>StreamWriter</code>: 用于向文件中写入文本。</li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+using System.IO; // 引入 System.IO 命名空间
+
+namespace FileIOExample
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            string filePath = &quot;mydata.txt&quot;;
+            string directoryPath = &quot;my_folder&quot;;
+
+            // --- 1. 写入文件 ---
+            Console.WriteLine(&quot;--- 写入文件 ---&quot;);
+            try
+            &#123;
+                // 使用 StreamWriter 写入文本到文件
+                // using 语句确保 StreamWriter 对象在使用完毕后被正确关闭和释放资源
+                using (StreamWriter writer = new StreamWriter(filePath))
+                &#123;
+                    writer.WriteLine(&quot;Hello, C#!&quot;);
+                    writer.WriteLine(&quot;这是我的第一个文件。&quot;);
+                    writer.WriteLine(&quot;日期: &quot; + DateTime.Now.ToShortDateString());
+                &#125;
+                Console.WriteLine($&quot;文本已成功写入到文件: &#123;filePath&#125;&quot;);
+            &#125;
+            catch (Exception ex)
+            &#123;
+                Console.WriteLine($&quot;写入文件时发生错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            // --- 2. 读取文件 ---
+            Console.WriteLine(&quot;\n--- 读取文件 ---&quot;);
+            try
+            &#123;
+                // 使用 StreamReader 从文件中读取文本
+                using (StreamReader reader = new StreamReader(filePath))
+                &#123;
+                    string line;
+                    Console.WriteLine($&quot;文件 &#39;&#123;filePath&#125;&#39; 的内容:&quot;);
+                    while ((line = reader.ReadLine()) != null) // 逐行读取直到文件末尾
+                    &#123;
+                        Console.WriteLine(line);
+                    &#125;
+                &#125;
+            &#125;
+            catch (FileNotFoundException)
+            &#123;
+                Console.WriteLine($&quot;错误: 文件 &#39;&#123;filePath&#125;&#39; 不存在。&quot;);
+            &#125;
+            catch (Exception ex)
+            &#123;
+                Console.WriteLine($&quot;读取文件时发生错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            // --- 3. 检查文件是否存在 ---
+            Console.WriteLine(&quot;\n--- 检查文件是否存在 ---&quot;);
+            if (File.Exists(filePath))
+            &#123;
+                Console.WriteLine($&quot;文件 &#39;&#123;filePath&#125;&#39; 存在。&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine($&quot;文件 &#39;&#123;filePath&#125;&#39; 不存在。&quot;);
+            &#125;
+
+            // --- 4. 复制文件 ---
+            Console.WriteLine(&quot;\n--- 复制文件 ---&quot;);
+            string destinationPath = &quot;mydata_copy.txt&quot;;
+            try
+            &#123;
+                File.Copy(filePath, destinationPath, true); // true 表示如果目标文件已存在则覆盖
+                Console.WriteLine($&quot;文件 &#39;&#123;filePath&#125;&#39; 已复制到 &#39;&#123;destinationPath&#125;&#39;。&quot;);
+            &#125;
+            catch (Exception ex)
+            &#123;
+                Console.WriteLine($&quot;复制文件时发生错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            // --- 5. 删除文件 ---
+            Console.WriteLine(&quot;\n--- 删除文件 ---&quot;);
+            try
+            &#123;
+                if (File.Exists(destinationPath))
+                &#123;
+                    File.Delete(destinationPath);
+                    Console.WriteLine($&quot;文件 &#39;&#123;destinationPath&#125;&#39; 已删除。&quot;);
+                &#125;
+                else
+                &#123;
+                    Console.WriteLine($&quot;文件 &#39;&#123;destinationPath&#125;&#39; 不存在，无法删除。&quot;);
+                &#125;
+            &#125;
+            catch (Exception ex)
+            &#123;
+                Console.WriteLine($&quot;删除文件时发生错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            // --- 6. 目录操作 ---
+            Console.WriteLine(&quot;\n--- 目录操作 ---&quot;);
+            // 创建目录
+            if (!Directory.Exists(directoryPath))
+            &#123;
+                Directory.CreateDirectory(directoryPath);
+                Console.WriteLine($&quot;目录 &#39;&#123;directoryPath&#125;&#39; 已创建。&quot;);
+            &#125;
+            else
+            &#123;
+                Console.WriteLine($&quot;目录 &#39;&#123;directoryPath&#125;&#39; 已存在。&quot;);
+            &#125;
+
+            // 在新目录中创建文件
+            string newFilePath = Path.Combine(directoryPath, &quot;report.txt&quot;); // 组合路径
+            try
+            &#123;
+                File.WriteAllText(newFilePath, &quot;这是报告内容。&quot;); // 写入所有文本到文件
+                Console.WriteLine($&quot;文件 &#39;&#123;newFilePath&#125;&#39; 已创建。&quot;);
+            &#125;
+            catch (Exception ex)
+            &#123;
+                Console.WriteLine($&quot;在新目录中创建文件时发生错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            // 获取目录中的文件
+            Console.WriteLine($&quot;\n&#39;&#123;directoryPath&#125;&#39; 目录中的文件:&quot;);
+            string[] filesInDir = Directory.GetFiles(directoryPath);
+            foreach (string file in filesInDir)
+            &#123;
+                Console.WriteLine(Path.GetFileName(file)); // 只获取文件名
+            &#125;
+
+            // 删除目录 (如果目录非空，需要使用 Directory.Delete(path, true))
+            try
+            &#123;
+                if (Directory.Exists(directoryPath))
+                &#123;
+                    Directory.Delete(directoryPath, true); // true 表示递归删除目录及其内容
+                    Console.WriteLine($&quot;目录 &#39;&#123;directoryPath&#125;&#39; 已删除。&quot;);
+                &#125;
+            &#125;
+            catch (Exception ex)
+            &#123;
+                Console.WriteLine($&quot;删除目录时发生错误: &#123;ex.Message&#125;&quot;);
+            &#125;
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>using (StreamWriter writer = new StreamWriter(filePath))</code>: <code>using</code> 语句是一种 C# 特有的语法糖，它确保 <code>StreamWriter</code> 对象在作用域结束时自动调用 <code>Dispose()</code> 方法，从而正确关闭文件句柄和释放资源，即使发生异常。</li>
+<li><code>File.Exists(filePath)</code>: 检查文件是否存在。</li>
+<li><code>Directory.Exists(directoryPath)</code>: 检查目录是否存在。</li>
+<li><code>Path.Combine(directoryPath, &quot;report.txt&quot;)</code>: <code>Path.Combine</code> 方法用于安全地组合路径，它会自动处理路径分隔符。</li>
+<li><code>File.WriteAllText(newFilePath, &quot;这是报告内容。&quot;)</code>: 这是一个便捷方法，用于将所有文本一次性写入文件。</li>
+<li><code>Directory.Delete(directoryPath, true)</code>: 第二个参数 <code>true</code> 表示递归删除目录及其所有内容。如果目录中存在文件或子目录，不带 <code>true</code> 参数的 <code>Delete</code> 方法会抛出异常。</li>
+</ul>
+<hr>
+<h3 id="章节八：LINQ-Language-Integrated-Query-基础"><a href="#章节八：LINQ-Language-Integrated-Query-基础" class="headerlink" title="章节八：LINQ (Language Integrated Query) 基础"></a>章节八：LINQ (Language Integrated Query) 基础</h3><p><strong>LINQ</strong>（Language Integrated Query，语言集成查询）是 C# 3.0 引入的一项强大功能，它允许你使用类似 SQL 的语法来查询和操作各种数据源，如集合、数据库、XML 等。</p>
+<p>LINQ 的核心思想是提供一种统一的查询语法，无论数据存储在哪里，都可以用相同的方式进行查询。</p>
+<p><strong>LINQ 语法：</strong></p>
+<p>LINQ 查询可以有两种语法形式：</p>
+<ol>
+<li><strong>查询语法 (Query Syntax)：</strong> 更接近 SQL，可读性好。</li>
+<li><strong>方法语法 (Method Syntax)：</strong> 使用扩展方法和 Lambda 表达式，更简洁灵活。</li>
+</ol>
+<p>通常，方法语法在实际开发中更常用，因为其灵活性更高，并且许多复杂的查询只能通过方法语法实现。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq; // 引入 System.Linq 命名空间，LINQ 需要此命名空间
+
+namespace LinqExample
+&#123;
+    class Program
+    &#123;
+        static void Main(string[] args)
+        &#123;
+            // 示例数据源：整数列表
+            List&lt;int&gt; numbers = new List&lt;int&gt; &#123; 1, 5, 8, 12, 15, 20, 25, 30, 35, 40 &#125;;
+
+            // 示例数据源：字符串数组
+            string[] names = &#123; &quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;, &quot;David&quot;, &quot;Eve&quot;, &quot;Frank&quot; &#125;;
+
+            // 示例数据源：自定义对象列表
+            List&lt;Student&gt; students = new List&lt;Student&gt;
+            &#123;
+                new Student(&quot;Alice&quot;, 20, 85),
+                new Student(&quot;Bob&quot;, 22, 92),
+                new Student(&quot;Charlie&quot;, 21, 78),
+                new Student(&quot;David&quot;, 20, 95),
+                new Student(&quot;Eve&quot;, 23, 88)
+            &#125;;
+
+            Console.WriteLine(&quot;--- LINQ 查询示例 ---&quot;);
+
+            // --- 1. 过滤 (Where) ---
+            // 查询语法：获取所有偶数
+            var evenNumbersQuery = from num in numbers
+                                   where num % 2 == 0
+                                   select num;
+            Console.WriteLine(&quot;\n偶数 (查询语法): &quot; + string.Join(&quot;, &quot;, evenNumbersQuery));
+
+            // 方法语法：获取所有大于 10 的数字
+            var greaterThanTenMethod = numbers.Where(num =&gt; num &gt; 10);
+            Console.WriteLine(&quot;大于 10 的数字 (方法语法): &quot; + string.Join(&quot;, &quot;, greaterThanTenMethod));
+
+            // --- 2. 排序 (OrderBy, OrderByDescending) ---
+            // 查询语法：按字母顺序排序名字
+            var sortedNamesQuery = from name in names
+                                   orderby name
+                                   select name;
+            Console.WriteLine(&quot;\n排序后的名字 (查询语法): &quot; + string.Join(&quot;, &quot;, sortedNamesQuery));
+
+            // 方法语法：按分数降序排序学生
+            var studentsByScoreDesc = students.OrderByDescending(s =&gt; s.Score);
+            Console.WriteLine(&quot;\n按分数降序排序的学生 (方法语法):&quot;);
+            foreach (var student in studentsByScoreDesc)
+            &#123;
+                Console.WriteLine($&quot;- &#123;student.Name&#125;, 分数: &#123;student.Score&#125;&quot;);
+            &#125;
+
+            // --- 3. 投影 (Select) ---
+            // 查询语法：只选择学生的名字
+            var studentNamesQuery = from student in students
+                                    select student.Name;
+            Console.WriteLine(&quot;\n学生姓名 (查询语法): &quot; + string.Join(&quot;, &quot;, studentNamesQuery));
+
+            // 方法语法：选择学生的姓名和分数组成匿名对象
+            var studentNameScores = students.Select(s =&gt; new &#123; s.Name, s.Score &#125;);
+            Console.WriteLine(&quot;\n学生姓名和分数 (方法语法，匿名对象):&quot;);
+            foreach (var item in studentNameScores)
+            &#123;
+                Console.WriteLine($&quot;- 姓名: &#123;item.Name&#125;, 分数: &#123;item.Score&#125;&quot;);
+            &#125;
+
+            // --- 4. 分组 (GroupBy) ---
+            // 方法语法：按年龄分组学生
+            var studentsByAge = students.GroupBy(s =&gt; s.Age);
+            Console.WriteLine(&quot;\n按年龄分组的学生 (方法语法):&quot;);
+            foreach (var group in studentsByAge)
+            &#123;
+                Console.WriteLine($&quot;年龄: &#123;group.Key&#125;&quot;);
+                foreach (var student in group)
+                &#123;
+                    Console.WriteLine($&quot;- &#123;student.Name&#125;&quot;);
+                &#125;
+            &#125;
+
+            // --- 5. 聚合函数 (Count, Sum, Average, Max, Min) ---
+            Console.WriteLine(&quot;\n聚合函数:&quot;);
+            Console.WriteLine($&quot;数字总数: &#123;numbers.Count()&#125;&quot;);
+            Console.WriteLine($&quot;所有数字之和: &#123;numbers.Sum()&#125;&quot;);
+            Console.WriteLine($&quot;所有数字的平均值: &#123;numbers.Average()&#125;&quot;);
+            Console.WriteLine($&quot;最大数字: &#123;numbers.Max()&#125;&quot;);
+            Console.WriteLine($&quot;最小数字: &#123;numbers.Min()&#125;&quot;);
+
+            Console.WriteLine($&quot;学生总数: &#123;students.Count()&#125;&quot;);
+            Console.WriteLine($&quot;学生总分数: &#123;students.Sum(s =&gt; s.Score)&#125;&quot;); // 求特定属性的和
+            Console.WriteLine($&quot;学生平均分数: &#123;students.Average(s =&gt; s.Score):F2&#125;&quot;);
+
+
+            // --- 6. First, FirstOrDefault, Single, SingleOrDefault ---
+            Console.WriteLine(&quot;\n查找元素:&quot;);
+            var firstEven = numbers.First(num =&gt; num % 2 == 0); // 第一个偶数
+            Console.WriteLine($&quot;第一个偶数: &#123;firstEven&#125;&quot;);
+
+            var twenty = numbers.FirstOrDefault(num =&gt; num == 20); // 找到 20
+            Console.WriteLine($&quot;找到 20: &#123;twenty&#125;&quot;);
+
+            var nonExistent = numbers.FirstOrDefault(num =&gt; num == 999); // 找不到 999，返回默认值 (0)
+            Console.WriteLine($&quot;找到 999 (FirstOrDefault): &#123;nonExistent&#125;&quot;);
+
+            // var singleStudent = students.Single(s =&gt; s.Name == &quot;Alice&quot;); // 找到唯一的 Alice
+            // Console.WriteLine($&quot;唯一的 Alice: &#123;singleStudent.Name&#125;&quot;);
+
+            // 如果有多个匹配项，Single() 会抛出异常。FirstOrDefault() 返回第一个，SingleOrDefault() 如果有多个匹配项会抛出异常，否则返回唯一一个或默认值
+            // var multipleAlice = students.Single(s =&gt; s.Age == 20); // 会抛出异常，因为有两个年龄为 20 的学生
+
+            Console.ReadKey();
+        &#125;
+    &#125;
+
+    class Student
+    &#123;
+        public string Name &#123; get; set; &#125;
+        public int Age &#123; get; set; &#125;
+        public int Score &#123; get; set; &#125;
+
+        public Student(string name, int age, int score)
+        &#123;
+            Name = name;
+            Age = age;
+            Score = score;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>using System.Linq;</code>: 这是使用 LINQ 的必要命名空间。</li>
+<li><strong>Lambda 表达式 (<code>=&gt;</code>)：</strong> LINQ 方法语法大量使用 Lambda 表达式。<code>num =&gt; num &gt; 10</code> 表示一个匿名函数，它接受一个 <code>num</code> 作为输入，并返回 <code>num &gt; 10</code> 的布尔值。</li>
+<li><strong>延迟执行 (Deferred Execution)：</strong> 大多数 LINQ 查询操作都是延迟执行的。这意味着查询定义本身不会立即执行，而是在你遍历查询结果时才真正执行。这允许你构建复杂的查询而无需立即处理大量数据，提高效率。当你调用 <code>ToList()</code>, <code>ToArray()</code>, <code>Count()</code>, <code>Sum()</code> 等方法时，查询才会立即执行。</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/zhy-blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
