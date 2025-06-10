@@ -1,0 +1,2117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>WPF入门 | zhy-blogs</title>
+    <meta name="author" content="zhyneko" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/zhy-blogs/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/zhy-blogs/js/lib/highlight.js"></script>
+
+
+
+<script src="/zhy-blogs/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/zhy-blogs/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/zhy-blogs/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/zhy-blogs/">
+            <span>ZHY-BLOGS</span>
+        </a>
+        
+        <a href="/zhy-blogs/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/zhy-blogs/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/zhy-blogs/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/zhy-blogs/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/zhy-blogs/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;ZHY-BLOGS</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/zhy-blogs/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/zhy-blogs/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>WPF入门</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/9
+        </span>
+        
+        <span class="category">
+            <a href="/zhy-blogs/categories/%E7%BC%96%E7%A8%8B%E5%AE%9E%E6%88%98/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                编程实战
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/C/" style="color: #ffa2c4">
+                    C#
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/WPF/" style="color: #00a596">
+                    WPF
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/zhy-blogs/tags/%E6%A1%86%E6%9E%B6/" style="color: #ff7d73">
+                    框架
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="WPF-初学者学习手册：构建你的第一个桌面应用"><a href="#WPF-初学者学习手册：构建你的第一个桌面应用" class="headerlink" title="WPF 初学者学习手册：构建你的第一个桌面应用"></a>WPF 初学者学习手册：构建你的第一个桌面应用</h2><p>欢迎来到 WPF 的世界！本手册将带你从零开始，逐步掌握 Windows Presentation Foundation (WPF) 的核心概念和技术，最终能够独立构建功能丰富的桌面应用程序。</p>
+<h3 id="章节一：WPF-简介与开发环境准备"><a href="#章节一：WPF-简介与开发环境准备" class="headerlink" title="章节一：WPF 简介与开发环境准备"></a>章节一：WPF 简介与开发环境准备</h3><h4 id="1-1-什么是-WPF？"><a href="#1-1-什么是-WPF？" class="headerlink" title="1.1 什么是 WPF？"></a>1.1 什么是 WPF？</h4><p>WPF (Windows Presentation Foundation) 是微软 .NET 平台下的一个强大的 UI (用户界面) 框架，用于构建 Windows 桌面应用程序。</p>
+<ul>
+<li><strong>声明式 UI (XAML)：</strong> WPF 最大的特点之一是使用 <strong>XAML (eXtensible Application Markup Language)</strong> 来定义用户界面。XAML 是一种基于 XML 的标记语言，它允许你以声明性的方式描述 UI 的结构、外观和行为。这种方式使得 UI 设计和业务逻辑的分离变得更加清晰，提高了代码的可读性和可维护性。</li>
+<li><strong>富媒体支持：</strong> WPF 提供了出色的图形渲染能力，能够支持 2D 和 3D 图形、动画、视频、音频等。它利用 DirectX 进行硬件加速渲染，因此能够提供高性能和高质量的视觉效果。</li>
+<li><strong>数据绑定：</strong> WPF 拥有强大的数据绑定引擎。你可以将 UI 元素直接连接到 C# 代码中的数据源。当数据改变时，UI 会自动更新，反之亦然，大大简化了 UI 和数据之间的同步。</li>
+<li><strong>样式和模板：</strong> WPF 提供了丰富的样式 (Styles) 和模板 (Templates) 机制，让你能够轻松地自定义控件的外观和行为，实现高度可定制的 UI，而无需修改控件本身的逻辑。</li>
+<li><strong>矢量图形：</strong> WPF 的渲染基于矢量图形，这意味着 UI 在不同分辨率的屏幕上都能保持清晰和锐利，而不会出现像素化。</li>
+<li><strong>事件驱动：</strong> WPF 应用是事件驱动的，UI 元素会触发各种事件（如点击、键盘输入），你可以编写 C# 代码来响应这些事件。</li>
+</ul>
+<p><strong>WPF 的优势：</strong></p>
+<ul>
+<li><strong>强大的 UI 表现力：</strong> 能够创建视觉效果出色的应用程序。</li>
+<li><strong>易于维护：</strong> XAML 和 C# 的分离，加上数据绑定，使得代码更易于组织和维护。</li>
+<li><strong>高效开发：</strong> 声明式 UI 和数据绑定减少了手动编写 UI 逻辑的工作量。</li>
+<li><strong>硬件加速：</strong> 利用 GPU 渲染，性能优越。</li>
+</ul>
+<h4 id="1-2-开发环境准备"><a href="#1-2-开发环境准备" class="headerlink" title="1.2 开发环境准备"></a>1.2 开发环境准备</h4><p>为了开始 WPF 开发，你需要安装 <strong>Visual Studio</strong>。</p>
+<ol>
+<li>下载 Visual Studio Community 版本：<ul>
+<li>访问 Visual Studio 官网：<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/downloads/">https://visualstudio.microsoft.com/zh-hans/downloads/</a></li>
+<li>选择并下载 <strong>Visual Studio Community</strong> 版本（免费且功能强大）。</li>
+</ul>
+</li>
+<li>运行安装程序并选择工作负载：<ul>
+<li>启动下载的 <code>vs_community.exe</code> 或类似名称的安装程序。</li>
+<li>在“工作负载”界面，务必勾选 <strong>“.NET 桌面开发”</strong>。这个工作负载包含了 WPF 开发所需的所有组件。</li>
+<li>你可以根据需要选择其他工作负载，例如“ASP.NET 和 Web 开发”或“使用 Unity 的游戏开发”，但对于 WPF 来说，”.NET 桌面开发” 是必须的。</li>
+</ul>
+</li>
+<li><strong>安装：</strong> 点击“安装”按钮，等待安装完成。这可能需要一些时间，取决于你的网络速度和选择的工作负载。</li>
+</ol>
+<p>安装完成后，你就可以启动 Visual Studio，准备好踏上 WPF 学习之旅了！</p>
+<h4 id="1-3-你的第一个-WPF-项目：Hello-World"><a href="#1-3-你的第一个-WPF-项目：Hello-World" class="headerlink" title="1.3 你的第一个 WPF 项目：Hello World"></a>1.3 你的第一个 WPF 项目：Hello World</h4><p>让我们从经典的 “Hello World” 开始。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li><p>打开 Visual Studio。</p>
+</li>
+<li><p>点击 <strong>“创建新项目”</strong>。</p>
+</li>
+<li><p>在搜索框中输入 </p>
+<p>“WPF 应用程序”</p>
+<p>。</p>
+<ul>
+<li><strong>重要：</strong> 请选择 <strong>“WPF 应用程序”</strong> 模板，并确保它是 <strong>C#</strong> 语言版本。</li>
+<li>通常会看到两个版本：“WPF 应用程序” (基于 .NET Core&#x2F;.NET 5+) 和 “WPF 应用程序 (.NET Framework)”。<strong>强烈建议选择基于最新 .NET 版本的模板 (例如 .NET 8.0 或更高版本)</strong>，因为它代表了现代 .NET 开发的方向。</li>
+</ul>
+</li>
+<li><p>点击 <strong>“下一步”</strong>。</p>
+</li>
+<li><p>输入项目名称（例如：<code>MyFirstWPFApp</code>），选择项目存放位置。</p>
+</li>
+<li><p>点击 <strong>“下一步”</strong>。</p>
+</li>
+<li><p>选择目标框架（Target Framework），如果你选择了最新的 WPF 应用程序模板，这里会是 <code>.NET 8.0</code> 或更高版本。保持默认即可。</p>
+</li>
+<li><p>点击 <strong>“创建”</strong>。</p>
+</li>
+</ol>
+<p>Visual Studio 会为你自动生成一个基本的 WPF 项目结构。你会看到两个重要的文件：</p>
+<ul>
+<li><code>MainWindow.xaml</code>：这是定义用户界面（UI）的 XAML 文件。</li>
+<li><code>MainWindow.xaml.cs</code>：这是与 <code>MainWindow.xaml</code> 相关联的 C# 后台代码文件。</li>
+<li></li>
+</ul>
+<p><strong><code>MainWindow.xaml</code> 文件内容 (精简版):</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyFirstWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        xmlns:local=&quot;clr-namespace:MyFirstWPFApp&quot;
+        mc:Ignorable=&quot;d&quot;
+        Title=&quot;我的第一个WPF应用&quot; Height=&quot;450&quot; Width=&quot;800&quot;&gt;
+    &lt;Grid&gt;
+        &lt;TextBlock Text=&quot;Hello, WPF!&quot;
+                   HorizontalAlignment=&quot;Center&quot;
+                   VerticalAlignment=&quot;Center&quot;
+                   FontSize=&quot;48&quot;
+                   FontWeight=&quot;Bold&quot;
+                   Foreground=&quot;Blue&quot;/&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong><code>MainWindow.xaml.cs</code> 文件内容:</strong></p>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+
+using System.Windows; // 引入 WPF 核心命名空间
+
+namespace MyFirstWPFApp
+&#123;
+    /// &lt;summary&gt;
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window // MainWindow 类继承自 Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent(); // 这个方法由 WPF 自动生成，用于初始化 UI 元素
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><p><strong><code>MainWindow.xaml</code>:</strong></p>
+<ul>
+<li><p><code>&lt;Window&gt;</code>：这是 WPF 应用程序的根元素，代表一个窗口。</p>
+</li>
+<li><p><code>x:Class=&quot;MyFirstWPFApp.MainWindow&quot;</code>：这行将 XAML 文件与后台 C# 代码文件 <code>MyFirstWPFApp.MainWindow</code> 类关联起来。</p>
+</li>
+<li><pre><code>xmlns=&quot;...&quot;
+</code></pre>
+<p>：这些是 XML 命名空间声明，告诉 XAML 处理器如何解析和识别元素。</p>
+<ul>
+<li><code>xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</code>：这是 WPF UI 元素的默认命名空间。</li>
+<li><code>xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</code>：这是 XAML 语言的命名空间，<code>x:</code> 前缀用于 XAML 特有的属性，例如 <code>x:Class</code>。</li>
+<li><code>xmlns:local=&quot;clr-namespace:MyFirstWPFApp&quot;</code>：将当前项目的命名空间映射为 <code>local</code> 前缀，这样你就可以在 XAML 中引用自己定义的类。</li>
+</ul>
+</li>
+<li><p><code>Title=&quot;我的第一个WPF应用&quot;</code>：设置窗口的标题。</p>
+</li>
+<li><p><code>Height=&quot;450&quot; Width=&quot;800&quot;</code>：设置窗口的初始大小。</p>
+</li>
+<li><p><code>&lt;Grid&gt;</code>：这是一个布局面板（将在下一章详细介绍），用于组织子元素。在这里，它是窗口的唯一子元素。</p>
+</li>
+<li><p><code>&lt;TextBlock Text=&quot;Hello, WPF!&quot; ... /&gt;</code>：这是一个文本块控件，用于显示文本。我们设置了它的文本内容、对齐方式、字体大小、字重和颜色。</p>
+</li>
+</ul>
+</li>
+<li><p><strong><code>MainWindow.xaml.cs</code>:</strong></p>
+<ul>
+<li><code>public partial class MainWindow : Window</code>: <code>partial</code> 关键字表示这个类的一部分定义在另一个文件中（即由 XAML 编译生成的代码）。<code>MainWindow</code> 继承自 <code>System.Windows.Window</code> 类，使其成为一个可显示的窗口。</li>
+<li><code>InitializeComponent()</code>: 这个方法由 Visual Studio 自动生成，并在构造函数中调用。它的作用是解析 <code>MainWindow.xaml</code> 文件并创建其中定义的 UI 元素。<strong>不要手动修改这个方法。</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>运行程序：</strong></p>
+<p>在 Visual Studio 中，点击工具栏上的绿色“启动”按钮（通常是“本地 Windows 调试器”旁边），或者按下 <code>F5</code> 键。</p>
+<p>你会看到一个带有 “Hello, WPF!” 文本的 Windows 窗口。</p>
+<h3 id="章节二：XAML-基础与布局系统"><a href="#章节二：XAML-基础与布局系统" class="headerlink" title="章节二：XAML 基础与布局系统"></a>章节二：XAML 基础与布局系统</h3><h4 id="2-1-XAML-简介"><a href="#2-1-XAML-简介" class="headerlink" title="2.1 XAML 简介"></a>2.1 XAML 简介</h4><p>XAML (eXtensible Application Markup Language) 是一种基于 XML 的标记语言，用于声明性地定义应用程序的用户界面。在 WPF 中，你用 XAML 来描述 UI 的外观，而用 C# 后台代码来处理 UI 的行为和业务逻辑。</p>
+<p><strong>XAML 的优点：</strong></p>
+<ul>
+<li><strong>分离关注点：</strong> UI 界面和逻辑代码分离，使得设计师和开发者可以并行工作。</li>
+<li><strong>直观易读：</strong> 声明性语法比命令式代码更直观地描述 UI 结构。</li>
+<li><strong>工具支持：</strong> Visual Studio 的设计器可以直接渲染 XAML，提供所见即所得的开发体验。</li>
+</ul>
+<p><strong>XAML 语法基本规则：</strong></p>
+<ul>
+<li><p><strong>元素 (Elements)：</strong> XAML 元素对应于 .NET 中的类。例如，<code>&lt;Button&gt;</code> 对应于 <code>System.Windows.Controls.Button</code> 类。</p>
+</li>
+<li><p><strong>属性 (Attributes)：</strong> 元素的属性对应于 .NET 类的属性。例如，<code>&lt;Button Content=&quot;Click Me&quot;/&gt;</code> 中 <code>Content</code> 是 <code>Button</code> 类的一个属性。</p>
+</li>
+<li><p><strong>嵌套：</strong> 元素可以嵌套，形成 UI 树结构。例如，一个 <code>Grid</code> 可以包含多个 <code>Button</code>。</p>
+</li>
+<li><p><strong>命名空间：</strong> XAML 文件顶部的 <code>xmlns</code> 声明用于映射 XML 命名空间到 .NET 命名空间。<code>x:</code> 是 XAML 语言的默认前缀。</p>
+</li>
+<li><p>内容属性：</p>
+<p> 某些控件有一个“内容属性”，可以直接在开始标签和结束标签之间放置内容，而无需显式指定属性名。例如，</p>
+<pre><code>Button
+</code></pre>
+<p> 的 </p>
+<pre><code>Content
+</code></pre>
+<p> 属性：</p>
+<p>XML</p>
+<pre><code>&lt;Button Content=&quot;Click Me&quot;/&gt;
+&lt;Button&gt;Click Me&lt;/Button&gt;
+</code></pre>
+</li>
+<li></li>
+</ul>
+<p><strong>示例：使用 XAML 创建简单 UI</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;XAML 基础&quot; Height=&quot;300&quot; Width=&quot;400&quot;&gt;
+    &lt;StackPanel Orientation=&quot;Vertical&quot; Margin=&quot;20&quot;&gt;
+        &lt;TextBlock Text=&quot;欢迎来到 WPF！&quot; FontSize=&quot;24&quot; FontWeight=&quot;Bold&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+        &lt;TextBox Width=&quot;200&quot; HorizontalAlignment=&quot;Left&quot; Margin=&quot;0,0,0,10&quot;
+                 Text=&quot;请输入你的名字&quot;/&gt;
+        &lt;Button Content=&quot;点击我&quot; Width=&quot;100&quot; HorizontalAlignment=&quot;Left&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+        &lt;CheckBox Content=&quot;我同意&quot; Margin=&quot;0,0,0,5&quot;/&gt;
+        &lt;RadioButton Content=&quot;选项 A&quot; GroupName=&quot;MyOptions&quot;/&gt;
+        &lt;RadioButton Content=&quot;选项 B&quot; GroupName=&quot;MyOptions&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>这段 XAML 代码创建了一个窗口，里面包含了一个垂直堆叠的面板 (<code>StackPanel</code>)，面板中依次放置了 <code>TextBlock</code>、<code>TextBox</code>、<code>Button</code>、<code>CheckBox</code> 和两个 <code>RadioButton</code>。</p>
+<h4 id="2-2-布局系统：组织你的-UI-元素"><a href="#2-2-布局系统：组织你的-UI-元素" class="headerlink" title="2.2 布局系统：组织你的 UI 元素"></a>2.2 布局系统：组织你的 UI 元素</h4><p>WPF 提供了强大的布局面板来组织和排列 UI 元素。它们能够根据可用空间自动调整子元素的位置和大小，实现响应式 UI。</p>
+<p><strong>2.2.1 <code>Grid</code> (网格面板)</strong></p>
+<p><code>Grid</code> 是 WPF 中最常用、最灵活的布局面板，它允许你像表格一样使用行 (Rows) 和列 (Columns) 来排列子元素。</p>
+<p><strong>关键属性：</strong></p>
+<ul>
+<li><p><code>Grid.Row=&quot;index&quot;</code>：将元素放置在指定行。</p>
+</li>
+<li><p><code>Grid.Column=&quot;index&quot;</code>：将元素放置在指定列。</p>
+</li>
+<li><p><code>Grid.RowSpan=&quot;count&quot;</code>：元素跨越的行数。</p>
+</li>
+<li><p><code>Grid.ColumnSpan=&quot;count&quot;</code>：元素跨越的列数。</p>
+</li>
+<li><pre><code>RowDefinitions
+</code></pre>
+<p>：定义行的集合。</p>
+<ul>
+<li><pre><code>Height
+</code></pre>
+<p>：行的实际高度。</p>
+<ul>
+<li><code>Auto</code>：根据内容自动调整高度。</li>
+<li><code>*</code> (Star)：按比例分配可用空间。<code>*</code> 表示一份，<code>2*</code> 表示两份。</li>
+<li><code>Fixed Value</code>：固定像素值。</li>
+<li></li>
+</ul>
+</li>
+<li></li>
+</ul>
+</li>
+<li></li>
+<li><pre><code>ColumnDefinitions
+</code></pre>
+<p>：定义列的集合。</p>
+<p>- </p>
+<ul>
+<li><code>Width</code>：列的实际宽度，用法同 <code>Height</code>。</li>
+<li></li>
+</ul>
+</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;Grid 布局示例&quot; Height=&quot;400&quot; Width=&quot;600&quot;&gt;
+    &lt;Grid&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;2*&quot;/&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition Width=&quot;100&quot;/&gt;
+            &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+            &lt;ColumnDefinition Width=&quot;2*&quot;/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+
+        &lt;Border Grid.Row=&quot;0&quot; Grid.Column=&quot;0&quot; Background=&quot;LightBlue&quot; BorderBrush=&quot;Blue&quot; BorderThickness=&quot;1&quot;&gt;
+            &lt;TextBlock Text=&quot;R0C0 (Auto)&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Border&gt;
+        &lt;Border Grid.Row=&quot;0&quot; Grid.Column=&quot;1&quot; Background=&quot;LightCoral&quot; BorderBrush=&quot;Red&quot; BorderThickness=&quot;1&quot;&gt;
+            &lt;TextBlock Text=&quot;R0C1 (*)&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Border&gt;
+        &lt;Border Grid.Row=&quot;0&quot; Grid.Column=&quot;2&quot; Background=&quot;LightGreen&quot; BorderBrush=&quot;Green&quot; BorderThickness=&quot;1&quot;&gt;
+            &lt;TextBlock Text=&quot;R0C2 (2*)&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Border&gt;
+
+        &lt;Border Grid.Row=&quot;1&quot; Grid.Column=&quot;0&quot; Background=&quot;LightGray&quot; BorderBrush=&quot;Gray&quot; BorderThickness=&quot;1&quot;&gt;
+            &lt;TextBlock Text=&quot;R1C0 (Fixed)&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Border&gt;
+        &lt;Border Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Grid.ColumnSpan=&quot;2&quot; Background=&quot;LightPink&quot; BorderBrush=&quot;HotPink&quot; BorderThickness=&quot;1&quot;&gt;
+            &lt;TextBlock Text=&quot;R1C1 (Span 2)&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Border&gt;
+
+        &lt;Border Grid.Row=&quot;2&quot; Grid.Column=&quot;0&quot; Grid.ColumnSpan=&quot;3&quot; Background=&quot;LightYellow&quot; BorderBrush=&quot;Orange&quot; BorderThickness=&quot;1&quot;&gt;
+            &lt;TextBlock Text=&quot;R2C0 (Span 3)&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+        &lt;/Border&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>小贴士：</strong> 在 Visual Studio 的 XAML 设计器中，你可以直接拖拽 Grid 的行线和列线来调整大小，非常方便。</p>
+<p><strong>2.2.2 <code>StackPanel</code> (堆叠面板)</strong> <code>StackPanel</code> 用于将子元素沿一个方向（水平或垂直）堆叠排列。</p>
+<p><strong>关键属性：</strong></p>
+<p>- </p>
+<ul>
+<li><code>Orientation</code>：<code>Vertical</code> (默认) 或 <code>Horizontal</code>。</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;StackPanel 布局示例&quot; Height=&quot;300&quot; Width=&quot;400&quot;&gt;
+    &lt;Grid&gt;
+        &lt;StackPanel Orientation=&quot;Vertical&quot; HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;&gt;
+            &lt;Button Content=&quot;按钮 1&quot; Width=&quot;150&quot; Margin=&quot;5&quot;/&gt;
+            &lt;Button Content=&quot;按钮 2&quot; Width=&quot;150&quot; Margin=&quot;5&quot;/&gt;
+            &lt;Button Content=&quot;按钮 3&quot; Width=&quot;150&quot; Margin=&quot;5&quot;/&gt;
+            &lt;TextBlock Text=&quot;我是文本块&quot; FontSize=&quot;18&quot; Margin=&quot;5&quot;/&gt;
+            &lt;CheckBox Content=&quot;勾选我&quot; Margin=&quot;5&quot;/&gt;
+        &lt;/StackPanel&gt;
+
+        &lt;StackPanel Orientation=&quot;Horizontal&quot; VerticalAlignment=&quot;Bottom&quot; HorizontalAlignment=&quot;Center&quot;&gt;
+            &lt;TextBlock Text=&quot;水平项 1&quot; Margin=&quot;5&quot;/&gt;
+            &lt;TextBlock Text=&quot;水平项 2&quot; Margin=&quot;5&quot;/&gt;
+            &lt;TextBlock Text=&quot;水平项 3&quot; Margin=&quot;5&quot;/&gt;
+        &lt;/StackPanel&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>2.2.3 <code>DockPanel</code> (停靠面板)</strong></p>
+<p><code>DockPanel</code> 允许你将子元素停靠在其边缘（上、下、左、右），最后一个元素可以填充剩余空间。</p>
+<p><strong>关键属性：</strong></p>
+<ul>
+<li><code>DockPanel.Dock=&quot;value&quot;</code>：在子元素上设置，指定停靠方向（<code>Top</code>, <code>Bottom</code>, <code>Left</code>, <code>Right</code>）。</li>
+<li></li>
+<li><code>LastChildFill=&quot;true/false&quot;</code>：指定最后一个子元素是否填充剩余空间（默认为 <code>true</code>）。</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;DockPanel 布局示例&quot; Height=&quot;400&quot; Width=&quot;500&quot;&gt;
+    &lt;DockPanel LastChildFill=&quot;True&quot;&gt;
+        &lt;Button DockPanel.Dock=&quot;Top&quot; Content=&quot;顶部按钮&quot; Height=&quot;50&quot; Background=&quot;LightCoral&quot;/&gt;
+        &lt;Button DockPanel.Dock=&quot;Bottom&quot; Content=&quot;底部按钮&quot; Height=&quot;50&quot; Background=&quot;LightBlue&quot;/&gt;
+        &lt;Button DockPanel.Dock=&quot;Left&quot; Content=&quot;左侧按钮&quot; Width=&quot;100&quot; Background=&quot;LightGreen&quot;/&gt;
+        &lt;Button DockPanel.Dock=&quot;Right&quot; Content=&quot;右侧按钮&quot; Width=&quot;100&quot; Background=&quot;LightYellow&quot;/&gt;
+        &lt;TextBlock Text=&quot;中间内容区域&quot; Background=&quot;LightGray&quot;
+                   HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot; FontSize=&quot;24&quot;/&gt;
+    &lt;/DockPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>2.2.4 <code>WrapPanel</code> (换行面板)</strong></p>
+<p><code>WrapPanel</code> 将子元素按顺序排列，当空间不足时自动换行。</p>
+<p><strong>关键属性：</strong></p>
+<p>- </p>
+<ul>
+<li><code>Orientation</code>：<code>Horizontal</code> (默认) 或 <code>Vertical</code>。</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;WrapPanel 布局示例&quot; Height=&quot;300&quot; Width=&quot;400&quot;&gt;
+    &lt;WrapPanel Orientation=&quot;Horizontal&quot; Margin=&quot;10&quot;&gt;
+        &lt;Button Content=&quot;按钮 1&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;Button Content=&quot;按钮 2&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;Button Content=&quot;按钮 3&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;Button Content=&quot;按钮 4&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;Button Content=&quot;按钮 5&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;Button Content=&quot;按钮 6&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;Button Content=&quot;按钮 7&quot; Margin=&quot;5&quot; Width=&quot;80&quot;/&gt;
+        &lt;TextBlock Text=&quot;长文本内容，当空间不足时会自动换行显示。&quot;
+                   Width=&quot;200&quot; TextWrapping=&quot;Wrap&quot; Margin=&quot;5&quot;/&gt;
+    &lt;/WrapPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>2.2.5 <code>Canvas</code> (画布面板)</strong></p>
+<p><code>Canvas</code> 允许你使用绝对坐标来定位子元素。不推荐用于复杂布局，因为它不具备响应式能力。</p>
+<p><strong>关键属性 (在子元素上设置)：</strong></p>
+<ul>
+<li><code>Canvas.Left</code>：元素左边缘距 Canvas 左边缘的距离。</li>
+<li></li>
+<li><code>Canvas.Top</code>：元素上边缘距 Canvas 上边缘的距离。</li>
+<li></li>
+<li><code>Canvas.Right</code>, <code>Canvas.Bottom</code> 类似。</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;Canvas 布局示例&quot; Height=&quot;300&quot; Width=&quot;400&quot;&gt;
+    &lt;Canvas Background=&quot;LightGray&quot;&gt;
+        &lt;Rectangle Fill=&quot;Red&quot; Width=&quot;100&quot; Height=&quot;50&quot; Canvas.Left=&quot;50&quot; Canvas.Top=&quot;50&quot;/&gt;
+        &lt;Ellipse Fill=&quot;Blue&quot; Width=&quot;80&quot; Height=&quot;80&quot; Canvas.Left=&quot;150&quot; Canvas.Top=&quot;100&quot;/&gt;
+        &lt;TextBlock Text=&quot;绝对定位文本&quot; FontSize=&quot;16&quot; Canvas.Left=&quot;200&quot; Canvas.Top=&quot;200&quot;/&gt;
+    &lt;/Canvas&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>总结布局面板：</strong></p>
+<ul>
+<li><strong><code>Grid</code></strong>：最常用，适合复杂的网格状布局。</li>
+<li><strong><code>StackPanel</code></strong>：适合简单的一维列表。</li>
+<li><strong><code>DockPanel</code></strong>：适合有固定导航区或页眉页脚的布局。</li>
+<li><strong><code>WrapPanel</code></strong>：适合内容需要自动换行的情况（如标签云）。</li>
+<li><strong><code>Canvas</code></strong>：用于绘制或精确控制元素位置的场景，不适合常规布局。</li>
+</ul>
+<p>在实际开发中，你通常会嵌套使用这些布局面板来构建复杂的 UI。</p>
+<h3 id="章节三：常用控件与事件处理"><a href="#章节三：常用控件与事件处理" class="headerlink" title="章节三：常用控件与事件处理"></a>章节三：常用控件与事件处理</h3><p>本章将介绍 WPF 中常用的 UI 控件，并演示如何通过 C# 代码来响应它们的事件。</p>
+<h4 id="3-1-文本控件"><a href="#3-1-文本控件" class="headerlink" title="3.1 文本控件"></a>3.1 文本控件</h4><p>- </p>
+<ul>
+<li><strong><code>TextBlock</code>：</strong> 用于显示只读文本。</li>
+<li></li>
+<li><strong><code>TextBox</code>：</strong> 用于用户输入和编辑文本。</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;文本控件示例&quot; Height=&quot;250&quot; Width=&quot;400&quot;&gt;
+    &lt;StackPanel Margin=&quot;20&quot;&gt;
+        &lt;TextBlock Text=&quot;欢迎输入文本：&quot; FontSize=&quot;18&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+        &lt;TextBox x:Name=&quot;MyTextBox&quot; Width=&quot;300&quot; Height=&quot;30&quot; HorizontalAlignment=&quot;Left&quot;
+                 TextChanged=&quot;MyTextBox_TextChanged&quot;/&gt; &lt;TextBlock x:Name=&quot;OutputTextBlock&quot; Margin=&quot;0,10,0,0&quot; FontSize=&quot;16&quot; FontWeight=&quot;Bold&quot;
+                   Text=&quot;你输入的内容将显示在这里。&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Windows;
+using System.Windows.Controls; // 引入 Control 命名空间
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+        &#125;
+
+        // MyTextBox 的 TextChanged 事件处理程序
+        private void MyTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        &#123;
+            // 将 TextBox 的文本内容赋给 TextBlock
+            OutputTextBlock.Text = MyTextBox.Text;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>x:Name=&quot;MyTextBox&quot;</code>：在 XAML 中为控件指定一个名称，这样你就可以在 C# 后台代码中通过这个名称引用它。</li>
+<li><code>TextChanged=&quot;MyTextBox_TextChanged&quot;</code>：将 <code>TextBox</code> 的 <code>TextChanged</code> 事件绑定到 C# 后台代码中的 <code>MyTextBox_TextChanged</code> 方法。当文本框内容改变时，这个方法就会被调用。</li>
+<li>在 C# 代码中，我们通过 <code>MyTextBox.Text</code> 获取 <code>TextBox</code> 的当前文本，并将其赋值给 <code>OutputTextBlock.Text</code>。</li>
+</ul>
+<h4 id="3-2-按钮-Button"><a href="#3-2-按钮-Button" class="headerlink" title="3.2 按钮 (Button)"></a>3.2 按钮 (<code>Button</code>)</h4><p><code>Button</code> 是最常用的交互控件，用于触发操作。</p>
+<p><strong>示例代码：</strong></p>
+<p>代码段</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;按钮示例&quot; Height=&quot;200&quot; Width=&quot;300&quot;&gt;
+    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;&gt;
+        &lt;Button Content=&quot;点击我！&quot; Width=&quot;120&quot; Height=&quot;40&quot; FontSize=&quot;20&quot;
+                Click=&quot;MyButton_Click&quot;/&gt; &lt;TextBlock x:Name=&quot;StatusTextBlock&quot; Margin=&quot;0,10,0,0&quot; FontSize=&quot;16&quot;
+                   Text=&quot;等待点击...&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Windows;
+using System.Windows.Controls;
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+        &#125;
+
+        // 按钮的 Click 事件处理程序
+        private void MyButton_Click(object sender, RoutedEventArgs e)
+        &#123;
+            // 显示一个消息框
+            MessageBox.Show(&quot;按钮被点击了！&quot;, &quot;提示&quot;, MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // 更新文本块内容
+            StatusTextBlock.Text = &quot;按钮已点击！&quot;;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>Click=&quot;MyButton_Click&quot;</code>：将 <code>Button</code> 的 <code>Click</code> 事件绑定到 C# 后台代码中的 <code>MyButton_Click</code> 方法。</li>
+<li><code>MessageBox.Show(...)</code>：显示一个简单的消息框。</li>
+</ul>
+<h4 id="3-3-选择控件"><a href="#3-3-选择控件" class="headerlink" title="3.3 选择控件"></a>3.3 选择控件</h4><p>- </p>
+<ul>
+<li><strong><code>CheckBox</code>：</strong> 提供一个布尔状态（选中&#x2F;未选中）。</li>
+<li></li>
+<li><strong><code>RadioButton</code>：</strong> 提供一组互斥的选择。</li>
+<li></li>
+<li><strong><code>ComboBox</code>：</strong> 下拉列表，用于从预定义列表中选择一项。</li>
+<li></li>
+<li><strong><code>ListBox</code>：</strong> 显示可选择的项目列表。</li>
+<li></li>
+</ul>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;选择控件示例&quot; Height=&quot;400&quot; Width=&quot;500&quot;&gt;
+    &lt;StackPanel Margin=&quot;20&quot;&gt;
+        &lt;TextBlock Text=&quot;请选择您的偏好：&quot; FontSize=&quot;18&quot; FontWeight=&quot;Bold&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;CheckBox x:Name=&quot;AgreeCheckBox&quot; Content=&quot;我同意用户协议&quot; Checked=&quot;AgreeCheckBox_Checked&quot; Unchecked=&quot;AgreeCheckBox_Unchecked&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+        &lt;TextBlock x:Name=&quot;CheckBoxStatus&quot; Text=&quot;状态: 未同意&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;TextBlock Text=&quot;请选择性别：&quot; Margin=&quot;0,10,0,5&quot;/&gt;
+        &lt;StackPanel Orientation=&quot;Horizontal&quot; Margin=&quot;0,0,0,10&quot;&gt;
+            &lt;RadioButton x:Name=&quot;MaleRadioButton&quot; Content=&quot;男&quot; GroupName=&quot;Gender&quot; IsChecked=&quot;True&quot; Checked=&quot;GenderRadioButton_Checked&quot; Margin=&quot;0,0,10,0&quot;/&gt;
+            &lt;RadioButton x:Name=&quot;FemaleRadioButton&quot; Content=&quot;女&quot; GroupName=&quot;Gender&quot; Checked=&quot;GenderRadioButton_Checked&quot;/&gt;
+        &lt;/StackPanel&gt;
+        &lt;TextBlock x:Name=&quot;GenderStatus&quot; Text=&quot;性别: 男&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+
+        &lt;TextBlock Text=&quot;请选择城市：&quot; Margin=&quot;0,10,0,5&quot;/&gt;
+        &lt;ComboBox x:Name=&quot;CityComboBox&quot; Width=&quot;200&quot; HorizontalAlignment=&quot;Left&quot;
+                  SelectionChanged=&quot;CityComboBox_SelectionChanged&quot;&gt;
+            &lt;ComboBoxItem Content=&quot;北京&quot; IsSelected=&quot;True&quot;/&gt;
+            &lt;ComboBoxItem Content=&quot;上海&quot;/&gt;
+            &lt;ComboBoxItem Content=&quot;广州&quot;/&gt;
+            &lt;ComboBoxItem Content=&quot;深圳&quot;/&gt;
+        &lt;/ComboBox&gt;
+        &lt;TextBlock x:Name=&quot;CityStatus&quot; Text=&quot;城市: 北京&quot; Margin=&quot;0,10,0,0&quot;/&gt;
+
+        &lt;TextBlock Text=&quot;请选择喜欢的颜色：&quot; Margin=&quot;0,10,0,5&quot;/&gt;
+        &lt;ListBox x:Name=&quot;ColorListBox&quot; Width=&quot;200&quot; Height=&quot;100&quot; HorizontalAlignment=&quot;Left&quot;
+                 SelectionChanged=&quot;ColorListBox_SelectionChanged&quot;&gt;
+            &lt;ListBoxItem Content=&quot;红色&quot;/&gt;
+            &lt;ListBoxItem Content=&quot;绿色&quot;/&gt;
+            &lt;ListBoxItem Content=&quot;蓝色&quot;/&gt;
+            &lt;ListBoxItem Content=&quot;黄色&quot;/&gt;
+            &lt;ListBoxItem Content=&quot;紫色&quot;/&gt;
+        &lt;/ListBox&gt;
+        &lt;TextBlock x:Name=&quot;ColorStatus&quot; Text=&quot;选中的颜色: 无&quot; Margin=&quot;0,10,0,0&quot;/&gt;
+
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Windows;
+using System.Windows.Controls;
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+        &#125;
+
+        // CheckBox 事件处理
+        private void AgreeCheckBox_Checked(object sender, RoutedEventArgs e)
+        &#123;
+            CheckBoxStatus.Text = &quot;状态: 已同意&quot;;
+        &#125;
+
+        private void AgreeCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        &#123;
+            CheckBoxStatus.Text = &quot;状态: 未同意&quot;;
+        &#125;
+
+        // RadioButton 事件处理
+        private void GenderRadioButton_Checked(object sender, RoutedEventArgs e)
+        &#123;
+            RadioButton radioButton = sender as RadioButton; // 获取触发事件的 RadioButton
+            if (radioButton != null &amp;&amp; radioButton.IsChecked == true)
+            &#123;
+                GenderStatus.Text = $&quot;性别: &#123;radioButton.Content&#125;&quot;;
+            &#125;
+        &#125;
+
+        // ComboBox 事件处理
+        private void CityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        &#123;
+            // 获取选中的 ComboBoxItem 的内容
+            if (CityComboBox.SelectedItem is ComboBoxItem selectedItem)
+            &#123;
+                CityStatus.Text = $&quot;城市: &#123;selectedItem.Content&#125;&quot;;
+            &#125;
+        &#125;
+
+        // ListBox 事件处理
+        private void ColorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        &#123;
+            // 获取选中的 ListBoxItem 的内容
+            if (ColorListBox.SelectedItem is ListBoxItem selectedItem)
+            &#123;
+                ColorStatus.Text = $&quot;选中的颜色: &#123;selectedItem.Content&#125;&quot;;
+            &#125;
+            else
+            &#123;
+                ColorStatus.Text = &quot;选中的颜色: 无&quot;;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>GroupName=&quot;Gender&quot;</code>：<code>RadioButton</code> 使用 <code>GroupName</code> 属性来定义一组互斥的选项。</li>
+<li><code>IsChecked=&quot;True&quot;</code>：设置 <code>RadioButton</code> 或 <code>CheckBox</code> 的初始选中状态。</li>
+<li><code>SelectionChanged</code> 事件：<code>ComboBox</code> 和 <code>ListBox</code> 在选择项改变时触发此事件。</li>
+<li><code>sender as RadioButton</code> 或 <code>CityComboBox.SelectedItem is ComboBoxItem selectedItem</code>：在事件处理程序中，<code>sender</code> 参数是触发事件的控件本身。你可以将其强制转换为特定类型以访问其属性。<code>is</code> 关键字用于类型检查和模式匹配，更安全。</li>
+<li></li>
+</ul>
+<h4 id="3-4-图像-Image"><a href="#3-4-图像-Image" class="headerlink" title="3.4 图像 (Image)"></a>3.4 图像 (<code>Image</code>)</h4><p>用于在 UI 中显示图像。</p>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;图像示例&quot; Height=&quot;300&quot; Width=&quot;400&quot;&gt;
+    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;&gt;
+        &lt;Image Source=&quot;myimage.png&quot; Width=&quot;200&quot; Height=&quot;150&quot; Margin=&quot;10&quot;/&gt;
+        &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>重要：</strong></p>
+<ul>
+<li>要使 <code>Image</code> 控件显示本地图片，你需要将图片文件（例如 <code>myimage.png</code>）添加到你的 WPF 项目中。</li>
+<li>在 <strong>解决方案资源管理器</strong> 中，右键点击你的项目 -&gt; <strong>添加</strong> -&gt; <strong>现有项…</strong>，选择你的图片文件。</li>
+<li>选中你添加的图片文件，在 <strong>属性窗口</strong> 中，将 <strong>“生成操作”</strong> (Build Action) 设置为 <strong>“内容”</strong> (Content)，将 <strong>“复制到输出目录”</strong> (Copy to Output Directory) 设置为 <strong>“如果较新则复制”</strong> (Copy if newer) 或 <strong>“始终复制”</strong> (Copy always)。</li>
+</ul>
+<h4 id="3-5-消息框-MessageBox"><a href="#3-5-消息框-MessageBox" class="headerlink" title="3.5 消息框 (MessageBox)"></a>3.5 消息框 (<code>MessageBox</code>)</h4><p><code>MessageBox</code> 类用于显示简单的对话框，向用户显示信息或获取简单的用户输入。</p>
+<p><strong>示例代码：</strong></p>
+<p>C#</p>
+<pre><code>// 在任意 C# 事件处理程序或方法中调用
+// 消息框只会在点击确定后继续执行
+MessageBox.Show(&quot;这是一个简单的消息。&quot;, &quot;标题&quot;, MessageBoxButton.OK, MessageBoxImage.Information);
+
+// 带有 Yes/No 按钮的消息框，并获取用户选择
+MessageBoxResult result = MessageBox.Show(&quot;你确定要删除吗？&quot;, &quot;确认删除&quot;, MessageBoxButton.YesNo, MessageBoxImage.Question);
+if (result == MessageBoxResult.Yes)
+&#123;
+    // 用户点击了 Yes
+    MessageBox.Show(&quot;已删除！&quot;);
+&#125;
+else
+&#123;
+    // 用户点击了 No
+    MessageBox.Show(&quot;取消删除。&quot;);
+&#125;
+</code></pre>
+<h3 id="章节四：数据绑定-Data-Binding"><a href="#章节四：数据绑定-Data-Binding" class="headerlink" title="章节四：数据绑定 (Data Binding)"></a>章节四：数据绑定 (Data Binding)</h3><p><strong>数据绑定</strong> 是 WPF 最强大、最核心的特性之一。它允许你将 UI 元素（View）的属性连接到 C# 代码（ViewModel 或 Model）中的数据（Data Source）属性。当数据源改变时，UI 会自动更新；当用户在 UI 中修改数据时，数据源也可以自动更新。</p>
+<p>数据绑定大大减少了手动编写代码来同步 UI 和数据的需求，降低了复杂性，提高了开发效率和可维护性。</p>
+<h4 id="4-1-数据绑定的基本概念"><a href="#4-1-数据绑定的基本概念" class="headerlink" title="4.1 数据绑定的基本概念"></a>4.1 数据绑定的基本概念</h4><ul>
+<li><strong>数据源 (Source)：</strong> 包含数据的对象，通常是 C# 类的一个实例。数据源的属性必须是 <strong>公共属性</strong> (Public Properties)。</li>
+<li><strong>目标 (Target)：</strong> UI 元素（如 <code>TextBlock</code>、<code>TextBox</code>、<code>Button</code> 等）的属性，例如 <code>TextBlock.Text</code>、<code>TextBox.Text</code>。</li>
+<li><strong>绑定路径 (Path)：</strong> 数据源中属性的名称，指定要绑定到目标属性的数据。</li>
+<li>绑定模式 (Mode)：<ul>
+<li><code>OneWay</code> (默认对只读 UI 属性)：数据从数据源流向目标。当数据源属性改变时，目标属性会自动更新。</li>
+<li><code>TwoWay</code> (默认对可编辑 UI 属性，如 <code>TextBox.Text</code>)：数据在数据源和目标之间双向流动。数据源或目标属性改变时，另一方都会自动更新。</li>
+<li><code>OneTime</code>：数据只从数据源流向目标一次。</li>
+<li><code>OneWayToSource</code>：数据从目标流向数据源。</li>
+</ul>
+</li>
+<li><strong>数据上下文 (DataContext)：</strong> 在 WPF 中，你可以为任何 UI 元素设置一个 <code>DataContext</code> 属性。这个属性指定了该元素及其子元素的数据源。当在 XAML 中使用绑定时，如果没有明确指定 <code>Source</code>，绑定引擎会从 <code>DataContext</code> 中查找数据。</li>
+</ul>
+<h4 id="4-2-简单数据绑定示例"><a href="#4-2-简单数据绑定示例" class="headerlink" title="4.2 简单数据绑定示例"></a>4.2 简单数据绑定示例</h4><p>让我们创建一个简单的例子，一个 <code>TextBox</code> 用于输入姓名，一个 <code>TextBlock</code> 用于显示问候语。</p>
+<p><strong>Step 1: 定义一个简单的 C# 类 (Model&#x2F;ViewModel 雏形)</strong></p>
+<p>C#</p>
+<pre><code>// Person.cs (可以添加到项目根目录，或者创建一个 Models 文件夹)
+using System.ComponentModel; // 引入 INotifyPropertyChanged 命名空间
+
+namespace MyWPFApp.Models
+&#123;
+    // 实现 INotifyPropertyChanged 接口，以便在属性值改变时通知 UI
+    public class Person : INotifyPropertyChanged
+    &#123;
+        private string _name;
+        public string Name
+        &#123;
+            get &#123; return _name; &#125;
+            set
+            &#123;
+                if (_name != value)
+                &#123;
+                    _name = value;
+                    OnPropertyChanged(nameof(Name)); // 通知 UI Name 属性已改变
+                    OnPropertyChanged(nameof(Greeting)); // 也要通知 Greeting 属性改变
+                &#125;
+            &#125;
+        &#125;
+
+        public string Greeting
+        &#123;
+            get &#123; return $&quot;你好，&#123;Name&#125;！&quot;; &#125;
+        &#125;
+
+        // INotifyPropertyChanged 接口的实现
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        &#123;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>Person</code> 类：这是我们的数据模型。</li>
+<li><code>INotifyPropertyChanged</code> 接口：<strong>非常重要！</strong> 当你希望数据源的属性改变时，UI 也能自动更新，你的数据源类必须实现这个接口。</li>
+<li><code>PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));</code>：这是 <code>INotifyPropertyChanged</code> 的实现细节。当 <code>Name</code> 属性的 <code>set</code> 方法被调用时，我们会调用这个方法，并传入属性名，通知订阅者（这里是 UI）<code>Name</code> 属性发生了变化。</li>
+</ul>
+<p><strong>Step 2: 修改 <code>MainWindow.xaml</code></strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:local=&quot;clr-namespace:MyWPFApp.Models&quot; Title=&quot;数据绑定示例&quot; Height=&quot;250&quot; Width=&quot;400&quot;&gt;
+    &lt;Grid Margin=&quot;20&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;TextBlock Grid.Row=&quot;0&quot; Text=&quot;请输入你的名字：&quot; FontSize=&quot;18&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+        &lt;TextBox Grid.Row=&quot;1&quot; Width=&quot;250&quot; HorizontalAlignment=&quot;Left&quot; FontSize=&quot;16&quot;
+                 Text=&quot;&#123;Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged&#125;&quot;/&gt; &lt;TextBlock Grid.Row=&quot;2&quot; Margin=&quot;0,10,0,0&quot; FontSize=&quot;24&quot; FontWeight=&quot;Bold&quot;
+                   Text=&quot;&#123;Binding Greeting&#125;&quot;/&gt; &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><p><code>xmlns:local=&quot;clr-namespace:MyWPFApp.Models&quot;</code>：你需要添加这个命名空间声明，以便在 XAML 中引用你的 <code>Person</code> 类。</p>
+</li>
+<li><pre><code>Text=&quot;&#123;Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged&#125;&quot;
+</code></pre>
+<p>：</p>
+<ul>
+<li><code>&#123;Binding Name&#125;</code>：这是一个绑定表达式，表示将 <code>TextBox.Text</code> 属性绑定到数据上下文中的 <code>Name</code> 属性。</li>
+<li><code>Mode=TwoWay</code>：指定双向绑定。当 <code>TextBox</code> 中的文本改变时，<code>Person</code> 对象的 <code>Name</code> 属性也会更新；当 <code>Person</code> 对象的 <code>Name</code> 属性在 C# 中改变时，<code>TextBox</code> 的文本也会更新。</li>
+<li><code>UpdateSourceTrigger=PropertyChanged</code>：指定数据源更新的时机。默认情况下，<code>TextBox</code> 的绑定是在失去焦点时更新数据源。<code>PropertyChanged</code> 表示只要 <code>TextBox</code> 的文本改变，就立即更新数据源。</li>
+</ul>
+</li>
+<li><p><code>Text=&quot;&#123;Binding Greeting&#125;&quot;</code>：将 <code>TextBlock.Text</code> 绑定到数据上下文中的 <code>Greeting</code> 属性。这是一个 <code>OneWay</code> 绑定（因为 <code>TextBlock</code> 是只读的），当 <code>Name</code> 改变时，<code>Greeting</code> 也会自动更新。</p>
+</li>
+</ul>
+<p><strong>Step 3: 修改 <code>MainWindow.xaml.cs</code> (设置 <code>DataContext</code>)</strong></p>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Windows;
+using MyWPFApp.Models; // 引入 Model 命名空间
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        private Person _person; // 私有字段用于存储 Person 对象
+
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+
+            _person = new Person &#123; Name = &quot;WPF 用户&quot; &#125;; // 创建 Person 对象并初始化 Name
+            this.DataContext = _person; // 将 Person 对象设置为窗口的数据上下文
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>this.DataContext = _person;</code>：这是关键一步！它将 <code>_person</code> 对象设置为 <code>MainWindow</code> 的数据上下文。这意味着 <code>MainWindow</code> 中所有未指定 <code>Source</code> 的绑定都将从 <code>_person</code> 对象中查找属性。</li>
+</ul>
+<p><strong>运行程序：</strong></p>
+<p>运行应用程序，你会看到一个文本框和一行问候语。当你开始在文本框中输入时，下面的问候语会实时更新！这就是数据绑定的魔力。</p>
+<h4 id="4-3-ListBox-和-ObservableCollection-的数据绑定"><a href="#4-3-ListBox-和-ObservableCollection-的数据绑定" class="headerlink" title="4.3 ListBox 和 ObservableCollection&lt;T&gt; 的数据绑定"></a>4.3 <code>ListBox</code> 和 <code>ObservableCollection&lt;T&gt;</code> 的数据绑定</h4><p><code>ListBox</code> 是一个常用的列表显示控件。当列表中的数据需要动态添加、删除或更新时，我们通常使用 <code>ObservableCollection&lt;T&gt;</code> 作为数据源，因为它能够自动通知 UI 集合的变化。</p>
+<p><strong>Step 1: 定义一个 Student 类</strong></p>
+<p>C#</p>
+<pre><code>// Student.cs
+using System.ComponentModel;
+
+namespace MyWPFApp.Models
+&#123;
+    public class Student : INotifyPropertyChanged
+    &#123;
+        private string _name;
+        public string Name
+        &#123;
+            get &#123; return _name; &#125;
+            set
+            &#123;
+                if (_name != value)
+                &#123;
+                    _name = value;
+                    OnPropertyChanged(nameof(Name));
+                &#125;
+            &#125;
+        &#125;
+
+        private int _age;
+        public int Age
+        &#123;
+            get &#123; return _age; &#125;
+            set
+            &#123;
+                if (_age != value)
+                &#123;
+                    _age = value;
+                    OnPropertyChanged(nameof(Age));
+                &#125;
+            &#125;
+        &#125;
+
+        public Student(string name, int age)
+        &#123;
+            Name = name;
+            Age = age;
+        &#125;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        &#123;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>Step 2: 修改 <code>MainWindow.xaml</code></strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:models=&quot;clr-namespace:MyWPFApp.Models&quot;
+        Title=&quot;ListBox 数据绑定示例&quot; Height=&quot;400&quot; Width=&quot;500&quot;&gt;
+    &lt;Grid Margin=&quot;20&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;StackPanel Grid.Row=&quot;0&quot; Orientation=&quot;Horizontal&quot; Margin=&quot;0,0,0,10&quot;&gt;
+            &lt;TextBlock Text=&quot;姓名：&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+            &lt;TextBox x:Name=&quot;NameTextBox&quot; Width=&quot;100&quot; Margin=&quot;5,0&quot;/&gt;
+            &lt;TextBlock Text=&quot;年龄：&quot; VerticalAlignment=&quot;Center&quot;/&gt;
+            &lt;TextBox x:Name=&quot;AgeTextBox&quot; Width=&quot;50&quot; Margin=&quot;5,0&quot;/&gt;
+            &lt;Button Content=&quot;添加学生&quot; Width=&quot;80&quot; Margin=&quot;10,0,0,0&quot; Click=&quot;AddStudentButton_Click&quot;/&gt;
+        &lt;/StackPanel&gt;
+
+        &lt;ListBox Grid.Row=&quot;1&quot; x:Name=&quot;StudentsListBox&quot; ItemsSource=&quot;&#123;Binding Students&#125;&quot;
+                 DisplayMemberPath=&quot;Name&quot; SelectionChanged=&quot;StudentsListBox_SelectionChanged&quot;/&gt;
+
+        &lt;TextBlock Grid.Row=&quot;2&quot; x:Name=&quot;SelectedStudentTextBlock&quot; Margin=&quot;0,10,0,0&quot;
+                   Text=&quot;选中的学生：无&quot; FontWeight=&quot;Bold&quot;/&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>ItemsSource=&quot;&#123;Binding Students&#125;&quot;</code>：这是将 <code>ListBox</code> 绑定到 C# 后台代码中一个名为 <code>Students</code> 的集合属性。</li>
+<li><code>DisplayMemberPath=&quot;Name&quot;</code>：指定 <code>ListBox</code> 中每个项目要显示 <code>Student</code> 对象的哪个属性（这里是 <code>Name</code>）。</li>
+</ul>
+<p><strong>Step 3: 修改 <code>MainWindow.xaml.cs</code></strong></p>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Collections.ObjectModel; // 引入 ObservableCollection 命名空间
+using System.Windows;
+using System.Windows.Controls;
+using MyWPFApp.Models;
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        // 使用 ObservableCollection&lt;T&gt; 作为列表数据源
+        public ObservableCollection&lt;Student&gt; Students &#123; get; set; &#125;
+
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+
+            Students = new ObservableCollection&lt;Student&gt;();
+            Students.Add(new Student(&quot;张三&quot;, 20));
+            Students.Add(new Student(&quot;李四&quot;, 22));
+            Students.Add(new Student(&quot;王五&quot;, 21));
+
+            // 将窗口的数据上下文设置为自身，以便绑定到 Students 属性
+            this.DataContext = this;
+        &#125;
+
+        // 添加学生按钮点击事件
+        private void AddStudentButton_Click(object sender, RoutedEventArgs e)
+        &#123;
+            string name = NameTextBox.Text;
+            if (int.TryParse(AgeTextBox.Text, out int age) &amp;&amp; !string.IsNullOrWhiteSpace(name))
+            &#123;
+                Students.Add(new Student(name, age));
+                NameTextBox.Clear();
+                AgeTextBox.Clear();
+            &#125;
+            else
+            &#123;
+                MessageBox.Show(&quot;请输入有效的姓名和年龄。&quot;, &quot;错误&quot;, MessageBoxButton.OK, MessageBoxImage.Error);
+            &#125;
+        &#125;
+
+        // ListBox 选中项改变事件
+        private void StudentsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        &#123;
+            if (StudentsListBox.SelectedItem is Student selectedStudent)
+            &#123;
+                SelectedStudentTextBlock.Text = $&quot;选中的学生: &#123;selectedStudent.Name&#125; (&#123;selectedStudent.Age&#125;岁)&quot;;
+            &#125;
+            else
+            &#123;
+                SelectedStudentTextBlock.Text = &quot;选中的学生: 无&quot;;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>public ObservableCollection&lt;Student&gt; Students &#123; get; set; &#125;</code>: 声明一个 <code>ObservableCollection</code> 属性，它会自动通知 UI 集合的添加&#x2F;删除&#x2F;更新。</li>
+<li><code>this.DataContext = this;</code>: 在这个例子中，我们将 <code>MainWindow</code> 自身设置为数据上下文，这样 XAML 中的绑定就可以直接访问 <code>MainWindow</code> 类的公共属性（如 <code>Students</code>）。</li>
+<li><code>AddStudentButton_Click</code>：处理添加逻辑，并直接向 <code>Students</code> 集合中添加新的 <code>Student</code> 对象。由于是 <code>ObservableCollection</code>，UI 会自动更新。</li>
+<li></li>
+</ul>
+<h3 id="章节五：样式-Styles-和模板-Templates"><a href="#章节五：样式-Styles-和模板-Templates" class="headerlink" title="章节五：样式 (Styles) 和模板 (Templates)"></a>章节五：样式 (Styles) 和模板 (Templates)</h3><p>样式和模板是 WPF 中用于自定义 UI 外观和行为的强大机制，它们可以帮助你实现一致的设计和高度可定制的 UI。</p>
+<h4 id="5-1-样式-Styles"><a href="#5-1-样式-Styles" class="headerlink" title="5.1 样式 (Styles)"></a>5.1 样式 (Styles)</h4><p><strong>样式</strong> 允许你定义一组属性值，并将其应用于多个控件。这样可以避免重复设置相同的属性，并确保 UI 的一致性。</p>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;样式示例&quot; Height=&quot;300&quot; Width=&quot;400&quot;&gt;
+    &lt;Window.Resources&gt;
+        &lt;Style TargetType=&quot;Button&quot;&gt;
+            &lt;Setter Property=&quot;Width&quot; Value=&quot;150&quot;/&gt;
+            &lt;Setter Property=&quot;Height&quot; Value=&quot;40&quot;/&gt;
+            &lt;Setter Property=&quot;Margin&quot; Value=&quot;10&quot;/&gt;
+            &lt;Setter Property=&quot;FontSize&quot; Value=&quot;18&quot;/&gt;
+            &lt;Setter Property=&quot;Background&quot; Value=&quot;LightBlue&quot;/&gt;
+            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Navy&quot;/&gt;
+            &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;Bold&quot;/&gt;
+            &lt;Style.Triggers&gt;
+                &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
+                    &lt;Setter Property=&quot;Background&quot; Value=&quot;DodgerBlue&quot;/&gt;
+                &lt;/Trigger&gt;
+            &lt;/Style.Triggers&gt;
+        &lt;/Style&gt;
+
+        &lt;Style x:Key=&quot;ImportantTextBlockStyle&quot; TargetType=&quot;TextBlock&quot;&gt;
+            &lt;Setter Property=&quot;FontSize&quot; Value=&quot;24&quot;/&gt;
+            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Red&quot;/&gt;
+            &lt;Setter Property=&quot;FontWeight&quot; Value=&quot;ExtraBold&quot;/&gt;
+        &lt;/Style&gt;
+    &lt;/Window.Resources&gt;
+
+    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;&gt;
+        &lt;TextBlock Text=&quot;样式化按钮示例&quot; FontSize=&quot;20&quot; Margin=&quot;0,0,0,20&quot;/&gt;
+        &lt;Button Content=&quot;按钮 1&quot;/&gt; &lt;Button Content=&quot;按钮 2&quot;/&gt; &lt;Button Content=&quot;按钮 3&quot;/&gt; &lt;TextBlock Text=&quot;重要提示！&quot; Style=&quot;&#123;StaticResource ImportantTextBlockStyle&#125;&quot; Margin=&quot;0,20,0,0&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>&lt;Window.Resources&gt;</code>：资源字典，你可以在这里定义样式、模板等资源，这些资源可以在其父元素及其子元素中使用。</li>
+<li><code>&lt;Style TargetType=&quot;Button&quot;&gt;</code>：定义一个样式，<code>TargetType</code> 指定了该样式将应用于哪种类型的控件。如果没有 <code>x:Key</code>，它将成为该类型控件的默认样式。</li>
+<li><code>&lt;Setter Property=&quot;Width&quot; Value=&quot;150&quot;/&gt;</code>：<code>Setter</code> 用于设置控件的属性值。</li>
+<li><code>&lt;Style x:Key=&quot;ImportantTextBlockStyle&quot; TargetType=&quot;TextBlock&quot;&gt;</code>：通过 <code>x:Key</code> 属性为样式命名。这样，你就可以使用 <code>Style=&quot;&#123;StaticResource ImportantTextBlockStyle&#125;&quot;</code> 来将样式应用于特定的控件。</li>
+<li><strong>触发器 (Triggers)：</strong> <code>Style.Triggers</code> 允许你定义当某个条件（如属性值改变、事件发生）满足时，应用额外的样式设置。在示例中，当 <code>Button</code> 的 <code>IsMouseOver</code> 属性为 <code>True</code> 时，背景颜色会改变。</li>
+<li></li>
+</ul>
+<h4 id="5-2-控件模板-Control-Templates"><a href="#5-2-控件模板-Control-Templates" class="headerlink" title="5.2 控件模板 (Control Templates)"></a>5.2 控件模板 (Control Templates)</h4><p><strong>控件模板</strong> 允许你完全重新定义控件的视觉结构和外观，而不改变其行为。例如，你可以让一个按钮看起来像一个图片，但仍然保留按钮的点击功能。</p>
+<p><strong>示例代码：</strong> (这是一个相对复杂的概念，这里只提供一个简单示例让你感受其作用)</p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        Title=&quot;控件模板示例&quot; Height=&quot;250&quot; Width=&quot;400&quot;&gt;
+    &lt;Window.Resources&gt;
+        &lt;ControlTemplate x:Key=&quot;CustomButtonTemplate&quot; TargetType=&quot;Button&quot;&gt;
+            &lt;Border Background=&quot;&#123;TemplateBinding Background&#125;&quot;
+                    BorderBrush=&quot;&#123;TemplateBinding BorderBrush&#125;&quot;
+                    BorderThickness=&quot;&#123;TemplateBinding BorderThickness&#125;&quot;
+                    CornerRadius=&quot;5&quot;&gt;
+                &lt;ContentPresenter HorizontalAlignment=&quot;&#123;TemplateBinding HorizontalContentAlignment&#125;&quot;
+                                  VerticalAlignment=&quot;&#123;TemplateBinding VerticalContentAlignment&#125;&quot;/&gt;
+            &lt;/Border&gt;
+            &lt;ControlTemplate.Triggers&gt;
+                &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
+                    &lt;Setter TargetName=&quot;border&quot; Property=&quot;Background&quot; Value=&quot;LightGreen&quot;/&gt;
+                &lt;/Trigger&gt;
+            &lt;/ControlTemplate.Triggers&gt;
+        &lt;/ControlTemplate&gt;
+    &lt;/Window.Resources&gt;
+
+    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;&gt;
+        &lt;TextBlock Text=&quot;自定义按钮模板&quot; FontSize=&quot;20&quot; Margin=&quot;0,0,0,20&quot;/&gt;
+        &lt;Button Content=&quot;点击我&quot;
+                Template=&quot;&#123;StaticResource CustomButtonTemplate&#125;&quot;
+                Background=&quot;LightBlue&quot; BorderBrush=&quot;Blue&quot; BorderThickness=&quot;2&quot;
+                Width=&quot;150&quot; Height=&quot;50&quot; Click=&quot;Button_Click&quot;/&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>代码段</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Windows;
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+        &#125;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        &#123;
+            MessageBox.Show(&quot;自定义模板的按钮被点击了！&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>&lt;ControlTemplate x:Key=&quot;CustomButtonTemplate&quot; TargetType=&quot;Button&quot;&gt;</code>：定义一个名为 <code>CustomButtonTemplate</code> 的 <code>ControlTemplate</code>，它适用于 <code>Button</code> 类型。</li>
+<li><code>&lt;Border&gt;</code>：在模板中，我们使用了 <code>Border</code> 控件来定义按钮的形状和边框。</li>
+<li><code>&#123;TemplateBinding Background&#125;</code>：<code>TemplateBinding</code> 是一个特殊的绑定，用于将模板内部的属性绑定到应用该模板的控件本身的属性。这意味着当你设置按钮的 <code>Background</code> 属性时，这个值会被应用到模板内部的 <code>Border</code> 的 <code>Background</code>。</li>
+<li><code>&lt;ContentPresenter&gt;</code>：这个元素是必须的！它用于显示控件的“内容”。对于 <code>Button</code>，它的 <code>Content</code> 属性（如“点击我”）会显示在这里。</li>
+<li></li>
+<li><code>Template=&quot;&#123;StaticResource CustomButtonTemplate&#125;&quot;</code>：将自定义模板应用于按钮。</li>
+<li></li>
+</ul>
+<h4 id="5-3-数据模板-Data-Templates"><a href="#5-3-数据模板-Data-Templates" class="headerlink" title="5.3 数据模板 (Data Templates)"></a>5.3 数据模板 (Data Templates)</h4><p><strong>数据模板</strong> 定义了如何显示数据对象在 UI 控件中（如 <code>ListBox</code>、<code>ComboBox</code>、<code>ContentControl</code>）的视觉呈现。这在显示自定义数据集合时非常有用。</p>
+<p><strong>示例代码：</strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:models=&quot;clr-namespace:MyWPFApp.Models&quot;
+        Title=&quot;数据模板示例&quot; Height=&quot;400&quot; Width=&quot;500&quot;&gt;
+    &lt;Window.Resources&gt;
+        &lt;DataTemplate DataType=&quot;&#123;x:Type models:Student&#125;&quot;&gt;
+            &lt;Grid Margin=&quot;5&quot;&gt;
+                &lt;Grid.ColumnDefinitions&gt;
+                    &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+                    &lt;ColumnDefinition Width=&quot;*&quot;/&gt;
+                    &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;
+                &lt;/Grid.ColumnDefinitions&gt;
+                &lt;Grid.RowDefinitions&gt;
+                    &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+                    &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+                &lt;/Grid.RowDefinitions&gt;
+
+                &lt;TextBlock Grid.Row=&quot;0&quot; Grid.Column=&quot;0&quot; Text=&quot;姓名: &quot; FontWeight=&quot;Bold&quot;/&gt;
+                &lt;TextBlock Grid.Row=&quot;0&quot; Grid.Column=&quot;1&quot; Text=&quot;&#123;Binding Name&#125;&quot; Margin=&quot;5,0,0,0&quot;/&gt;
+
+                &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;0&quot; Text=&quot;年龄: &quot; FontWeight=&quot;Bold&quot;/&gt;
+                &lt;TextBlock Grid.Row=&quot;1&quot; Grid.Column=&quot;1&quot; Text=&quot;&#123;Binding Age&#125;&quot; Margin=&quot;5,0,0,0&quot;/&gt;
+
+                &lt;Button Grid.Row=&quot;0&quot; Grid.RowSpan=&quot;2&quot; Grid.Column=&quot;2&quot; Content=&quot;详情&quot; Width=&quot;60&quot; Height=&quot;30&quot;
+                        Margin=&quot;10,0,0,0&quot; Click=&quot;StudentDetails_Click&quot;/&gt;
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/Window.Resources&gt;
+
+    &lt;Grid Margin=&quot;20&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;*&quot;/&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+        &lt;/Grid.RowDefinitions&gt;
+
+        &lt;ListBox Grid.Row=&quot;0&quot; x:Name=&quot;StudentsListBox&quot; ItemsSource=&quot;&#123;Binding Students&#125;&quot;
+                 SelectionChanged=&quot;StudentsListBox_SelectionChanged&quot;/&gt;
+
+        &lt;TextBlock Grid.Row=&quot;1&quot; x:Name=&quot;SelectedStudentDetails&quot; Margin=&quot;0,10,0,0&quot;
+                   Text=&quot;选中的学生详情: 无&quot; FontWeight=&quot;Bold&quot;/&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using MyWPFApp.Models; // 确保引入 Student 类所在的命名空间
+
+namespace MyWPFApp
+&#123;
+    public partial class MainWindow : Window
+    &#123;
+        public ObservableCollection&lt;Student&gt; Students &#123; get; set; &#125;
+
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+
+            Students = new ObservableCollection&lt;Student&gt;
+            &#123;
+                new Student(&quot;陈明&quot;, 20),
+                new Student(&quot;林芳&quot;, 22),
+                new Student(&quot;赵刚&quot;, 21),
+                new Student(&quot;孙丽&quot;, 23)
+            &#125;;
+
+            this.DataContext = this;
+        &#125;
+
+        private void StudentsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        &#123;
+            if (StudentsListBox.SelectedItem is Student selectedStudent)
+            &#123;
+                SelectedStudentDetails.Text = $&quot;选中的学生详情: 姓名: &#123;selectedStudent.Name&#125;, 年龄: &#123;selectedStudent.Age&#125;岁&quot;;
+            &#125;
+            else
+            &#123;
+                SelectedStudentDetails.Text = &quot;选中的学生详情: 无&quot;;
+            &#125;
+        &#125;
+
+        private void StudentDetails_Click(object sender, RoutedEventArgs e)
+        &#123;
+            // 获取点击按钮所在的 DataContext (即对应的 Student 对象)
+            Button button = sender as Button;
+            if (button != null)
+            &#123;
+                Student student = button.DataContext as Student;
+                if (student != null)
+                &#123;
+                    MessageBox.Show($&quot;学生姓名: &#123;student.Name&#125;\n学生年龄: &#123;student.Age&#125;&quot;, &quot;学生详情&quot;, MessageBoxButton.OK, MessageBoxImage.Information);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>&lt;DataTemplate DataType=&quot;&#123;x:Type models:Student&#125;&quot;&gt;</code>：这定义了一个数据模板，它将应用于所有类型为 <code>models:Student</code> 的数据对象。当 <code>ListBox</code> 发现其 <code>ItemsSource</code> 中的元素是 <code>Student</code> 类型时，它会使用这个模板来渲染每个 <code>Student</code> 对象。</li>
+<li>在 <code>DataTemplate</code> 内部，你可以像构建普通 UI 一样使用布局面板和控件，并通过 <code>&#123;Binding PropertyName&#125;</code> 来绑定 <code>Student</code> 对象的属性。</li>
+<li><code>StudentDetails_Click</code>：在这个事件处理程序中，我们通过 <code>button.DataContext as Student</code> 来获取触发点击事件的按钮所绑定的 <code>Student</code> 对象。这是在数据模板中获取数据模型的重要技巧。</li>
+</ul>
+<h3 id="章节六：MVVM-Model-View-ViewModel-模式初步"><a href="#章节六：MVVM-Model-View-ViewModel-模式初步" class="headerlink" title="章节六：MVVM (Model-View-ViewModel) 模式初步"></a>章节六：MVVM (Model-View-ViewModel) 模式初步</h3><p>MVVM 模式是 WPF 应用程序开发中最推荐的架构模式。它有助于实现代码的清晰分离，提高可测试性、可维护性和可扩展性。</p>
+<p><strong>MVVM 的核心组件：</strong></p>
+<ul>
+<li><strong>Model (模型)：</strong> 代表应用程序的数据和业务逻辑。通常是 POCO (Plain Old C# Objects) 类，不依赖于 UI 层。</li>
+<li><strong>View (视图)：</strong> 用户界面，通常是 XAML 文件。它负责显示数据和接收用户输入。View 不包含任何业务逻辑，只通过数据绑定和命令绑定与 ViewModel 交互。</li>
+<li><strong>ViewModel (视图模型)：</strong> 连接 View 和 Model 的桥梁。它暴露 Model 中的数据供 View 绑定，并处理 View 的交互逻辑（通过命令）。ViewModel 不直接引用 View，而是通过数据绑定和 <code>INotifyPropertyChanged</code> 来通知 View 数据变化。</li>
+</ul>
+<p><strong>MVVM 的优势：</strong></p>
+<ul>
+<li><strong>分离关注点：</strong> View、ViewModel 和 Model 各司其职，互不依赖。</li>
+<li><strong>可测试性：</strong> ViewModel 不依赖 UI，因此可以独立进行单元测试。</li>
+<li><strong>可维护性：</strong> 更改 UI 或业务逻辑不会相互影响。</li>
+<li><strong>团队协作：</strong> UI 设计师和开发者可以并行工作。</li>
+</ul>
+<h4 id="6-1-实现-MVVM-模式的准备"><a href="#6-1-实现-MVVM-模式的准备" class="headerlink" title="6.1 实现 MVVM 模式的准备"></a>6.1 实现 MVVM 模式的准备</h4><p>为了更好地实现 MVVM，我们通常会用到以下工具：</p>
+<ul>
+<li><strong><code>INotifyPropertyChanged</code>：</strong> 确保 Model 和 ViewModel 中的属性在改变时能通知 View。</li>
+<li></li>
+<li><strong><code>ICommand</code>：</strong> 用于将 View 中的 UI 事件（如按钮点击）绑定到 ViewModel 中的方法。</li>
+<li></li>
+</ul>
+<p>我们将创建一个简单的计数器应用来演示 MVVM。</p>
+<p><strong>Step 1: 创建 Model (CountModel.cs)</strong></p>
+<p>C#</p>
+<pre><code>// Models/CountModel.cs
+using System.ComponentModel;
+
+namespace MyWPFApp.Models
+&#123;
+    public class CountModel : INotifyPropertyChanged
+    &#123;
+        private int _count;
+        public int Count
+        &#123;
+            get &#123; return _count; &#125;
+            set
+            &#123;
+                if (_count != value)
+                &#123;
+                    _count = value;
+                    OnPropertyChanged(nameof(Count));
+                &#125;
+            &#125;
+        &#125;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        &#123;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>Step 2: 创建 ViewModel (CounterViewModel.cs)</strong></p>
+<p>C#</p>
+<pre><code>// ViewModels/CounterViewModel.cs
+using System.Windows.Input; // 引入 ICommand 命名空间
+using MyWPFApp.Models;
+using MyWPFApp.Commands; // 假设你将 RelayCommand 放在这个命名空间下
+
+namespace MyWPFApp.ViewModels
+&#123;
+    public class CounterViewModel : BaseViewModel // 继承一个基类，通常用于实现 INotifyPropertyChanged
+    &#123;
+        private CountModel _model; // ViewModel 引用 Model
+
+        public CounterViewModel()
+        &#123;
+            _model = new CountModel &#123; Count = 0 &#125;;
+            IncrementCommand = new RelayCommand(Increment); // 绑定命令到方法
+            DecrementCommand = new RelayCommand(Decrement);
+        &#125;
+
+        public int CurrentCount
+        &#123;
+            get &#123; return _model.Count; &#125;
+            set
+            &#123;
+                // 注意：这里通常不会直接设置 Model 的属性，而是通过命令来修改
+                // 但为了演示，也可以在 ViewModel 内部设置 Model
+                if (_model.Count != value)
+                &#123;
+                    _model.Count = value;
+                    OnPropertyChanged(nameof(CurrentCount)); // 通知 UI 属性改变
+                &#125;
+            &#125;
+        &#125;
+
+        // 定义命令
+        public ICommand IncrementCommand &#123; get; private set; &#125;
+        public ICommand DecrementCommand &#123; get; private set; &#125;
+
+        // 命令执行逻辑
+        private void Increment(object parameter)
+        &#123;
+            CurrentCount++; // 通过属性的 set 方法更新 Model，并通知 UI
+        &#125;
+
+        private void Decrement(object parameter)
+        &#123;
+            CurrentCount--;
+        &#125;
+    &#125;
+
+    // 为了简化，我们创建一个 BaseViewModel 用于 INotifyPropertyChanged 的实现
+    public class BaseViewModel : INotifyPropertyChanged
+    &#123;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        &#123;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        &#125;
+    &#125;
+
+    // 辅助类：RelayCommand (用于简化 ICommand 的实现)
+    // 通常放在 Commands 文件夹或单独的帮助类库中
+    namespace Commands
+    &#123;
+        public class RelayCommand : ICommand
+        &#123;
+            private readonly Action&lt;object&gt; _execute;
+            private readonly Predicate&lt;object&gt; _canExecute;
+
+            public event EventHandler CanExecuteChanged
+            &#123;
+                add &#123; CommandManager.RequerySuggested += value; &#125;
+                remove &#123; CommandManager.RequerySuggested -= value; &#125;
+            &#125;
+
+            public RelayCommand(Action&lt;object&gt; execute, Predicate&lt;object&gt; canExecute = null)
+            &#123;
+                _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+                _canExecute = canExecute;
+            &#125;
+
+            public bool CanExecute(object parameter)
+            &#123;
+                return _canExecute == null || _canExecute(parameter);
+            &#125;
+
+            public void Execute(object parameter)
+            &#123;
+                _execute(parameter);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><p><code>CounterViewModel</code>：包含了 <code>CountModel</code> 的实例。</p>
+</li>
+<li><p><code>CurrentCount</code> 属性：这是一个“包装”了 <code>_model.Count</code> 的属性，它负责将 Model 的数据暴露给 View，并处理 <code>INotifyPropertyChanged</code> 通知。</p>
+</li>
+<li><pre><code>ICommand
+</code></pre>
+<p> 和 </p>
+<pre><code>RelayCommand
+</code></pre>
+<p>：</p>
+<p>- </p>
+<ul>
+<li><code>ICommand</code> 是一个接口，定义了 <code>Execute</code> (执行命令) 和 <code>CanExecute</code> (判断命令是否可执行) 方法。</li>
+<li></li>
+<li><code>RelayCommand</code> 是一个自定义的 <code>ICommand</code> 实现，它是一个通用的命令，可以接收一个 <code>Action</code> 作为执行逻辑。这避免了为每个命令都编写一个完整的类。<code>CommandManager.RequerySuggested</code> 用于通知 WPF 重新评估 <code>CanExecute</code> 方法。</li>
+</ul>
+</li>
+</ul>
+<p><strong>Step 3: 修改 <code>MainWindow.xaml</code></strong></p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;MyWPFApp.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:vm=&quot;clr-namespace:MyWPFApp.ViewModels&quot; Title=&quot;MVVM 计数器示例&quot; Height=&quot;250&quot; Width=&quot;400&quot;&gt;
+    &lt;Window.DataContext&gt;
+        &lt;vm:CounterViewModel/&gt;
+    &lt;/Window.DataContext&gt;
+
+    &lt;StackPanel HorizontalAlignment=&quot;Center&quot; VerticalAlignment=&quot;Center&quot;&gt;
+        &lt;TextBlock Text=&quot;当前计数：&quot; FontSize=&quot;24&quot; Margin=&quot;0,0,0,10&quot;/&gt;
+        &lt;TextBlock Text=&quot;&#123;Binding CurrentCount&#125;&quot; FontSize=&quot;48&quot; FontWeight=&quot;Bold&quot; Margin=&quot;0,0,0,20&quot;/&gt;
+
+        &lt;StackPanel Orientation=&quot;Horizontal&quot;&gt;
+            &lt;Button Content=&quot;增加&quot; Width=&quot;100&quot; Height=&quot;40&quot; FontSize=&quot;18&quot; Margin=&quot;0,0,10,0&quot;
+                    Command=&quot;&#123;Binding IncrementCommand&#125;&quot;/&gt; &lt;Button Content=&quot;减少&quot; Width=&quot;100&quot; Height=&quot;40&quot; FontSize=&quot;18&quot;
+                    Command=&quot;&#123;Binding DecrementCommand&#125;&quot;/&gt; &lt;/StackPanel&gt;
+    &lt;/StackPanel&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>代码解析：</strong></p>
+<ul>
+<li><code>&lt;Window.DataContext&gt;&lt;vm:CounterViewModel/&gt;&lt;/Window.DataContext&gt;</code>：这是 MVVM 中常见的做法。在 XAML 中直接实例化 <code>CounterViewModel</code> 并将其设置为窗口的 <code>DataContext</code>。这样，窗口中的所有绑定就都可以直接指向 <code>CounterViewModel</code> 的属性和命令。</li>
+<li><code>Text=&quot;&#123;Binding CurrentCount&#125;&quot;</code>：<code>TextBlock</code> 绑定到 ViewModel 的 <code>CurrentCount</code> 属性。</li>
+<li></li>
+<li><code>Command=&quot;&#123;Binding IncrementCommand&#125;&quot;</code> 和 <code>Command=&quot;&#123;Binding DecrementCommand&#125;&quot;</code>: <code>Button</code> 使用 <code>Command</code> 属性绑定到 ViewModel 中的 <code>ICommand</code>。当按钮被点击时，<code>Command</code> 会调用其 <code>Execute</code> 方法。</li>
+<li></li>
+</ul>
+<p><strong>Step 4: 清理 <code>MainWindow.xaml.cs</code> (只保留必要的代码)</strong></p>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Windows;
+
+namespace MyWPFApp
+&#123;
+    /// &lt;summary&gt;
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window
+    &#123;
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+            // 在 MVVM 模式下，通常不在后台代码中直接操作 UI 元素，
+            // 而是通过 DataContext 和数据绑定来连接 View 和 ViewModel。
+            // 因此，这里不再需要设置 DataContext，因为它已经在 XAML 中完成了。
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>运行程序：</strong></p>
+<p>运行应用程序，你会看到一个显示“当前计数”的窗口和两个按钮。点击“增加”或“减少”按钮，计数会实时更新，而你没有在 C# 后台代码中编写任何直接操作 UI 的逻辑！这就是 MVVM 的力量。</p>
+<h3 id="章节七：部署你的-WPF-应用程序"><a href="#章节七：部署你的-WPF-应用程序" class="headerlink" title="章节七：部署你的 WPF 应用程序"></a>章节七：部署你的 WPF 应用程序</h3><p>当你完成 WPF 应用程序的开发后，你需要将其部署给其他用户使用。</p>
+<h4 id="7-1-发布应用程序"><a href="#7-1-发布应用程序" class="headerlink" title="7.1 发布应用程序"></a>7.1 发布应用程序</h4><p>Visual Studio 提供了一个方便的发布功能，可以将你的应用程序打包成可执行文件或其他安装格式。</p>
+<p><strong>操作步骤：</strong></p>
+<ol>
+<li>在 <strong>解决方案资源管理器</strong> 中，右键点击你的 WPF 项目（例如 <code>MyWPFApp</code>）。</li>
+<li>选择 <strong>“发布”</strong> (Publish…)。</li>
+<li>选择发布目标：<ul>
+<li><strong>文件夹：</strong> 最简单的方式，将应用程序文件发布到本地文件夹，然后你可以手动复制这些文件给用户。</li>
+<li><strong>ClickOnce：</strong> 用于 Web 或网络共享部署，支持自动更新。</li>
+<li><strong>Microsoft Store：</strong> 发布到 Windows 应用商店。</li>
+<li><strong>FTP&#x2F;Web 服务器：</strong> 直接发布到远程服务器。</li>
+<li>对于初学者，<strong>“文件夹”</strong> 是最直接和易于理解的选项。</li>
+</ul>
+</li>
+<li>选择目标位置（输出文件夹）。</li>
+<li>点击 <strong>“下一步”</strong>。</li>
+<li>选择部署模式：<ul>
+<li><strong>框架依赖 (Framework-dependent)：</strong> 应用程序需要用户安装相应版本的 .NET 运行时才能运行。这种方式生成的包较小。</li>
+<li><strong>独立 (Self-contained)：</strong> 应用程序包含所有必要的 .NET 运行时组件，无需用户额外安装 .NET。这种方式生成的包较大，但方便分发。</li>
+<li>对于初学者，选择 <strong>“独立”</strong> 更简单，因为它减少了用户的安装步骤。</li>
+</ul>
+</li>
+<li>选择目标运行时（Target Runtime），例如 <code>win-x64</code> (64位 Windows)。</li>
+<li>点击 <strong>“完成”</strong>。</li>
+<li>点击 <strong>“发布”</strong> 按钮。</li>
+</ol>
+<p>Visual Studio 会编译你的应用程序，并将发布文件放在你指定的文件夹中（通常在项目的 <code>bin\Release\netX.Y\publish</code> 路径下，其中 <code>X.Y</code> 是你的 .NET 版本）。你可以将这个文件夹复制到其他 Windows 电脑上运行。</p>
+<p><strong>分发给用户：</strong></p>
+<p>将发布文件夹中的所有文件（包括 <code>.exe</code> 文件）复制到目标计算机上。用户可以直接双击 <code>.exe</code> 文件来运行你的应用程序。</p>
+<h3 id="总结与展望"><a href="#总结与展望" class="headerlink" title="总结与展望"></a>总结与展望</h3><p>恭喜你完成了这份 WPF 初学者学习手册！你已经掌握了以下核心概念：</p>
+<ul>
+<li>WPF 的基本特性和优势。</li>
+<li>XAML 语法以及如何定义 UI。</li>
+<li>各种布局面板（<code>Grid</code>、<code>StackPanel</code>、<code>DockPanel</code>、<code>WrapPanel</code>、<code>Canvas</code>）来组织 UI 元素。</li>
+<li>常用控件（<code>TextBlock</code>、<code>TextBox</code>、<code>Button</code>、<code>CheckBox</code>、<code>RadioButton</code>、<code>ComboBox</code>、<code>ListBox</code>、<code>Image</code>）的使用和事件处理。</li>
+<li><strong>WPF 的核心功能：数据绑定，以及如何使用 <code>INotifyPropertyChanged</code> 和 <code>ObservableCollection&lt;T&gt;</code>。</strong></li>
+<li>样式和模板（<code>Style</code>、<code>ControlTemplate</code>、<code>DataTemplate</code>）来自定义 UI 外观。</li>
+<li><strong>MVVM 模式</strong> 的初步认识和实践，学习如何使用 <code>ICommand</code> 和 <code>RelayCommand</code> 实现逻辑分离。</li>
+<li>如何发布你的 WPF 应用程序。</li>
+</ul>
+<p><strong>接下来你可以继续深入学习的方面：</strong></p>
+<ul>
+<li><strong>更深入的 MVVM：</strong> 学习更高级的 MVVM 框架（如 Prism、MVVM Light Toolkit），它们提供了更多开箱即用的功能。</li>
+<li><strong>路由事件 (Routed Events)：</strong> 深入理解 WPF 事件的传递机制。</li>
+<li><strong>依赖属性 (Dependency Properties)：</strong> 它是 WPF 属性系统的核心，理解它的工作原理对高级开发至关重要。</li>
+<li><strong>附加属性 (Attached Properties) 和附加事件 (Attached Events)：</strong> 扩展控件功能的强大机制。</li>
+<li><strong>用户控件 (User Controls) 和自定义控件 (Custom Controls)：</strong> 创建可重用的 UI 组件。</li>
+<li><strong>动画 (Animations)：</strong> 为你的 UI 添加动态效果。</li>
+<li><strong>转换器 (Converters)：</strong> 学习更复杂的 <code>IValueConverter</code> 应用，以及 <code>IMultiValueConverter</code>。</li>
+<li><strong>验证 (Validation)：</strong> 如何在数据绑定中实现数据输入验证。</li>
+<li><strong>异步编程 (<code>async</code>&#x2F;<code>await</code>)：</strong> 在 WPF 应用中保持 UI 响应性的关键。</li>
+<li><strong>多线程：</strong> 理解 UI 线程和后台线程。</li>
+<li><strong>数据库交互：</strong> 使用 Entity Framework Core 或 ADO.NET 与数据库进行交互。</li>
+<li><strong>单元测试：</strong> 为你的 ViewModel 编写单元测试。</li>
+</ul>
+<p><strong>学习建议：</strong></p>
+<ul>
+<li><strong>持续练习：</strong> 编写更多的小项目，巩固所学知识。</li>
+<li><strong>阅读官方文档：</strong> Microsoft Learn 是最好的 WPF 学习资源。</li>
+<li><strong>分析现有项目：</strong> 尝试理解开源 WPF 项目的代码结构和设计模式。</li>
+<li><strong>保持好奇心：</strong> 遇到问题时，积极搜索和提问。</li>
+</ul>
+<p>WPF 是一个强大而富有表现力的 UI 框架。通过不断学习和实践，你将能够构建出令人印象深刻的桌面应用程序。祝你旅途愉快！</p>
+<p> 来源</p>
+<p> 我已经把你之前发的c#手册看完了，基础语法我都了解了，你能写一个小项目，让我练练手吗 </p>
+<p>太棒了！很高兴你已经学完了 C# 基础手册。现在，让我们来做一个小项目，把之前学的 WPF 和 C# 基础知识结合起来练练手。</p>
+<hr>
+<h2 id="WPF-练手小项目：简单的待办事项列表应用"><a href="#WPF-练手小项目：简单的待办事项列表应用" class="headerlink" title="WPF 练手小项目：简单的待办事项列表应用"></a>WPF 练手小项目：简单的待办事项列表应用</h2><p>这个项目将带你构建一个功能简单的待办事项列表（To-Do List）应用。通过它，你将实践 WPF 的布局、控件、事件处理、数据绑定以及 <code>ObservableCollection</code> 的使用。</p>
+<h3 id="项目目标："><a href="#项目目标：" class="headerlink" title="项目目标："></a>项目目标：</h3><ul>
+<li>用户可以输入待办事项的名称。</li>
+<li>用户可以将待办事项添加到列表中。</li>
+<li>列表显示所有待办事项。</li>
+<li>用户可以标记待办事项为已完成或未完成（通过一个复选框）。</li>
+<li>用户可以从列表中删除待办事项。</li>
+</ul>
+<h3 id="项目结构概览："><a href="#项目结构概览：" class="headerlink" title="项目结构概览："></a>项目结构概览：</h3><p>我们将使用一个基本的 MVVM 思想，虽然不会完全实现所有模式，但会让你对数据与 UI 分离有初步的感受。</p>
+<ul>
+<li><strong>Models 文件夹：</strong> 存放 <code>TodoItem</code> 类，代表一个待办事项的数据。</li>
+<li><strong>MainWindow.xaml：</strong> 应用程序的主窗口，定义 UI 布局和控件。</li>
+<li><strong>MainWindow.xaml.cs：</strong> 关联 <code>MainWindow.xaml</code> 的后台代码，处理 UI 交互逻辑。</li>
+</ul>
+<hr>
+<h3 id="第一步：创建-WPF-项目"><a href="#第一步：创建-WPF-项目" class="headerlink" title="第一步：创建 WPF 项目"></a>第一步：创建 WPF 项目</h3><ol>
+<li>打开 <strong>Visual Studio</strong>。</li>
+<li>点击 <strong>“创建新项目”</strong>。</li>
+<li>搜索并选择 <strong>“WPF 应用程序”</strong> (C#，基于最新 .NET 版本)。</li>
+<li>项目名称输入 <code>SimpleTodoList</code>，选择一个存放位置。</li>
+<li>点击 <strong>“创建”</strong>。</li>
+</ol>
+<hr>
+<h3 id="第二步：定义数据模型-TodoItem-cs"><a href="#第二步：定义数据模型-TodoItem-cs" class="headerlink" title="第二步：定义数据模型 (TodoItem.cs)"></a>第二步：定义数据模型 (TodoItem.cs)</h3><p>我们需要一个类来表示每个待办事项。这个类需要实现 <code>INotifyPropertyChanged</code> 接口，以便当待办事项的属性（例如 <code>IsCompleted</code>）改变时，UI 能够自动更新。</p>
+<ol>
+<li><p>在 <strong>解决方案资源管理器</strong> 中，右键点击你的项目 <code>SimpleTodoList</code>。</p>
+</li>
+<li><p>选择 <strong>“添加”</strong> -&gt; <strong>“新建文件夹”</strong>，命名为 <code>Models</code>。</p>
+</li>
+<li><p>右键点击 <code>Models</code> 文件夹 -&gt; <strong>“添加”</strong> -&gt; <strong>“类”</strong>。</p>
+</li>
+<li><p>类名称输入 <code>TodoItem.cs</code>，点击 <strong>“添加”</strong>。</p>
+</li>
+<li><p>将 <code>TodoItem.cs</code> 的内容替换为以下代码：</p>
+<p>C#</p>
+<pre><code>// Models/TodoItem.cs
+using System.ComponentModel; // 引入 INotifyPropertyChanged 命名空间
+
+namespace SimpleTodoList.Models
+&#123;
+    public class TodoItem : INotifyPropertyChanged
+    &#123;
+        private string _description;
+        public string Description
+        &#123;
+            get &#123; return _description; &#125;
+            set
+            &#123;
+                if (_description != value)
+                &#123;
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                &#125;
+            &#125;
+        &#125;
+
+        private bool _isCompleted;
+        public bool IsCompleted
+        &#123;
+            get &#123; return _isCompleted; &#125;
+            set
+            &#123;
+                if (_isCompleted != value)
+                &#123;
+                    _isCompleted = value;
+                    OnPropertyChanged(nameof(IsCompleted));
+                &#125;
+            &#125;
+        &#125;
+
+        // INotifyPropertyChanged 接口的实现
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        &#123;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解释：</strong></p>
+<ul>
+<li><code>Description</code>：待办事项的文本描述。</li>
+<li><code>IsCompleted</code>：一个布尔值，表示待办事项是否已完成。</li>
+<li><code>INotifyPropertyChanged</code>：确保 <code>Description</code> 或 <code>IsCompleted</code> 属性改变时，任何绑定到它们的 UI 元素都会被通知并更新。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="第三步：设计用户界面-MainWindow-xaml"><a href="#第三步：设计用户界面-MainWindow-xaml" class="headerlink" title="第三步：设计用户界面 (MainWindow.xaml)"></a>第三步：设计用户界面 (MainWindow.xaml)</h3><p>我们将使用 <code>Grid</code> 和 <code>StackPanel</code> 来布局，并使用 <code>TextBox</code>、<code>Button</code> 和 <code>ListBox</code> 等控件。</p>
+<ol>
+<li><p>打开 <code>MainWindow.xaml</code> 文件。</p>
+</li>
+<li><p>将 <code>&lt;Grid&gt;</code> 标签内的所有内容替换为以下 XAML 代码：</p>
+<p>XML</p>
+<pre><code>&lt;Window x:Class=&quot;SimpleTodoList.MainWindow&quot;
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        xmlns:local=&quot;clr-namespace:SimpleTodoList&quot;
+        xmlns:models=&quot;clr-namespace:SimpleTodoList.Models&quot;  mc:Ignorable=&quot;d&quot;
+        Title=&quot;我的待办事项&quot; Height=&quot;500&quot; Width=&quot;400&quot;&gt;
+    &lt;Grid Margin=&quot;10&quot;&gt;
+        &lt;Grid.RowDefinitions&gt;
+            &lt;RowDefinition Height=&quot;Auto&quot;/&gt;      &lt;RowDefinition Height=&quot;*&quot;/&gt;          &lt;RowDefinition Height=&quot;Auto&quot;/&gt;      &lt;/Grid.RowDefinitions&gt;
+
+        &lt;StackPanel Grid.Row=&quot;0&quot; Orientation=&quot;Horizontal&quot; Margin=&quot;5&quot;&gt;
+            &lt;TextBox x:Name=&quot;NewTodoDescriptionTextBox&quot; Width=&quot;250&quot; Height=&quot;30&quot;
+                     VerticalContentAlignment=&quot;Center&quot; FontSize=&quot;14&quot;
+                     Text=&quot;在这里输入待办事项...&quot;/&gt;
+            &lt;Button x:Name=&quot;AddTodoButton&quot; Content=&quot;添加&quot; Width=&quot;80&quot; Height=&quot;30&quot; Margin=&quot;10,0,0,0&quot;
+                    Click=&quot;AddTodoButton_Click&quot;/&gt; &lt;/StackPanel&gt;
+
+        &lt;ListBox Grid.Row=&quot;1&quot; x:Name=&quot;TodoListBox&quot; Margin=&quot;5&quot;
+                 ItemsSource=&quot;&#123;Binding Todos&#125;&quot;&gt; &lt;ListBox.ItemTemplate&gt;
+                &lt;DataTemplate DataType=&quot;&#123;x:Type models:TodoItem&#125;&quot;&gt;
+                    &lt;Grid Margin=&quot;5&quot;&gt;
+                        &lt;Grid.ColumnDefinitions&gt;
+                            &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;  &lt;ColumnDefinition Width=&quot;*&quot;/&gt;     &lt;ColumnDefinition Width=&quot;Auto&quot;/&gt;  &lt;/Grid.ColumnDefinitions&gt;
+
+                        &lt;CheckBox Grid.Column=&quot;0&quot; IsChecked=&quot;&#123;Binding IsCompleted, Mode=TwoWay&#125;&quot;
+                                  VerticalAlignment=&quot;Center&quot; Margin=&quot;0,0,10,0&quot;/&gt;
+                        &lt;TextBlock Grid.Column=&quot;1&quot; Text=&quot;&#123;Binding Description&#125;&quot;
+                                   VerticalAlignment=&quot;Center&quot; FontSize=&quot;16&quot;
+                                   TextWrapping=&quot;Wrap&quot;&gt;
+                            &lt;TextBlock.Style&gt;
+                                &lt;Style TargetType=&quot;TextBlock&quot;&gt;
+                                    &lt;Style.Triggers&gt;
+                                        &lt;DataTrigger Binding=&quot;&#123;Binding IsCompleted&#125;&quot; Value=&quot;True&quot;&gt;
+                                            &lt;Setter Property=&quot;TextDecorations&quot; Value=&quot;Strikethrough&quot;/&gt;
+                                            &lt;Setter Property=&quot;Foreground&quot; Value=&quot;Gray&quot;/&gt;
+                                        &lt;/DataTrigger&gt;
+                                    &lt;/Style.Triggers&gt;
+                                &lt;/Style&gt;
+                            &lt;/TextBlock.Style&gt;
+                        &lt;/TextBlock&gt;
+                        &lt;Button Grid.Column=&quot;2&quot; Content=&quot;删除&quot; Width=&quot;60&quot; Height=&quot;25&quot; Margin=&quot;10,0,0,0&quot;
+                                Click=&quot;DeleteTodoButton_Click&quot;/&gt; &lt;/Grid&gt;
+                &lt;/DataTemplate&gt;
+            &lt;/ListBox.ItemTemplate&gt;
+        &lt;/ListBox&gt;
+
+        &lt;StackPanel Grid.Row=&quot;2&quot; Orientation=&quot;Horizontal&quot; HorizontalAlignment=&quot;Right&quot; Margin=&quot;5&quot;&gt;
+            &lt;TextBlock Text=&quot;总数: &quot; FontSize=&quot;14&quot;/&gt;
+            &lt;TextBlock x:Name=&quot;TotalItemsTextBlock&quot; Text=&quot;0&quot; FontSize=&quot;14&quot;/&gt;
+            &lt;TextBlock Text=&quot; | 完成: &quot; FontSize=&quot;14&quot; Margin=&quot;10,0,0,0&quot;/&gt;
+            &lt;TextBlock x:Name=&quot;CompletedItemsTextBlock&quot; Text=&quot;0&quot; FontSize=&quot;14&quot;/&gt;
+        &lt;/StackPanel&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p><strong>代码解释：</strong></p>
+<ul>
+<li><p><code>xmlns:models=&quot;clr-namespace:SimpleTodoList.Models&quot;</code>：引入 <code>TodoItem</code> 类所在的命名空间。</p>
+</li>
+<li><p>顶部的 StackPanel：</p>
+<p> 包含一个 </p>
+<pre><code>TextBox
+</code></pre>
+<p> 用于输入新待办事项，一个 </p>
+<pre><code>Button
+</code></pre>
+<p> 用于添加。</p>
+<ul>
+<li><code>x:Name=&quot;NewTodoDescriptionTextBox&quot;</code>：给 <code>TextBox</code> 命名，以便在 C# 代码中引用。</li>
+<li><code>Click=&quot;AddTodoButton_Click&quot;</code>：将按钮的 <code>Click</code> 事件连接到 C# 后台代码中的一个方法。</li>
+</ul>
+</li>
+<li><p><code>ListBox</code>：</p>
+<p> 用于显示待办事项列表。</p>
+<ul>
+<li><p><code>x:Name=&quot;TodoListBox&quot;</code>：给 <code>ListBox</code> 命名。</p>
+</li>
+<li><p><code>ItemsSource=&quot;&#123;Binding Todos&#125;&quot;</code>：这是一个关键的数据绑定！它告诉 <code>ListBox</code> 去查找 <code>DataContext</code> 中一个名为 <code>Todos</code> 的属性，并将其作为列表的数据源。</p>
+</li>
+<li><p><code>ListBox.ItemTemplate</code> 和 <code>DataTemplate</code>：</p>
+<p> 这是数据模板。它定义了 </p>
+<pre><code>ListBox
+</code></pre>
+<p> 中每个 </p>
+<pre><code>TodoItem
+</code></pre>
+<p> 对象应该如何被视觉呈现。</p>
+<ul>
+<li><p><code>DataType=&quot;&#123;x:Type models:TodoItem&#125;&quot;</code>：表示这个模板应用于 <code>TodoItem</code> 类型的对象。</p>
+</li>
+<li><p>在 </p>
+<pre><code>DataTemplate
+</code></pre>
+<p> 内部，我们用 </p>
+<pre><code>Grid
+</code></pre>
+<p> 来布局每个待办事项：</p>
+<ul>
+<li><code>CheckBox</code>：<code>IsChecked=&quot;&#123;Binding IsCompleted, Mode=TwoWay&#125;&quot;</code> 实现了双向绑定。当用户勾选或取消勾选复选框时，<code>TodoItem</code> 对象的 <code>IsCompleted</code> 属性会自动更新；反之，如果 <code>IsCompleted</code> 属性在代码中改变，复选框也会更新。</li>
+<li><code>TextBlock</code>：<code>Text=&quot;&#123;Binding Description&#125;&quot;</code> 绑定到 <code>TodoItem</code> 的 <code>Description</code> 属性。</li>
+<li><strong><code>TextBlock.Style</code> 和 <code>DataTrigger</code>：</strong> 这是一个小技巧！当 <code>IsCompleted</code> 为 <code>True</code> 时，文本会显示删除线并变灰。</li>
+<li><code>Button</code>：每个待办事项都有一个“删除”按钮，绑定了 <code>Click=&quot;DeleteTodoButton_Click&quot;</code> 事件。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="第四步：编写后台代码-MainWindow-xaml-cs"><a href="#第四步：编写后台代码-MainWindow-xaml-cs" class="headerlink" title="第四步：编写后台代码 (MainWindow.xaml.cs)"></a>第四步：编写后台代码 (MainWindow.xaml.cs)</h3><p>现在，我们将实现 UI 的交互逻辑，包括添加、删除待办事项，并维护 <code>ObservableCollection</code>。</p>
+<ol>
+<li><p>打开 <code>MainWindow.xaml.cs</code> 文件。</p>
+</li>
+<li><p>将文件的内容替换为以下代码：</p>
+<p>C#</p>
+<pre><code>// MainWindow.xaml.cs
+using System.Collections.ObjectModel; // 引入 ObservableCollection 命名空间
+using System.ComponentModel; // 引入 INotifyPropertyChanged 命名空间
+using System.Linq; // 引入 Linq 命名空间，用于 Count
+using System.Windows;
+using System.Windows.Controls;
+using SimpleTodoList.Models; // 引入 TodoItem 所在的命名空间
+
+namespace SimpleTodoList
+&#123;
+    /// &lt;summary&gt;
+    /// Interaction logic for MainWindow.xaml
+    /// &lt;/summary&gt;
+    public partial class MainWindow : Window, INotifyPropertyChanged // MainWindow 自身也实现 INotifyPropertyChanged
+    &#123;
+        // ObservableCollection 能够自动通知 UI 集合的变化 (添加/删除/移动)
+        public ObservableCollection&lt;TodoItem&gt; Todos &#123; get; set; &#125;
+
+        // 用于统计信息的属性
+        private int _totalItems;
+        public int TotalItems
+        &#123;
+            get &#123; return _totalItems; &#125;
+            set
+            &#123;
+                if (_totalItems != value)
+                &#123;
+                    _totalItems = value;
+                    OnPropertyChanged(nameof(TotalItems));
+                &#125;
+            &#125;
+        &#125;
+
+        private int _completedItems;
+        public int CompletedItems
+        &#123;
+            get &#123; return _completedItems; &#125;
+            set
+            &#123;
+                if (_completedItems != value)
+                &#123;
+                    _completedItems = value;
+                    OnPropertyChanged(nameof(CompletedItems));
+                &#125;
+            &#125;
+        &#125;
+
+
+        public MainWindow()
+        &#123;
+            InitializeComponent();
+
+            // 初始化 Todos 集合
+            Todos = new ObservableCollection&lt;TodoItem&gt;();
+            // 为了演示，添加一些初始数据
+            Todos.Add(new TodoItem &#123; Description = &quot;学习 WPF 基础&quot;, IsCompleted = false &#125;);
+            Todos.Add(new TodoItem &#123; Description = &quot;完成待办事项小项目&quot;, IsCompleted = false &#125;);
+            Todos.Add(new TodoItem &#123; Description = &quot;购买食材&quot;, IsCompleted = true &#125;);
+
+            // 将窗口的数据上下文设置为自身，以便 XAML 中的绑定能够找到 Todos 属性
+            this.DataContext = this;
+
+            // 订阅集合的 ItemChanged 事件，以便在 TodoItem 属性改变时更新统计信息
+            // 注意：ObservableCollection 本身不提供 ItemChanged 事件，我们需要手动处理
+            // 更常见的做法是在 ViewModel 中处理，但这里为了简化，直接在后台代码处理
+            Todos.CollectionChanged += Todos_CollectionChanged;
+            foreach (var item in Todos)
+            &#123;
+                item.PropertyChanged += TodoItem_PropertyChanged;
+            &#125;
+
+            UpdateStatistics(); // 首次加载时更新统计信息
+        &#125;
+
+        // 当 Todos 集合发生变化时触发
+        private void Todos_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        &#123;
+            // 处理添加的项
+            if (e.NewItems != null)
+            &#123;
+                foreach (TodoItem item in e.NewItems)
+                &#123;
+                    item.PropertyChanged += TodoItem_PropertyChanged; // 订阅新添加项的属性改变事件
+                &#125;
+            &#125;
+            // 处理删除的项
+            if (e.OldItems != null)
+            &#123;
+                foreach (TodoItem item in e.OldItems)
+                &#123;
+                    item.PropertyChanged -= TodoItem_PropertyChanged; // 取消订阅已删除项的属性改变事件
+                &#125;
+            &#125;
+            UpdateStatistics();
+        &#125;
+
+        // 当 TodoItem 的属性发生变化时触发 (例如 IsCompleted 改变)
+        private void TodoItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        &#123;
+            if (e.PropertyName == nameof(TodoItem.IsCompleted))
+            &#123;
+                UpdateStatistics();
+            &#125;
+        &#125;
+
+        // 更新底部统计信息的私有方法
+        private void UpdateStatistics()
+        &#123;
+            TotalItems = Todos.Count;
+            CompletedItems = Todos.Count(item =&gt; item.IsCompleted);
+
+            // 更新 UI 上的 TextBlock
+            TotalItemsTextBlock.Text = TotalItems.ToString();
+            CompletedItemsTextBlock.Text = CompletedItems.ToString();
+        &#125;
+
+        // “添加”按钮的点击事件处理程序
+        private void AddTodoButton_Click(object sender, RoutedEventArgs e)
+        &#123;
+            string description = NewTodoDescriptionTextBox.Text.Trim(); // 获取输入文本并去除前后空格
+
+            if (!string.IsNullOrWhiteSpace(description) &amp;&amp; description != &quot;在这里输入待办事项...&quot;)
+            &#123;
+                TodoItem newItem = new TodoItem &#123; Description = description, IsCompleted = false &#125;;
+                Todos.Add(newItem); // 添加到 ObservableCollection，UI 会自动更新
+
+                NewTodoDescriptionTextBox.Clear(); // 清空输入框
+                NewTodoDescriptionTextBox.Text = &quot;在这里输入待办事项...&quot;; // 重新设置提示文本
+            &#125;
+            else
+            &#123;
+                MessageBox.Show(&quot;请输入有效的待办事项描述！&quot;, &quot;提示&quot;, MessageBoxButton.OK, MessageBoxImage.Warning);
+            &#125;
+        &#125;
+
+        // “删除”按钮的点击事件处理程序 (在 DataTemplate 内部)
+        private void DeleteTodoButton_Click(object sender, RoutedEventArgs e)
+        &#123;
+            // 获取触发事件的按钮
+            Button deleteButton = sender as Button;
+            if (deleteButton != null)
+            &#123;
+                // 获取按钮所在的 DataContext，即对应的 TodoItem 对象
+                TodoItem itemToDelete = deleteButton.DataContext as TodoItem;
+
+                if (itemToDelete != null)
+                &#123;
+                    // 从集合中移除 TodoItem，UI 会自动更新
+                    Todos.Remove(itemToDelete);
+                &#125;
+            &#125;
+        &#125;
+
+        // MainWindow 自身实现 INotifyPropertyChanged 的事件
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        &#123;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码解释：</strong></p>
+<ul>
+<li><p><code>public ObservableCollection&lt;TodoItem&gt; Todos &#123; get; set; &#125;</code>：声明一个 <code>ObservableCollection</code> 类型的属性 <code>Todos</code>，它将作为 <code>ListBox</code> 的数据源。<code>ObservableCollection</code> 的好处是，当你向其中添加、删除或移动元素时，<code>ListBox</code> 会自动响应并更新 UI。</p>
+</li>
+<li><p><code>this.DataContext = this;</code>：将 <code>MainWindow</code> 自身设置为窗口的 <code>DataContext</code>。这意味着 XAML 中的 <code>ItemsSource=&quot;&#123;Binding Todos&#125;&quot;</code> 会在 <code>MainWindow</code> 类中查找名为 <code>Todos</code> 的公共属性。</p>
+</li>
+<li><p><code>AddTodoButton_Click</code>：</p>
+<ul>
+<li>获取 <code>NewTodoDescriptionTextBox.Text</code>。</li>
+<li><code>string.IsNullOrWhiteSpace(description)</code>：检查文本是否为空或只包含空格。</li>
+<li>创建新的 <code>TodoItem</code> 对象。</li>
+<li><code>Todos.Add(newItem);</code>：将新项目添加到 <code>ObservableCollection</code>。由于 <code>ObservableCollection</code> 的特性，<code>ListBox</code> 会自动显示新添加的项。</li>
+<li>清空 <code>TextBox</code>。</li>
+</ul>
+</li>
+<li><p><code>DeleteTodoButton_Click</code>：</p>
+<ul>
+<li><code>Button deleteButton = sender as Button;</code>：<code>sender</code> 参数是触发事件的控件（这里是“删除”按钮）。我们将其转换为 <code>Button</code> 类型。</li>
+<li><code>TodoItem itemToDelete = deleteButton.DataContext as TodoItem;</code>：<strong>关键！</strong> 在 <code>DataTemplate</code> 内部的控件（如这个删除按钮），其 <code>DataContext</code> 就是它所代表的数据对象（这里是 <code>TodoItem</code>）。通过这种方式，我们可以获取到用户想要删除的具体 <code>TodoItem</code> 对象。</li>
+<li><code>Todos.Remove(itemToDelete);</code>：从 <code>ObservableCollection</code> 中移除该项，<code>ListBox</code> 也会自动更新。</li>
+</ul>
+</li>
+<li><p><code>UpdateStatistics()</code>、<code>Todos_CollectionChanged</code> 和 <code>TodoItem_PropertyChanged</code>：</p>
+<p> 这部分是为了实现底部的统计功能。</p>
+<ul>
+<li><code>Todos.CollectionChanged += Todos_CollectionChanged;</code>：订阅 <code>ObservableCollection</code> 集合自身的改变事件。</li>
+<li><code>item.PropertyChanged += TodoItem_PropertyChanged;</code>：由于 <code>ObservableCollection</code> <strong>只通知集合自身的添加&#x2F;删除&#x2F;移动</strong>，而 <strong>不通知集合中项的属性改变</strong>，所以我们需要手动订阅每个 <code>TodoItem</code> 对象的 <code>PropertyChanged</code> 事件。这样当 <code>IsCompleted</code> 改变时，我们也能更新统计信息。</li>
+<li><code>UpdateStatistics()</code>：负责计算总数和完成数，并更新底部的 <code>TextBlock</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="第五步：运行和测试"><a href="#第五步：运行和测试" class="headerlink" title="第五步：运行和测试"></a>第五步：运行和测试</h3><ol>
+<li>在 Visual Studio 中，按下 <strong>F5</strong> 键或点击工具栏上的 <strong>“启动”</strong> 按钮。</li>
+<li>你的待办事项列表应用窗口将出现。</li>
+<li>测试功能：<ul>
+<li>在文本框中输入新的待办事项，点击 <strong>“添加”</strong> 按钮。</li>
+<li>尝试勾选或取消勾选列表中的待办事项旁边的复选框。</li>
+<li>点击每个待办事项旁边的 <strong>“删除”</strong> 按钮。</li>
+<li>观察底部统计信息是否实时更新。</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 zhy-blogs
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;zhyneko
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/zhy-blogs/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
